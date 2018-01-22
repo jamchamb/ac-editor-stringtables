@@ -13,8 +13,10 @@ object StringTableControllerSpec: Spek({
             val forest1stDir = "D:\\ACHax\\forest_1st.d\\data"
             val forest2ndDir = "D:\\ACHax\\forest_2nd.d\\data"
 
-            val stringTable = controller.loadTable("$forest2ndDir\\message_data_table.bin",
+            controller.loadTable("$forest2ndDir\\message_data_table.bin",
                     "$forest2ndDir\\message_data.bin")
+
+            val stringTable = controller.stringTable
             it("should load the table") {
                 for (entry in stringTable) {
                     println("${entry.id}: ${entry.content}")

@@ -1,9 +1,12 @@
 import controllers.StringTableController
 import javafx.scene.control.Label
 import javafx.scene.control.SelectionMode
+import javafx.stage.Stage
 import models.StringTableEntry
 import tornadofx.*
 import views.StringTableChooser
+import views.StringTableList
+import kotlin.system.exitProcess
 
 
 class StringEditorApp: App(MyView::class)
@@ -18,20 +21,13 @@ class MyView: View() {
         top(TopView::class)
         center = vbox {
             hbox {
-                val myList = listview<StringTableEntry> {
-                    selectionModel.selectionMode = SelectionMode.SINGLE
-                }
+                // String selection list
+                val myList = add<StringTableList>()
 
-
-                myList.items.addAll(controller.loadTable("$forest2ndDir\\message_data_table.bin",
-                        "$forest2ndDir\\message_data.bin"))
-
-                val swag = label("Editor stuff")
-
-                with (myList) {
-                    onUserSelect {
-                        swag.text = selectedItem.toString()
-                    }
+                // String editing pane
+                vbox {
+                    label("Editor area")
+                    val editorTextArea = textarea(controller.selectedStringTableEntry.content)
                 }
             }
         }
@@ -57,7 +53,11 @@ class TopView: View() {
                 }
             }
             item("Save", "Shortcut+S")
-            item("Quit", "Shortcut+Q")
+            item("Quit", "Shortcut+Q") {
+                action {
+                    exitProcess(0)
+                }
+            }
         }
     }
 }

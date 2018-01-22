@@ -1,63 +1,30 @@
 package controllers
 
 import com.sun.javaws.exceptions.InvalidArgumentException
+import javafx.collections.FXCollections
+import loadTableFromFiles
 import models.StringTable
 import models.StringTableEntry
+import models.StringTableEntryModel
 import tornadofx.Controller
 import java.io.*
 
 class StringTableController: Controller() {
+    val stringTable = StringTable()
+    val stringTableEntries = FXCollections.observableArrayList<StringTableEntry>()
+    val selectedStringTableEntry = StringTableEntryModel()
 
-    fun loadTable (tablePath: String, dataPath: String): StringTable {
-        val inputStream = File(tablePath).inputStream()
-        val bufferedInputStream = BufferedInputStream(inputStream)
-        val tableDataInputStream = DataInputStream(bufferedInputStream)
+    fun loadTable (tablePath: String, dataPath: String) {
+        val result: StringTable = loadTableFromFiles(tablePath, dataPath)
+        // TODO hacky
+        stringTable.tableFileSize = result.tableFileSize
+        stringTable.dataFileSize = result.dataFileSize
+        stringTableEntries.clear()
+        stringTableEntries.addAll(result)
+    }
 
-        val endingsTable = ArrayList<Int>()
-        var numTableEntries = 0
+    init {
 
-        // Read big endian ints from end position table
-        while (tableDataInputStream.available() > 0) {
-            endingsTable.add(tableDataInputStream.readInt())
-            numTableEntries++
-        }
-
-        inputStream.close()
-        bufferedInputStream.close()
-        tableDataInputStream.close()
-
-        // Set up a table object
-        val result = StringTable()
-        result.tableFileSize = numTableEntries * 4
-
-        // Read in the string data
-        val dataInStream = File(dataPath).inputStream()
-        val dataBufferedInStream = BufferedInputStream(dataInStream)
-        val dataDataInputStream = DataInputStream(dataBufferedInStream)
-
-        var pos = 0
-        for ((index, endingPos) in endingsTable.withIndex()) {
-            if (pos > 0 && endingPos == 0) break
-            else if (endingPos < pos) {
-                throw InvalidArgumentException(arrayOf("File string positions not in ascending order"))
-            }
-
-            // Get the string
-            val length = endingPos - pos
-            val byteArray = ByteArray(length)
-            dataDataInputStream.read(byteArray)
-
-            val strFromBytes = String(byteArray)
-            result.add(StringTableEntry(index, strFromBytes))
-
-            pos = endingPos
-        }
-
-        dataInStream.close()
-        dataBufferedInStream.close()
-        dataDataInputStream.close()
-
-        return result
     }
 
 }
