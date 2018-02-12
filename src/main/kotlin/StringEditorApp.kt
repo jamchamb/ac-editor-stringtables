@@ -1,4 +1,5 @@
 import controllers.StringTableController
+import javafx.beans.property.StringProperty
 import javafx.scene.control.Label
 import javafx.scene.control.SelectionMode
 import javafx.stage.Stage
