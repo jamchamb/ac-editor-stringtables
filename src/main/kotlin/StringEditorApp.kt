@@ -2,9 +2,11 @@ import controllers.StringTableController
 import javafx.beans.property.StringProperty
 import javafx.scene.control.Label
 import javafx.scene.control.SelectionMode
+import javafx.scene.layout.Priority
 import javafx.stage.Stage
 import models.StringTableEntry
 import tornadofx.*
+import views.EntryEditor
 import views.StringTableChooser
 import views.StringTableList
 import kotlin.system.exitProcess
@@ -12,48 +14,48 @@ import kotlin.system.exitProcess
 
 class StringEditorApp: App(MyView::class)
 
-val forest1stDir = "D:\\ACHax\\forest_1st.d\\data"
-val forest2ndDir = "D:\\ACHax\\forest_2nd.d\\data"
-
 class MyView: View() {
     val controller: StringTableController by inject()
 
     override val root = borderpane {
         top(TopView::class)
-        center = vbox {
-            hbox {
-                // String selection list
-                val myList = add<StringTableList>()
 
-                // String editing pane
-                vbox {
-                    label("Editor area")
-                    val editorTextArea = textarea(controller.selectedStringTableEntry.content)
-                }
-            }
+        // String selection list
+        left = hbox {
+            hboxConstraints { marginRight = 10.0 }
+            add<StringTableList>()
         }
+
+        center = vbox {
+            add<EntryEditor>()
+        }
+
         bottom(BottomView::class)
+    }
+
+    init {
+        title = "ACGC String Editor"
     }
 }
 
 class TopView: View() {
+    val controller: StringTableController by inject()
+
     override val root = menubar {
         menu ("File") {
             item("Open", "Shortcut+O") {
                 action {
-                    /*
-                    val filters = arrayOf(
-                        FileChooser.ExtensionFilter("String table", "*.bin")
-                    )
-                    val files: List<File> = chooseFile("String table", filters, FileChooserMode.Single)
-                    println("User chose ${files[0]}")
-                    */
                     find<StringTableChooser> {
                         openModal()
                     }
                 }
             }
             item("Save", "Shortcut+S")
+            item("Close") {
+                action {
+                    controller.closeTable()
+                }
+            }
             item("Quit", "Shortcut+Q") {
                 action {
                     exitProcess(0)

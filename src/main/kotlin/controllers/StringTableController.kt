@@ -1,18 +1,17 @@
 package controllers
 
-import com.sun.javaws.exceptions.InvalidArgumentException
 import javafx.collections.FXCollections
 import loadTableFromFiles
 import models.StringTable
 import models.StringTableEntry
 import models.StringTableEntryModel
 import tornadofx.Controller
-import java.io.*
 
 class StringTableController: Controller() {
-    val stringTable = StringTable()
+    var stringTable = StringTable()
     val stringTableEntries = FXCollections.observableArrayList<StringTableEntry>()
     val selectedStringTableEntry = StringTableEntryModel()
+    var tableChanged = false
 
     fun loadTable (tablePath: String, dataPath: String) {
         val result: StringTable = loadTableFromFiles(tablePath, dataPath)
@@ -21,6 +20,14 @@ class StringTableController: Controller() {
         stringTable.dataFileSize = result.dataFileSize
         stringTableEntries.clear()
         stringTableEntries.addAll(result)
+    }
+
+    fun closeTable () {
+        if (tableChanged) {
+            println("WARNING: Table has unsaved changes!")
+        }
+        stringTable = StringTable()
+        stringTableEntries.clear()
     }
 
     init {

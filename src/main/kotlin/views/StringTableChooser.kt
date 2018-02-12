@@ -13,7 +13,7 @@ import java.io.File
  */
 fun getPairFilename(file: File): String {
     val filename = file.canonicalPath.substringAfterLast(File.separatorChar)
-    var pairName = ""
+    var pairName: String
 
     if (filename.endsWith("_data_table.bin")) {
         pairName = filename.replace("_data_table.bin", "_data.bin")
@@ -28,13 +28,13 @@ fun getPairFilename(file: File): String {
 
 class StringTableChooser: View("Open String Table") {
 
+    private val controller: StringTableController by inject()
+
     var chosenTableFile = ""
     var chosenDataFile = ""
 
     var tableFileField: TextField by singleAssign()
     var dataFileField: TextField by singleAssign()
-
-    val controller: StringTableController by inject()
 
     override val root = form {
         vbox {
@@ -98,8 +98,11 @@ class StringTableChooser: View("Open String Table") {
                     }
 
                     // Load up the files woohoo
-                    controller.loadTable(chosenTableFile, chosenDataFile)
-                    close()
+                    runAsync {
+                        controller.loadTable(chosenTableFile, chosenDataFile)
+                    } ui {
+                        close()
+                    }
                 }
             }
 

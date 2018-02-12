@@ -44,7 +44,7 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
         val byteArray = ByteArray(length)
         dataDataInputStream.read(byteArray)
 
-        val strFromBytes = String(byteArray)
+        val strFromBytes = String(byteArray, charset("Shift-JIS"))
         result.add(StringTableEntry(index, strFromBytes))
 
         pos = endingPos

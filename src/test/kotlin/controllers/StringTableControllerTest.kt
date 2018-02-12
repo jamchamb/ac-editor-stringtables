@@ -4,6 +4,7 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
+import kotlin.test.assertNotNull
 
 object StringTableControllerSpec: Spek({
     given("a string table controller") {
@@ -20,7 +21,8 @@ object StringTableControllerSpec: Spek({
                 for (entry in stringTable) {
                     println("${entry.id}: ${entry.content}")
                 }
-                assert(stringTable != null)
+
+                assertNotNull(stringTable)
             }
         }
     }

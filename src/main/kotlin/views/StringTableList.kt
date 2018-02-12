@@ -5,7 +5,7 @@ import models.StringTableEntry
 import tornadofx.*
 
 class StringTableList: View() {
-    val controller: StringTableController by inject()
+    private val controller: StringTableController by inject()
 
     override val root = tableview(controller.stringTableEntries) {
         isEditable = false
