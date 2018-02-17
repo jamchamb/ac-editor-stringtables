@@ -7,6 +7,10 @@ import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.File
 
+fun byteList(input: String): List<Byte> {
+    return input.toByteArray().asList()
+}
+
 fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
     val inputStream = File(tablePath).inputStream()
     val bufferedInputStream = BufferedInputStream(inputStream)
@@ -47,7 +51,7 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
         dataDataInputStream.read(byteArray)
 
         // Create new entry with raw bytes
-        result.add(StringTableEntry(index, byteArray.toString(), byteArray))
+        result.add(StringTableEntry(index, byteArray))
 
         pos = endingPos
     }
