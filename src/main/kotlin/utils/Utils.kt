@@ -1,3 +1,5 @@
+package utils
+
 import com.sun.javaws.exceptions.InvalidArgumentException
 import models.StringTable
 import models.StringTableEntry
@@ -39,13 +41,13 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
             throw InvalidArgumentException(arrayOf("File string positions not in ascending order"))
         }
 
-        // Get the string
+        // Get the string bytes
         val length = endingPos - pos
         val byteArray = ByteArray(length)
         dataDataInputStream.read(byteArray)
 
-        val strFromBytes = String(byteArray, charset("Shift-JIS"))
-        result.add(StringTableEntry(index, strFromBytes))
+        // Create new entry with raw bytes
+        result.add(StringTableEntry(index, byteArray.toString(), byteArray))
 
         pos = endingPos
     }

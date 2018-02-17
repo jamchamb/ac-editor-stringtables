@@ -1,7 +1,7 @@
 package controllers
 
 import javafx.collections.FXCollections
-import loadTableFromFiles
+import utils.loadTableFromFiles
 import models.StringTable
 import models.StringTableEntry
 import models.StringTableEntryModel
