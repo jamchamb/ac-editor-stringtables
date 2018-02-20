@@ -3,6 +3,7 @@ package utils.processors
 import models.StringTableEntry
 import utils.RGBColor
 import utils.byteList
+import utils.bytesToInt
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -133,30 +134,67 @@ class UnableCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor
 
 /* Set demo order classes */
 abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
-    companion object {
-        enum class DemoOrderTarget {
-            PLAYER, NPC0, NPC1, NPC2, QUEST
-        }
+    enum class DemoOrderTarget {
+        PLAYER, NPC0, NPC1, NPC2, QUEST
     }
 
     override val size = 5
     abstract val orderTarget: DemoOrderTarget
 
-    val animation: Int = 0
+    var animation: Int = 0
 
     override fun decode(bytes: List<Byte>): List<Byte> {
         super.decode(bytes)
 
-        val animBytes: List<Byte> = listOf(0.toByte()) + bytes.slice(2..5)
-        return byteList("%s:%02x:%06x".format(name, bytes[1].toInt(), animation))
+        animation = bytesToInt(listOf(0.toByte()) + bytes.slice(2..4))
+        return byteList("%s:%02x:%02x".format(name, bytes[1].toInt(), animation))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 val SET_DEMO_ORDER_PLAYER_CODE: Byte = 0x08
+class SetDemoOrderPlayerProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
+    override val code = SET_DEMO_ORDER_PLAYER_CODE
+    override val name = "SET_DEMO_ORDER_PLAYER"
+    override val orderTarget = DemoOrderTarget.PLAYER
+}
+
 val SET_DEMO_ORDER_NPC0_CODE: Byte = 0x09
+class SetDemoOrderNPC0Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
+    override val code = SET_DEMO_ORDER_NPC0_CODE
+    override val name = "SET_DEMO_ORDER_NPC0"
+    override val orderTarget = DemoOrderTarget.NPC0
+}
+
 val SET_DEMO_ORDER_NPC1_CODE: Byte = 0x0A
+class SetDemoOrderNPC1Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
+    override val code = SET_DEMO_ORDER_NPC1_CODE
+    override val name = "SET_DEMO_ORDER_NPC1"
+    override val orderTarget = DemoOrderTarget.NPC1
+}
+
 val SET_DEMO_ORDER_NPC2_CODE: Byte = 0x0B
+class SetDemoOrderNPC2Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
+    override val code = SET_DEMO_ORDER_NPC2_CODE
+    override val name = "SET_DEMO_ORDER_NPC2"
+    override val orderTarget = DemoOrderTarget.NPC2
+}
+
 val SET_DEMO_ORDER_QUEST_CODE: Byte = 0x0C
-val SELECT_WINDOW_CODE: Byte = 0x0D
+class SetDemoOrderQuestProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
+    override val code = SET_DEMO_ORDER_QUEST_CODE
+    override val name = "SET_DEMO_ORDER_QUEST"
+    override val orderTarget = DemoOrderTarget.QUEST
+}
+
+val SET_SELECT_WINDOW_CODE: Byte = 0x0D
+class SetSelectWindowProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+    override val code = SET_SELECT_WINDOW_CODE
+    override val name = "SET_SELECT_WINDOW"
+}
+
 val SET_NEXT_MESSAGEF_CODE: Byte = 0x0E
 val SET_NEXT_MESSAGE0_CODE: Byte = 0x0F
 val SET_NEXT_MESSAGE1_CODE: Byte = 0x10

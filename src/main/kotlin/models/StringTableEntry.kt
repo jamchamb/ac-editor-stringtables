@@ -21,7 +21,13 @@ val processors: Map<Byte, KClass<out MessageProcessor>> =
                 Pair(BUTTON_CODE, ButtonProcessor::class),
                 Pair(COLOR_LINE_CODE, ColorLineProcessor::class),
                 Pair(ABLE_CANCEL_CODE, AbleCancelProcessor::class),
-                Pair(UNABLE_CANCEL_CODE, UnableCancelProcessor::class)
+                Pair(UNABLE_CANCEL_CODE, UnableCancelProcessor::class),
+                Pair(SET_DEMO_ORDER_PLAYER_CODE, SetDemoOrderPlayerProcessor::class),
+                Pair(SET_DEMO_ORDER_NPC0_CODE, SetDemoOrderNPC0Processor::class),
+                Pair(SET_DEMO_ORDER_NPC1_CODE, SetDemoOrderNPC1Processor::class),
+                Pair(SET_DEMO_ORDER_NPC2_CODE, SetDemoOrderNPC2Processor::class),
+                Pair(SET_DEMO_ORDER_QUEST_CODE, SetDemoOrderQuestProcessor::class),
+                Pair(SET_SELECT_WINDOW_CODE, SetSelectWindowProcessor::class)
         )
 
 class StringTableEntry (id: Int, rawBytes: ByteArray) {

@@ -15,8 +15,12 @@ class EntryEditor: View() {
 
         form {
             fieldset("String table entry") {
+                field("ID") {
+                    textfield().bind(controller.selectedStringTableEntry.id)
+                }
+
                 field("Text") {
-                    val editorTextArea = textarea(controller.selectedStringTableEntry.content) {
+                    textarea(controller.selectedStringTableEntry.content) {
                         vboxConstraints {
                             vGrow = Priority.ALWAYS
                         }

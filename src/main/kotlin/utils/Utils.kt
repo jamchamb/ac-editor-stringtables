@@ -6,9 +6,22 @@ import models.StringTableEntry
 import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.File
+import java.nio.ByteBuffer
 
 fun byteList(input: String): List<Byte> {
     return input.toByteArray().asList()
+}
+
+fun bytesToInt(bytes: List<Byte>): Int {
+    return bytesToInt(bytes.toByteArray())
+}
+
+fun bytesToInt(bytes: ByteArray): Int {
+    if (bytes.size < 4) {
+        throw IllegalArgumentException("Must supply 4 bytes")
+    }
+    val byteBuffer = ByteBuffer.wrap(bytes)
+    return byteBuffer.int
 }
 
 fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
