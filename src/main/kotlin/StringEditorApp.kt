@@ -1,13 +1,6 @@
 import controllers.StringTableController
-import javafx.beans.property.StringProperty
 import javafx.scene.control.Label
-import javafx.scene.control.SelectionMode
-import javafx.scene.layout.Priority
-import javafx.stage.Stage
-import models.StringTableEntry
 import tornadofx.*
-import utils.processors.ButtonProcessor
-import utils.processors.procCodeName
 import views.EntryEditor
 import views.StringTableChooser
 import views.StringTableList
