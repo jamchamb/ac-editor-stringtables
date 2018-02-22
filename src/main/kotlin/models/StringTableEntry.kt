@@ -62,10 +62,8 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         val resultList = ArrayList<Byte>()
 
         for ((index, byte) in messageBytes.withIndex()) {
-            val byteVal = byte.toInt()
-
             // Check for processor directive before last position
-            if (index < (messageBytes.size - 1) && byteVal == 0x7F) {
+            if (index < (messageBytes.size - 1) && byte == PROC_CODE) {
                 val code = messageBytes[index+1]
 
                 if (processors.containsKey(code)) {
@@ -78,8 +76,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                 } else {
                     resultList.addAll(byteList("{{SPECIAL}}"))
                 }
-            } else if (byteVal == 0xCD) {
-                //resultList.add('\r'.toByte())
+            } else if (byte == 0xCD.toByte()) {
                 resultList.add('\n'.toByte())
             } else {
                 resultList.add(byte)

@@ -7,7 +7,7 @@ import utils.bytesToInt
 import java.util.*
 import kotlin.reflect.KClass
 
-val PROC_CODE = 0x7F
+const val PROC_CODE: Byte = 0x7F
 
 fun procCodeName(procClass: KClass<out MessageProcessor>): String {
     return procClass::simpleName.get()!!.removeSuffix("Processor").toUpperCase() + "_CODE"
@@ -42,7 +42,7 @@ abstract class PlaceholderProcessor(targetEntry: StringTableEntry): MessageProce
     }
 
     override fun encode(bytes: List<Byte>): ByteArray {
-        return listOf(0x7f, this.code).toByteArray()
+        return listOf(PROC_CODE, this.code).toByteArray()
     }
 }
 
@@ -50,25 +50,25 @@ abstract class PlaceholderProcessor(targetEntry: StringTableEntry): MessageProce
  * Message processors
  */
 
-val LAST_CODE: Byte = 0x00
+const val LAST_CODE: Byte = 0x00
 class LastProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = LAST_CODE
     override val name = "LAST"
 }
 
-val CONTINUE_CODE: Byte = 0x01
+const val CONTINUE_CODE: Byte = 0x01
 class ContinueProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = CONTINUE_CODE
     override val name = "CONTINUE"
 }
 
-val CLEAR_CODE: Byte = 0x02
+const val CLEAR_CODE: Byte = 0x02
 class ClearProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = CLEAR_CODE
     override val name = "CLEAR"
 }
 
-val PAUSE_CODE: Byte = 0x03
+const val PAUSE_CODE: Byte = 0x03
 class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = PAUSE_CODE
     override val name = "PAUSE"
@@ -87,13 +87,13 @@ class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntr
     }
 }
 
-val BUTTON_CODE: Byte = 0x04
+const val BUTTON_CODE: Byte = 0x04
 class ButtonProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = BUTTON_CODE
     override val name = "BUTTON"
 }
 
-val COLOR_LINE_CODE: Byte = 0x05
+const val COLOR_LINE_CODE: Byte = 0x05
 class ColorLineProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = COLOR_LINE_CODE
     override val size = 5
@@ -112,7 +112,7 @@ class ColorLineProcessor(targetEntry: StringTableEntry): MessageProcessor(target
     }
 }
 
-val ABLE_CANCEL_CODE: Byte = 0x06
+const val ABLE_CANCEL_CODE: Byte = 0x06
 class AbleCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = ABLE_CANCEL_CODE
     override val name = "ABLE_CANCEL"
@@ -122,7 +122,7 @@ class AbleCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(t
     }
 }
 
-val UNABLE_CANCEL_CODE: Byte = 0x07
+const val UNABLE_CANCEL_CODE: Byte = 0x07
 class UnableCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = UNABLE_CANCEL_CODE
     override val name: String = "UNABLE_CANCEL"
@@ -154,59 +154,59 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
-val SET_DEMO_ORDER_PLAYER_CODE: Byte = 0x08
+const val SET_DEMO_ORDER_PLAYER_CODE: Byte = 0x08
 class SetDemoOrderPlayerProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_PLAYER_CODE
     override val name = "SET_DEMO_ORDER_PLAYER"
     override val orderTarget = DemoOrderTarget.PLAYER
 }
 
-val SET_DEMO_ORDER_NPC0_CODE: Byte = 0x09
+const val SET_DEMO_ORDER_NPC0_CODE: Byte = 0x09
 class SetDemoOrderNPC0Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC0_CODE
     override val name = "SET_DEMO_ORDER_NPC0"
     override val orderTarget = DemoOrderTarget.NPC0
 }
 
-val SET_DEMO_ORDER_NPC1_CODE: Byte = 0x0A
+const val SET_DEMO_ORDER_NPC1_CODE: Byte = 0x0A
 class SetDemoOrderNPC1Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC1_CODE
     override val name = "SET_DEMO_ORDER_NPC1"
     override val orderTarget = DemoOrderTarget.NPC1
 }
 
-val SET_DEMO_ORDER_NPC2_CODE: Byte = 0x0B
+const val SET_DEMO_ORDER_NPC2_CODE: Byte = 0x0B
 class SetDemoOrderNPC2Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC2_CODE
     override val name = "SET_DEMO_ORDER_NPC2"
     override val orderTarget = DemoOrderTarget.NPC2
 }
 
-val SET_DEMO_ORDER_QUEST_CODE: Byte = 0x0C
+const val SET_DEMO_ORDER_QUEST_CODE: Byte = 0x0C
 class SetDemoOrderQuestProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_QUEST_CODE
     override val name = "SET_DEMO_ORDER_QUEST"
     override val orderTarget = DemoOrderTarget.QUEST
 }
 
-val SET_SELECT_WINDOW_CODE: Byte = 0x0D
+const val SET_SELECT_WINDOW_CODE: Byte = 0x0D
 class SetSelectWindowProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SET_SELECT_WINDOW_CODE
     override val name = "SET_SELECT_WINDOW"
 }
 
-val SET_NEXT_MESSAGEF_CODE: Byte = 0x0E
-val SET_NEXT_MESSAGE0_CODE: Byte = 0x0F
-val SET_NEXT_MESSAGE1_CODE: Byte = 0x10
-val SET_NEXT_MESSAGE2_CODE: Byte = 0x11
-val SET_NEXT_MESSAGE3_CODE: Byte = 0x12
-val SET_NEXT_MESSAGE_RANDOM2_CODE: Byte = 0x13
-val SET_NEXT_MESSAGE_RANDOM3_CODE: Byte = 0x14
-val SET_NEXT_MESSAGE_RANDOM4_CODE: Byte = 0x15
-val SET_SELECT_STRING2_CODE: Byte = 0x16
-val SET_SELECT_STRING3_CODE: Byte = 0x17
-val SET_SELECT_STRING4_CODE: Byte = 0x18
-val SET_FORCE_NEXT_CODE: Byte = 0x19
+const val SET_NEXT_MESSAGE1_CODE: Byte = 0x10
+const val SET_NEXT_MESSAGE2_CODE: Byte = 0x11
+const val SET_NEXT_MESSAGEF_CODE: Byte = 0x0E
+const val SET_NEXT_MESSAGE0_CODE: Byte = 0x0F
+const val SET_NEXT_MESSAGE3_CODE: Byte = 0x12
+const val SET_NEXT_MESSAGE_RANDOM2_CODE: Byte = 0x13
+const val SET_NEXT_MESSAGE_RANDOM3_CODE: Byte = 0x14
+const val SET_NEXT_MESSAGE_RANDOM4_CODE: Byte = 0x15
+const val SET_SELECT_STRING2_CODE: Byte = 0x16
+const val SET_SELECT_STRING3_CODE: Byte = 0x17
+const val SET_SELECT_STRING4_CODE: Byte = 0x18
+const val SET_FORCE_NEXT_CODE: Byte = 0x19
 
 /*
 '\x1a': 'PLAYER_NAME',
