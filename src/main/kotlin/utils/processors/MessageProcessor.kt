@@ -195,23 +195,41 @@ class SetSelectWindowProcessor(targetEntry: StringTableEntry): PlaceholderProces
     override val name = "SET_SELECT_WINDOW"
 }
 
-const val SET_NEXT_MESSAGE1_CODE: Byte = 0x10
-const val SET_NEXT_MESSAGE2_CODE: Byte = 0x11
 const val SET_NEXT_MESSAGEF_CODE: Byte = 0x0E
 const val SET_NEXT_MESSAGE0_CODE: Byte = 0x0F
+const val SET_NEXT_MESSAGE1_CODE: Byte = 0x10
+const val SET_NEXT_MESSAGE2_CODE: Byte = 0x11
 const val SET_NEXT_MESSAGE3_CODE: Byte = 0x12
+
 const val SET_NEXT_MESSAGE_RANDOM2_CODE: Byte = 0x13
 const val SET_NEXT_MESSAGE_RANDOM3_CODE: Byte = 0x14
 const val SET_NEXT_MESSAGE_RANDOM4_CODE: Byte = 0x15
+
 const val SET_SELECT_STRING2_CODE: Byte = 0x16
 const val SET_SELECT_STRING3_CODE: Byte = 0x17
 const val SET_SELECT_STRING4_CODE: Byte = 0x18
+
 const val SET_FORCE_NEXT_CODE: Byte = 0x19
 
+const val PLAYER_NAME_CODE: Byte = 0x1A
+class PlayerNameProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+    override val code = PLAYER_NAME_CODE
+    override val name = "PLAYER_NAME"
+}
+
+const val TALK_NAME_CODE: Byte = 0x1B
+class TalkNameProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+    override val code = TALK_NAME_CODE
+    override val name = "TALK_NAME"
+}
+
+const val TAIL_CODE: Byte = 0x1C
+class TailProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+    override val code = TAIL_CODE
+    override val name = "TAIL"
+}
+
 /*
-'\x1a': 'PLAYER_NAME',
-'\x1b': 'TALK_NAME',
-'\x1c': 'PHRASE',  # aka "tail"
 '\x1d': 'YEAR',
 '\x1e': 'MONTH',
 '\x1f': 'WEEKDAY',

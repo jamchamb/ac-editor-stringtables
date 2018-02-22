@@ -27,7 +27,11 @@ val processors: Map<Byte, KClass<out MessageProcessor>> =
                 Pair(SET_DEMO_ORDER_NPC1_CODE, SetDemoOrderNPC1Processor::class),
                 Pair(SET_DEMO_ORDER_NPC2_CODE, SetDemoOrderNPC2Processor::class),
                 Pair(SET_DEMO_ORDER_QUEST_CODE, SetDemoOrderQuestProcessor::class),
-                Pair(SET_SELECT_WINDOW_CODE, SetSelectWindowProcessor::class)
+                Pair(SET_SELECT_WINDOW_CODE, SetSelectWindowProcessor::class),
+                // MISSING SOME HERE!
+                Pair(PLAYER_NAME_CODE, PlayerNameProcessor::class),
+                Pair(TALK_NAME_CODE, TalkNameProcessor::class),
+                Pair(TAIL_CODE, TailProcessor::class)
         )
 
 class StringTableEntry (id: Int, rawBytes: ByteArray) {
