@@ -1,16 +1,14 @@
 package models
 
-import javafx.beans.property.SimpleBooleanProperty
 import tornadofx.ItemViewModel
 import tornadofx.getProperty
 import tornadofx.property
-import utils.byteList
 import utils.processors.*
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
-val interpolatorLeft = "{{"
-val interpolatorRight = "}}"
+const val interpolatorLeft = "{{"
+const val interpolatorRight = "}}"
 
 val processors: Map<Byte, KClass<out MessageProcessor>> =
         mapOf(
@@ -52,7 +50,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         val decodedBytes = decodeMessage(rawBytes)
         //contentProperty().set(String(decodedBytes, charset("Shift-JIS")))
         this.id = id
-        this.content = String(decodedBytes, charset("Shift-JIS"))
+        this.content = decodedBytes
         this.rawBytes = rawBytes
     }
 
@@ -60,34 +58,49 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         return "${id}: ${content}"
     }
 
-    fun decodeMessage(messageBytes: ByteArray): ByteArray {
-        if (messageBytes.size < 2) return messageBytes
+    fun decodeMessage(messageBytes: ByteArray): String {
+        val resultBuilder = StringBuilder()
 
-        val resultList = ArrayList<Byte>()
+        val temporaryPlainBytes = ArrayList<Byte>()
 
         for ((index, byte) in messageBytes.withIndex()) {
             // Check for processor directive before last position
             if (index < (messageBytes.size - 1) && byte == PROC_CODE) {
+                // Shift-JIS decode any plain text, add it, and clear the temporary buffer
+                if (temporaryPlainBytes.size > 0) {
+                    val jisDecodedString = String(temporaryPlainBytes.toByteArray(), charset("Shift-JIS"))
+                    resultBuilder.append(jisDecodedString)
+                    temporaryPlainBytes.clear()
+                }
+
+                // Get the message processor ID
                 val code = messageBytes[index+1]
 
                 if (processors.containsKey(code)) {
                     val proc = processors[code]!!.primaryConstructor!!.call(this)
                     val snippet = messageBytes.slice(index until index + proc.size)
 
-                    resultList.addAll(byteList(interpolatorLeft))
-                    resultList.addAll(proc.decode(snippet))
-                    resultList.addAll(byteList(interpolatorRight))
+                    resultBuilder.append(interpolatorLeft)
+                    resultBuilder.append(String(proc.decode(snippet).toByteArray()))
+                    resultBuilder.append(interpolatorRight)
                 } else {
-                    resultList.addAll(byteList("{{SPECIAL}}"))
+                    resultBuilder.append("${interpolatorLeft}UNKNOWN${interpolatorRight}")
                 }
             } else if (byte == 0xCD.toByte()) {
-                resultList.add('\n'.toByte())
+                temporaryPlainBytes.add('\n'.toByte())
             } else {
-                resultList.add(byte)
+                // Add plain text bytes to temporary buffer for Shift-JIS decoding
+                temporaryPlainBytes.add(byte)
             }
         }
 
-        return ByteArray(resultList.size, {resultList[it]})
+        // Process remaining plain text bytes
+        if (temporaryPlainBytes.size > 0) {
+            val jisDecodedString = String(temporaryPlainBytes.toByteArray(), charset("Shift-JIS"))
+            resultBuilder.append(jisDecodedString)
+        }
+
+        return resultBuilder.toString()
     }
 }
 
