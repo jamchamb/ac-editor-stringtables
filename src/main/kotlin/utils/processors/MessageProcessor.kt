@@ -51,27 +51,31 @@ abstract class PlaceholderProcessor(targetEntry: StringTableEntry): MessageProce
  */
 
 const val LAST_CODE: Byte = 0x00
+const val LAST_NAME = "LAST"
 class LastProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = LAST_CODE
-    override val name = "LAST"
+    override val name = LAST_NAME
 }
 
 const val CONTINUE_CODE: Byte = 0x01
+const val CONTINUE_TAG = "CONTINUE"
 class ContinueProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = CONTINUE_CODE
-    override val name = "CONTINUE"
+    override val name = CONTINUE_TAG
 }
 
 const val CLEAR_CODE: Byte = 0x02
+const val CLEAR_TAG = "CLEAR"
 class ClearProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = CLEAR_CODE
-    override val name = "CLEAR"
+    override val name = CLEAR_TAG
 }
 
 const val PAUSE_CODE: Byte = 0x03
+const val PAUSE_TAG = "PAUSE"
 class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = PAUSE_CODE
-    override val name = "PAUSE"
+    override val name = PAUSE_TAG
     override val size = 3
 
     var pauseAmount: Int = 0
@@ -88,16 +92,18 @@ class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntr
 }
 
 const val BUTTON_CODE: Byte = 0x04
+const val BUTTON_TAG = "BUTTON"
 class ButtonProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = BUTTON_CODE
-    override val name = "BUTTON"
+    override val name = BUTTON_TAG
 }
 
 const val COLOR_LINE_CODE: Byte = 0x05
+const val COLOR_LINE_TAG = "COLOR_LINE"
 class ColorLineProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = COLOR_LINE_CODE
+    override val name = COLOR_LINE_TAG
     override val size = 5
-    override val name = "COLOR_LINE"
 
     var color = RGBColor(0,0,0)
 
@@ -113,9 +119,10 @@ class ColorLineProcessor(targetEntry: StringTableEntry): MessageProcessor(target
 }
 
 const val ABLE_CANCEL_CODE: Byte = 0x06
+const val ABLE_CANCEL_TAG = "ABLE_CANCEL"
 class AbleCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = ABLE_CANCEL_CODE
-    override val name = "ABLE_CANCEL"
+    override val name = ABLE_CANCEL_TAG
 
     init {
         targetEntry.cancellable = true
@@ -123,9 +130,10 @@ class AbleCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(t
 }
 
 const val UNABLE_CANCEL_CODE: Byte = 0x07
+const val UNABLE_CANCEL_TAG = "UNABLE_CANCEL"
 class UnableCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = UNABLE_CANCEL_CODE
-    override val name: String = "UNABLE_CANCEL"
+    override val name: String = UNABLE_CANCEL_TAG
 
     init {
         targetEntry.cancellable = false
@@ -155,44 +163,50 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
     }
 }
 const val SET_DEMO_ORDER_PLAYER_CODE: Byte = 0x08
+const val SET_DEMO_ORDER_PLAYER_TAG = "SET_DEMO_ORDER_PLAYER"
 class SetDemoOrderPlayerProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_PLAYER_CODE
-    override val name = "SET_DEMO_ORDER_PLAYER"
+    override val name = SET_DEMO_ORDER_PLAYER_TAG
     override val orderTarget = DemoOrderTarget.PLAYER
 }
 
 const val SET_DEMO_ORDER_NPC0_CODE: Byte = 0x09
+const val SET_DEMO_ORDER_NPC0_TAG = "SET_DEMO_ORDER_NPC0"
 class SetDemoOrderNPC0Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC0_CODE
-    override val name = "SET_DEMO_ORDER_NPC0"
+    override val name = SET_DEMO_ORDER_NPC0_TAG
     override val orderTarget = DemoOrderTarget.NPC0
 }
 
 const val SET_DEMO_ORDER_NPC1_CODE: Byte = 0x0A
+const val SET_DEMO_ORDER_NPC1_TAG = "SET_DEMO_ORDER_NPC1"
 class SetDemoOrderNPC1Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC1_CODE
-    override val name = "SET_DEMO_ORDER_NPC1"
+    override val name = SET_DEMO_ORDER_NPC1_TAG
     override val orderTarget = DemoOrderTarget.NPC1
 }
 
 const val SET_DEMO_ORDER_NPC2_CODE: Byte = 0x0B
+const val SET_DEMO_ORDER_NPC2_TAG = "SET_DEMO_ORDER_NPC2"
 class SetDemoOrderNPC2Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC2_CODE
-    override val name = "SET_DEMO_ORDER_NPC2"
+    override val name = SET_DEMO_ORDER_NPC2_TAG
     override val orderTarget = DemoOrderTarget.NPC2
 }
 
 const val SET_DEMO_ORDER_QUEST_CODE: Byte = 0x0C
+const val SET_DEMO_ORDER_QUEST_TAG = "SET_DEMO_ORDER_QUEST"
 class SetDemoOrderQuestProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_QUEST_CODE
-    override val name = "SET_DEMO_ORDER_QUEST"
+    override val name = SET_DEMO_ORDER_QUEST_TAG
     override val orderTarget = DemoOrderTarget.QUEST
 }
 
 const val SET_SELECT_WINDOW_CODE: Byte = 0x0D
+const val SET_SELECT_WINDOW_TAG = "SET_SELECT_WINDOW"
 class SetSelectWindowProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SET_SELECT_WINDOW_CODE
-    override val name = "SET_SELECT_WINDOW"
+    override val name = SET_SELECT_WINDOW_TAG
 }
 
 const val SET_NEXT_MESSAGEF_CODE: Byte = 0x0E
@@ -212,21 +226,24 @@ const val SET_SELECT_STRING4_CODE: Byte = 0x18
 const val SET_FORCE_NEXT_CODE: Byte = 0x19
 
 const val PLAYER_NAME_CODE: Byte = 0x1A
+const val PLAYER_NAME_TAG = "PLAYER_NAME"
 class PlayerNameProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = PLAYER_NAME_CODE
-    override val name = "PLAYER_NAME"
+    override val name = PLAYER_NAME_TAG
 }
 
 const val TALK_NAME_CODE: Byte = 0x1B
+const val TALK_NAME_TAG = "TALK_NAME"
 class TalkNameProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = TALK_NAME_CODE
-    override val name = "TALK_NAME"
+    override val name = TALK_NAME_TAG
 }
 
 const val TAIL_CODE: Byte = 0x1C
+const val TAIL_TAG = "TAIL"
 class TailProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = TAIL_CODE
-    override val name = "TAIL"
+    override val name = TAIL_TAG
 }
 
 /*
