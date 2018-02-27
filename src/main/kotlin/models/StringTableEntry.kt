@@ -26,7 +26,16 @@ val processors: Map<Byte, KClass<out MessageProcessor>> =
                 Pair(SET_DEMO_ORDER_NPC2_CODE, SetDemoOrderNPC2Processor::class),
                 Pair(SET_DEMO_ORDER_QUEST_CODE, SetDemoOrderQuestProcessor::class),
                 Pair(SET_SELECT_WINDOW_CODE, SetSelectWindowProcessor::class),
+                Pair(SET_NEXT_MESSAGEF_CODE, SetNextMessageFProcessor::class),
+                Pair(SET_NEXT_MESSAGE0_CODE, SetNextMessage0Processor::class),
+                Pair(SET_NEXT_MESSAGE1_CODE, SetNextMessage1Processor::class),
+                Pair(SET_NEXT_MESSAGE2_CODE, SetNextMessage2Processor::class),
+                Pair(SET_NEXT_MESSAGE3_CODE, SetNextMessage3Processor::class),
                 // MISSING SOME HERE!
+                Pair(SET_SELECT_STRING2_CODE, SetSelectString2Processor::class),
+                Pair(SET_SELECT_STRING3_CODE, SetSelectString3Processor::class),
+                Pair(SET_SELECT_STRING4_CODE, SetSelectString4Processor::class),
+                Pair(SET_FORCE_NEXT_CODE, SetForceNextProcessor::class),
                 Pair(PLAYER_NAME_CODE, PlayerNameProcessor::class),
                 Pair(TALK_NAME_CODE, TalkNameProcessor::class),
                 Pair(TAIL_CODE, TailProcessor::class)
@@ -87,6 +96,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                     resultBuilder.append("${interpolatorLeft}UNKNOWN${interpolatorRight}")
                 }
             } else if (byte == 0xCD.toByte()) {
+                // TODO Handle other relocated characters
                 temporaryPlainBytes.add('\n'.toByte())
             } else {
                 // Add plain text bytes to temporary buffer for Shift-JIS decoding

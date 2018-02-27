@@ -5,6 +5,7 @@ import utils.RGBColor
 import utils.byteList
 import utils.bytesToInt
 import java.util.*
+import java.util.Arrays.asList
 import kotlin.reflect.KClass
 
 const val PROC_CODE: Byte = 0x7F
@@ -82,7 +83,7 @@ class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntr
 
     override fun decode(bytes: List<Byte>): List<Byte> {
         super.decode(bytes)
-        pauseAmount = bytes[2].toInt()
+        pauseAmount = bytesToInt(listOf(bytes[2]))
         return byteList("%s:0x%02x".format(name, pauseAmount))
     }
 
@@ -154,7 +155,7 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
     override fun decode(bytes: List<Byte>): List<Byte> {
         super.decode(bytes)
 
-        animation = bytesToInt(listOf(0.toByte()) + bytes.slice(2..4))
+        animation = bytesToInt(bytes.slice(2..4))
         return byteList("%s:%02x:%02x".format(name, bytes[1].toInt(), animation))
     }
 
@@ -162,6 +163,7 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
+
 const val SET_DEMO_ORDER_PLAYER_CODE: Byte = 0x08
 const val SET_DEMO_ORDER_PLAYER_TAG = "SET_DEMO_ORDER_PLAYER"
 class SetDemoOrderPlayerProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
@@ -209,21 +211,132 @@ class SetSelectWindowProcessor(targetEntry: StringTableEntry): PlaceholderProces
     override val name = SET_SELECT_WINDOW_TAG
 }
 
+/* Set next message option strings */
+abstract class SetNextMessageProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+
+    override val size = 4
+    abstract val messageSlot: Int
+
+    var messageId: Int = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+
+        messageId = bytesToInt(bytes.slice(2..3))
+        return byteList("%s:%04x".format(name, messageId))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
+
 const val SET_NEXT_MESSAGEF_CODE: Byte = 0x0E
+const val SET_NEXT_MESSAGEF_TAG = "SET_NEXT_MESSAGE_F"
+class SetNextMessageFProcessor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGEF_CODE
+    override val name = SET_NEXT_MESSAGEF_TAG
+
+    // NextMessageF specifies the mandatory next message (no choices)
+    override val messageSlot = -1
+}
+
 const val SET_NEXT_MESSAGE0_CODE: Byte = 0x0F
+const val SET_NEXT_MESSAGE0_TAG = "SET_NEXT_MESSAGE_0"
+class SetNextMessage0Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE0_CODE
+    override val name = SET_NEXT_MESSAGE0_TAG
+    override val messageSlot = 0
+}
+
+
 const val SET_NEXT_MESSAGE1_CODE: Byte = 0x10
+const val SET_NEXT_MESSAGE1_TAG = "SET_NEXT_MESSAGE_1"
+class SetNextMessage1Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE1_CODE
+    override val name = SET_NEXT_MESSAGE1_TAG
+    override val messageSlot = 1
+}
+
 const val SET_NEXT_MESSAGE2_CODE: Byte = 0x11
+const val SET_NEXT_MESSAGE2_TAG = "SET_NEXT_MESSAGE_2"
+class SetNextMessage2Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE2_CODE
+    override val name = SET_NEXT_MESSAGE2_TAG
+    override val messageSlot = 2
+}
+
 const val SET_NEXT_MESSAGE3_CODE: Byte = 0x12
+const val SET_NEXT_MESSAGE3_TAG = "SET_NEXT_MESSAGE_3"
+class SetNextMessage3Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE3_CODE
+    override val name = SET_NEXT_MESSAGE3_TAG
+    override val messageSlot = 3
+}
 
 const val SET_NEXT_MESSAGE_RANDOM2_CODE: Byte = 0x13
 const val SET_NEXT_MESSAGE_RANDOM3_CODE: Byte = 0x14
 const val SET_NEXT_MESSAGE_RANDOM4_CODE: Byte = 0x15
 
+/* Set select strings (choices in choice pop-up). The number corresponds
+ * to the number of choices.
+ */
+abstract class SetSelectStringProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    abstract val choices: Int
+    final override val size
+        get() = 2 + (choices * 2)
+
+    private var choiceIds = ArrayList<Int>()
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+
+        val fmtStringBuilder = StringBuilder()
+        fmtStringBuilder.append("%s:")
+
+        for (i in 0 until choices) {
+            val shortOffset = 2 + (i * 2)
+            val choiceId = bytesToInt(bytes.slice(shortOffset..shortOffset+1))
+            choiceIds.add(choiceId)
+            // println("Choice %d = 0x%04x".format(i, choiceId))
+            fmtStringBuilder.append("0x%04x")
+            if (i != choices - 1) fmtStringBuilder.append(",")
+        }
+
+        return byteList(fmtStringBuilder.toString().format(name, *choiceIds.toArray()))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
+
 const val SET_SELECT_STRING2_CODE: Byte = 0x16
+class SetSelectString2Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
+    override val code = SET_SELECT_STRING2_CODE
+    override val name = "SET_SELECT_STRING_2"
+    override val choices = 2
+}
+
 const val SET_SELECT_STRING3_CODE: Byte = 0x17
+class SetSelectString3Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
+    override val code = SET_SELECT_STRING3_CODE
+    override val name = "SET_SELECT_STRING_3"
+    override val choices = 3
+}
+
 const val SET_SELECT_STRING4_CODE: Byte = 0x18
+class SetSelectString4Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
+    override val code = SET_SELECT_STRING4_CODE
+    override val name = "SET_SELECT_STRING_4"
+    override val choices = 4
+}
 
 const val SET_FORCE_NEXT_CODE: Byte = 0x19
+class SetForceNextProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+    override val code = SET_FORCE_NEXT_CODE
+    override val name = "SET_FORCE_NEXT"
+}
 
 const val PLAYER_NAME_CODE: Byte = 0x1A
 const val PLAYER_NAME_TAG = "PLAYER_NAME"

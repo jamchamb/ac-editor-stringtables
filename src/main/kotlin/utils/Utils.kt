@@ -12,15 +12,23 @@ fun byteList(input: String): List<Byte> {
     return input.toByteArray().asList()
 }
 
-fun bytesToInt(bytes: List<Byte>): Int {
-    return bytesToInt(bytes.toByteArray())
+fun bytesToInt(bytes: ByteArray): Int {
+    return bytesToInt(bytes.asList())
 }
 
-fun bytesToInt(bytes: ByteArray): Int {
-    if (bytes.size < 4) {
-        throw IllegalArgumentException("Must supply 4 bytes")
+fun bytesToInt(bytes: List<Byte>): Int {
+    val allBytes: List<Byte>
+
+    if (bytes.size > 4) {
+        throw IllegalArgumentException("Got more than 4 bytes; 32-bit integer is the max")
+    } else if (bytes.size < 4) {
+        val leftPad = List(4 - bytes.size, {_ -> 0.toByte()})
+        allBytes = leftPad + bytes
+    } else {
+        allBytes = bytes
     }
-    val byteBuffer = ByteBuffer.wrap(bytes)
+
+    val byteBuffer = ByteBuffer.wrap(allBytes.toByteArray())
     return byteBuffer.int
 }
 
