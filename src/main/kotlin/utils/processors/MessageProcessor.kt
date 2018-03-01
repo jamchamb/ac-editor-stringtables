@@ -5,7 +5,6 @@ import utils.RGBColor
 import utils.byteList
 import utils.bytesToInt
 import java.util.*
-import java.util.Arrays.asList
 import kotlin.reflect.KClass
 
 const val PROC_CODE: Byte = 0x7F
@@ -274,9 +273,64 @@ class SetNextMessage3Processor(targetEntry: StringTableEntry): SetNextMessagePro
     override val messageSlot = 3
 }
 
+/*
+ * Set next message random processors
+ */
+abstract class SetNextMessageRandomProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    abstract val choices: Int
+    final override val size
+        get() = 2 + (choices * 2)
+
+    private var messageIds = ArrayList<Int>()
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+
+        // DEBUG
+        println("random message at ${targetEntry.id}")
+
+        val fmtStringBuilder = StringBuilder()
+        fmtStringBuilder.append("%s:")
+
+        for (i in 0 until choices) {
+            val shortOffset = 2 + (i * 2)
+            val choiceId = bytesToInt(bytes.slice(shortOffset..shortOffset+1))
+            messageIds.add(choiceId)
+            fmtStringBuilder.append("0x%04x")
+            if (i != choices - 1) fmtStringBuilder.append(",")
+        }
+
+        return byteList(fmtStringBuilder.toString().format(name, *messageIds.toArray()))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
+
 const val SET_NEXT_MESSAGE_RANDOM2_CODE: Byte = 0x13
+const val SET_NEXT_MESSAGE_RANDOM2_TAG = "SET_NEXT_MESSAGE_RANDOM_2"
+class SetNextMessageRandom2Processor(targetEntry: StringTableEntry): SetNextMessageRandomProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE_RANDOM2_CODE
+    override val name = SET_NEXT_MESSAGE_RANDOM2_TAG
+    override val choices = 2
+}
+
 const val SET_NEXT_MESSAGE_RANDOM3_CODE: Byte = 0x14
+const val SET_NEXT_MESSAGE_RANDOM3_TAG = "SET_NEXT_MESSAGE_RANDOM_3"
+class SetNextMessageRandom3Processor(targetEntry: StringTableEntry): SetNextMessageRandomProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE_RANDOM3_CODE
+    override val name = SET_NEXT_MESSAGE_RANDOM3_TAG
+    override val choices = 3
+}
+
 const val SET_NEXT_MESSAGE_RANDOM4_CODE: Byte = 0x15
+const val SET_NEXT_MESSAGE_RANDOM4_TAG = "SET_NEXT_MESSAGE_RANDOM_4"
+class SetNextMessageRandom4Processor(targetEntry: StringTableEntry): SetNextMessageRandomProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE_RANDOM4_CODE
+    override val name = SET_NEXT_MESSAGE_RANDOM4_TAG
+    override val choices = 4
+}
 
 /* Set select strings (choices in choice pop-up). The number corresponds
  * to the number of choices.

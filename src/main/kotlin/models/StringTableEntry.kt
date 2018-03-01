@@ -31,7 +31,9 @@ val processors: Map<Byte, KClass<out MessageProcessor>> =
                 Pair(SET_NEXT_MESSAGE1_CODE, SetNextMessage1Processor::class),
                 Pair(SET_NEXT_MESSAGE2_CODE, SetNextMessage2Processor::class),
                 Pair(SET_NEXT_MESSAGE3_CODE, SetNextMessage3Processor::class),
-                // MISSING SOME HERE!
+                Pair(SET_NEXT_MESSAGE_RANDOM2_CODE, SetNextMessageRandom2Processor::class),
+                Pair(SET_NEXT_MESSAGE_RANDOM3_CODE, SetNextMessageRandom3Processor::class),
+                Pair(SET_NEXT_MESSAGE_RANDOM4_CODE, SetNextMessageRandom4Processor::class),
                 Pair(SET_SELECT_STRING2_CODE, SetSelectString2Processor::class),
                 Pair(SET_SELECT_STRING3_CODE, SetSelectString3Processor::class),
                 Pair(SET_SELECT_STRING4_CODE, SetSelectString4Processor::class),
@@ -72,7 +74,11 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
         val temporaryPlainBytes = ArrayList<Byte>()
 
+        var skipTo = 0
+
         for ((index, byte) in messageBytes.withIndex()) {
+            if (skipTo > index) continue
+
             // Check for processor directive before last position
             if (index < (messageBytes.size - 1) && byte == PROC_CODE) {
                 // Shift-JIS decode any plain text, add it, and clear the temporary buffer
@@ -88,6 +94,9 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                 if (processors.containsKey(code)) {
                     val proc = processors[code]!!.primaryConstructor!!.call(this)
                     val snippet = messageBytes.slice(index until index + proc.size)
+
+                    // Advance position to end of this processed piece
+                    skipTo = index + proc.size
 
                     resultBuilder.append(interpolatorLeft)
                     resultBuilder.append(String(proc.decode(snippet).toByteArray()))
