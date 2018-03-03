@@ -155,7 +155,7 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
         super.decode(bytes)
 
         animation = bytesToInt(bytes.slice(2..4))
-        return byteList("%s:%02x:%02x".format(name, bytes[1].toInt(), animation))
+        return byteList("%s:0x%02x".format(name, animation))
     }
 
     override fun encode(bytes: List<Byte>): ByteArray {
