@@ -287,7 +287,7 @@ abstract class SetNextMessageRandomProcessor(targetEntry: StringTableEntry): Mes
         super.decode(bytes)
 
         // DEBUG
-        println("random message at ${targetEntry.id}")
+        //println("random message at ${targetEntry.id}")
 
         val fmtStringBuilder = StringBuilder()
         fmtStringBuilder.append("%s:")
@@ -773,28 +773,97 @@ class SleepyProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targe
     override val code = SLEEPY_CODE
     override val name = SLEEPY_TAG
 }
-/* TODO: Placeholder for 0x50: ColorCharProc */
 
-const val SOUND_CODE: Byte = 0x51
-const val SOUND_TAG = "SOUND"
-class SoundProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = SOUND_CODE
-    override val name = SOUND_TAG
+const val SET_COLOR_CHAR_CODE: Byte = 0x50
+const val SET_COLOR_CHAR_TAG = "SET_COLOR_CHAR"
+class SetColorCharProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    override val code = SET_COLOR_CHAR_CODE
+    override val name = SET_COLOR_CHAR_TAG
+    override val size = 2 + 3 + 1
+
+    var color = RGBColor(0, 0, 0)
+    var amount = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+
+        color.red = bytes[2]
+        color.green = bytes[3]
+        color.blue = bytes[4]
+        amount = bytesToInt(listOf(bytes[5]))
+
+        //println("color char in message ${targetEntry.id}")
+
+        return byteList("$name:%02x%02x%02x:0x%02x".format(color.red, color.green, color.blue, amount))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
-const val LINE_OFFSET_CODE: Byte = 0x52
-const val LINE_OFFSET_TAG = "LINE_OFFSET"
-class LineOffsetProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = LINE_OFFSET_CODE
-    override val name = LINE_OFFSET_TAG
+const val SOUND_CUT_CODE: Byte = 0x51
+const val SOUND_CUT_TAG = "SOUND_CUT"
+class SoundCutProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    override val code = SOUND_CUT_CODE
+    override val name = SOUND_CUT_TAG
+    override val size = 3
+
+    // Always 0 or 1
+    var soundCut = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        soundCut = bytesToInt(listOf(bytes[2]))
+
+        return byteList("$name:$soundCut")
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
-const val LINE_TYPE_CODE: Byte = 0x53
-const val LINE_TYPE_TAG = "LINE_TYPE"
-class LineTypeProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = LINE_TYPE_CODE
-    override val name = LINE_TYPE_TAG
+const val SET_LINE_OFFSET_CODE: Byte = 0x52
+const val SET_LINE_OFFSET_TAG = "SET_LINE_OFFSET"
+class SetLineOffsetProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    override val code = SET_LINE_OFFSET_CODE
+    override val name = SET_LINE_OFFSET_TAG
+    override val size = 3
+
+    private var lineOffset = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        lineOffset = bytesToInt(listOf(bytes[2]))
+        return byteList("$name:0x%02x".format(lineOffset))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
+
+const val SET_LINE_TYPE_CODE: Byte = 0x53
+const val SET_LINE_TYPE_TAG = "SET_LINE_TYPE"
+class SetLineTypeProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    override val code = SET_LINE_TYPE_CODE
+    override val name = SET_LINE_TYPE_TAG
+    override val size = 3
+
+    private var type: Byte = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        type = bytes[2]
+        return byteList("$name:0x%02x".format(type))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
+
 /* TODO: Placeholder for 0x54: CharScaleProc */
 
 const val BUTTON2_CODE: Byte = 0x55

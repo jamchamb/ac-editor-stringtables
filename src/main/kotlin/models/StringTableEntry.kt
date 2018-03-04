@@ -91,7 +91,11 @@ val processors: Map<Byte, KClass<out MessageProcessor>> =
                 Pair(ANGRY_CODE, AngryProcessor::class),
                 Pair(SAD_CODE, SadProcessor::class),
                 Pair(FUN_CODE, FunProcessor::class),
-                Pair(SLEEPY_CODE, SleepyProcessor::class)
+                Pair(SLEEPY_CODE, SleepyProcessor::class),
+                Pair(SET_COLOR_CHAR_CODE, SetColorCharProcessor::class),
+                Pair(SOUND_CUT_CODE, SoundCutProcessor::class),
+                Pair(SET_LINE_OFFSET_CODE, SetLineOffsetProcessor::class),
+                Pair(SET_LINE_TYPE_CODE, SetLineTypeProcessor::class)
         )
 
 class StringTableEntry (id: Int, rawBytes: ByteArray) {
