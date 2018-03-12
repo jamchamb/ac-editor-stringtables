@@ -1,0 +1,94 @@
+package utils
+
+val specialLatinChars = hashMapOf(
+        0x00.toByte() to '¡',
+        0x01.toByte() to '¿',
+        0x02.toByte() to 'Ä',
+        0x03.toByte() to 'À',
+        0x04.toByte() to 'Á',
+        0x05.toByte() to 'Â',
+        0x06.toByte() to 'Ã',
+        0x07.toByte() to 'Å',
+        0x08.toByte() to 'Ç',
+        0x09.toByte() to 'È',
+        0x0A.toByte() to 'É',
+        0x0B.toByte() to 'Ê',
+        0x0C.toByte() to 'Ë',
+        0x0D.toByte() to 'Ì',
+        0x0E.toByte() to 'Í',
+        0x0F.toByte() to 'Î',
+        0x10.toByte() to 'Ï',
+        0x11.toByte() to 'Ð',
+        0x12.toByte() to 'Ñ',
+        0x13.toByte() to 'Ò',
+        0x14.toByte() to 'Ó',
+        0x15.toByte() to 'Ô',
+        0x16.toByte() to 'Õ',
+        0x17.toByte() to 'Ö',
+        0x18.toByte() to 'Ø',
+        0x19.toByte() to 'Ù',
+        0x1A.toByte() to 'Ú',
+        0x1B.toByte() to 'Û',
+        0x1C.toByte() to 'Ü',
+        0x1D.toByte() to 'ß',
+        0x1E.toByte() to 'Þ',
+        0x1F.toByte() to 'à',
+        // 0x20: Space
+        // 0x21: !
+        // 0x22: "
+        0x23.toByte() to 'á',
+        0x24.toByte() to 'â',
+        // 0x25: %
+        // 0x26: &
+        // 0x27: '
+        // 0x28: (
+        // 0x29: )
+        0x2A.toByte() to '~',
+        0x2B.toByte() to  '♥',
+        // 0x2C: ,
+        // 0x90 is printed in place of 0x2D for debug msg #1 (-)
+        // 0x2E: .
+        0x2F.toByte() to '♪',
+
+        // Skip to 0x3B
+
+        0x3B.toByte() to "\uD83C\uDF22", // droplet 🌢
+        // 0x3C - 0x40: unchanged
+
+        // Skip to 0x5B
+        0x5B.toByte() to 'ã',
+        0x5C.toByte() to "\uD83D\uDCA2", // anger 💢
+        0x5D.toByte() to 'ä',
+        0x5E.toByte() to 'å',
+        // 0x5F: _
+        0x60.toByte() to 'ç',
+
+        // Skip to 0x7B
+        0x7B.toByte() to 'è',
+        0x7C.toByte() to 'é',
+        0x7D.toByte() to 'ê',
+        0x7E.toByte() to 'ë',
+
+        // Skip to 0x81
+        0x81.toByte() to 'ì',
+        0x82.toByte() to 'í',
+        0x83.toByte() to 'î',
+        0x84.toByte() to 'ï',
+        0x85.toByte() to '·',
+        // 0x86: what is this?
+        0x87.toByte() to 'ñ',
+        0x88.toByte() to 'ò',
+        0x89.toByte() to 'ó',
+        0x8A.toByte() to 'ô',
+        0x8B.toByte() to 'õ',
+        0x8C.toByte() to 'ö',
+        0x8D.toByte() to 'ø',
+        0x8E.toByte() to 'ù',
+        0x8F.toByte() to 'ú',
+        0x90.toByte() to '—',
+        0x91.toByte() to 'û',
+        0x92.toByte() to 'ü',
+        0x93.toByte() to 'ý',
+        0x94.toByte() to 'ÿ'
+        // TODO the rest
+)

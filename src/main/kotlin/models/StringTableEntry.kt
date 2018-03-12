@@ -5,6 +5,7 @@ import tornadofx.getProperty
 import tornadofx.property
 import utils.processors.PROC_CODE
 import utils.processors.processors
+import utils.specialLatinChars
 import kotlin.reflect.full.primaryConstructor
 
 const val interpolatorLeft = "{{"
@@ -36,6 +37,17 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         return "${id}: ${content}"
     }
 
+    /**
+     * Shift-JIS decode any plain text, add it, and clear the temporary buffer
+     */
+    private fun popPlainBytes(temporaryPlainBytes: ArrayList<Byte>, resultBuilder: StringBuilder) {
+        if (temporaryPlainBytes.size > 0) {
+            val jisDecodedString = String(temporaryPlainBytes.toByteArray(), charset("Shift-JIS"))
+            resultBuilder.append(jisDecodedString)
+            temporaryPlainBytes.clear()
+        }
+    }
+
     fun decodeMessage(messageBytes: ByteArray): String {
         val resultBuilder = StringBuilder()
 
@@ -49,11 +61,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
             // Check for processor directive before last position
             if (index < (messageBytes.size - 1) && byte == PROC_CODE) {
                 // Shift-JIS decode any plain text, add it, and clear the temporary buffer
-                if (temporaryPlainBytes.size > 0) {
-                    val jisDecodedString = String(temporaryPlainBytes.toByteArray(), charset("Shift-JIS"))
-                    resultBuilder.append(jisDecodedString)
-                    temporaryPlainBytes.clear()
-                }
+                popPlainBytes(temporaryPlainBytes, resultBuilder)
 
                 // Get the message processor ID
                 val code = messageBytes[index+1]
@@ -74,6 +82,14 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
             } else if (byte == 0xCD.toByte()) {
                 // TODO Handle other relocated characters
                 temporaryPlainBytes.add('\n'.toByte())
+            } else if (byte == 0x80.toByte()) {
+                popPlainBytes(temporaryPlainBytes, resultBuilder)
+                println("special 0x80 0x${messageBytes[index+1].toString(16)}")
+                skipTo = index + 2
+            } else if (byte in specialLatinChars) {
+                // Check for relocated special Latin characters
+                popPlainBytes(temporaryPlainBytes, resultBuilder)
+                resultBuilder.append(specialLatinChars[byte])
             } else {
                 // Add plain text bytes to temporary buffer for Shift-JIS decoding
                 temporaryPlainBytes.add(byte)
@@ -81,10 +97,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         }
 
         // Process remaining plain text bytes
-        if (temporaryPlainBytes.size > 0) {
-            val jisDecodedString = String(temporaryPlainBytes.toByteArray(), charset("Shift-JIS"))
-            resultBuilder.append(jisDecodedString)
-        }
+        popPlainBytes(temporaryPlainBytes, resultBuilder)
 
         return resultBuilder.toString()
     }
