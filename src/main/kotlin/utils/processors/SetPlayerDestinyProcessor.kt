@@ -2,5 +2,6 @@ package utils.processors
 
 import models.StringTableEntry
 
-// TODO: Abstract destiny class to track destiny value
-abstract class SetPlayerDestinyProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) 
+abstract class SetPlayerDestinyProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+    abstract val destiny: Int
+}

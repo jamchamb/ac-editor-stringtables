@@ -532,110 +532,124 @@ class Mail0Processor(targetEntry: StringTableEntry): PlaceholderProcessor(target
  * Set player destiny processors
  */
 
-
-const val DESTINY0_CODE: Byte = 0x41
-const val DESTINY0_TAG = "DESTINY0"
-class Destiny0Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY0_CODE
-    override val name = DESTINY0_TAG
+const val SET_PLAYER_DESTINY0_CODE: Byte = 0x41
+const val SET_PLAYER_DESTINY0_TAG = "DESTINY0"
+class SetPlayerDestiny0Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY0_CODE
+    override val name = SET_PLAYER_DESTINY0_TAG
+    override val destiny = 0
 }
 
-const val DESTINY1_CODE: Byte = 0x42
-const val DESTINY1_TAG = "DESTINY1"
-class Destiny1Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY1_CODE
-    override val name = DESTINY1_TAG
+const val SET_PLAYER_DESTINY1_CODE: Byte = 0x42
+const val SET_PLAYER_DESTINY1_TAG = "DESTINY1"
+class SetPlayerDestiny1Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY1_CODE
+    override val name = SET_PLAYER_DESTINY1_TAG
+    override val destiny = 1
 }
 
-const val DESTINY2_CODE: Byte = 0x43
-const val DESTINY2_TAG = "DESTINY2"
-class Destiny2Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY2_CODE
-    override val name = DESTINY2_TAG
+const val SET_PLAYER_DESTINY2_CODE: Byte = 0x43
+const val SET_PLAYER_DESTINY2_TAG = "DESTINY2"
+class SetPlayerDestiny2Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY2_CODE
+    override val name = SET_PLAYER_DESTINY2_TAG
+    override val destiny = 2
 }
 
-const val DESTINY3_CODE: Byte = 0x44
-const val DESTINY3_TAG = "DESTINY3"
-class Destiny3Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY3_CODE
-    override val name = DESTINY3_TAG
+const val SET_PLAYER_DESTINY3_CODE: Byte = 0x44
+const val SET_PLAYER_DESTINY3_TAG = "DESTINY3"
+class SetPlayerDestiny3Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY3_CODE
+    override val name = SET_PLAYER_DESTINY3_TAG
+    override val destiny = 3
 }
 
-const val DESTINY4_CODE: Byte = 0x45
-const val DESTINY4_TAG = "DESTINY4"
-class Destiny4Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY4_CODE
-    override val name = DESTINY4_TAG
+const val SET_PLAYER_DESTINY4_CODE: Byte = 0x45
+const val SET_PLAYER_DESTINY4_TAG = "DESTINY4"
+class SetPlayerDestiny4Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY4_CODE
+    override val name = SET_PLAYER_DESTINY4_TAG
+    override val destiny = 4
 }
 
-const val DESTINY5_CODE: Byte = 0x46
-const val DESTINY5_TAG = "DESTINY5"
-class Destiny5Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY5_CODE
-    override val name = DESTINY5_TAG
+const val SET_PLAYER_DESTINY5_CODE: Byte = 0x46
+const val SET_PLAYER_DESTINY5_TAG = "DESTINY5"
+class SetPlayerDestiny5Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY5_CODE
+    override val name = SET_PLAYER_DESTINY5_TAG
+    override val destiny = 5
 }
 
-const val DESTINY6_CODE: Byte = 0x47
-const val DESTINY6_TAG = "DESTINY6"
-class Destiny6Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY6_CODE
-    override val name = DESTINY6_TAG
+const val SET_PLAYER_DESTINY6_CODE: Byte = 0x47
+const val SET_PLAYER_DESTINY6_TAG = "DESTINY6"
+class SetPlayerDestiny6Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY6_CODE
+    override val name = SET_PLAYER_DESTINY6_TAG
+    override val destiny = 6
 }
 
-const val DESTINY7_CODE: Byte = 0x48
-const val DESTINY7_TAG = "DESTINY7"
-class Destiny7Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY7_CODE
-    override val name = DESTINY7_TAG
+const val SET_PLAYER_DESTINY7_CODE: Byte = 0x48
+const val SET_PLAYER_DESTINY7_TAG = "DESTINY7"
+class SetPlayerDestiny7Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY7_CODE
+    override val name = SET_PLAYER_DESTINY7_TAG
+    override val destiny = 7
 }
 
-const val DESTINY8_CODE: Byte = 0x49
-const val DESTINY8_TAG = "DESTINY8"
-class Destiny8Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY8_CODE
-    override val name = DESTINY8_TAG
+const val SET_PLAYER_DESTINY8_CODE: Byte = 0x49
+const val SET_PLAYER_DESTINY8_TAG = "DESTINY8"
+class SetPlayerDestiny8Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY8_CODE
+    override val name = SET_PLAYER_DESTINY8_TAG
+    override val destiny = 8
 }
 
-const val DESTINY9_CODE: Byte = 0x4A
-const val DESTINY9_TAG = "DESTINY9"
-class Destiny9Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = DESTINY9_CODE
-    override val name = DESTINY9_TAG
+const val SET_PLAYER_DESTINY9_CODE: Byte = 0x4A
+const val SET_PLAYER_DESTINY9_TAG = "DESTINY9"
+class SetPlayerDestiny9Processor(targetEntry: StringTableEntry): SetPlayerDestinyProcessor(targetEntry) {
+    override val code = SET_PLAYER_DESTINY9_CODE
+    override val name = SET_PLAYER_DESTINY9_TAG
+    override val destiny = 9
 }
 
-const val NORMAL_CODE: Byte = 0x4B
-const val NORMAL_TAG = "NORMAL"
-class NormalProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = NORMAL_CODE
-    override val name = NORMAL_TAG
+const val SET_MESSAGE_CONTENTS_NORMAL_CODE: Byte = 0x4B
+const val SET_MESSAGE_CONTENTS_NORMAL_TAG = "NORMAL"
+class SetMessageContentsNormalProcessor(targetEntry: StringTableEntry): SetMessageContentsProcessor(targetEntry) {
+    override val code = SET_MESSAGE_CONTENTS_NORMAL_CODE
+    override val name = SET_MESSAGE_CONTENTS_NORMAL_TAG
+    override val contentsSound = MessageContentsSetting.NORMAL
 }
 
-const val ANGRY_CODE: Byte = 0x4C
-const val ANGRY_TAG = "ANGRY"
-class AngryProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = ANGRY_CODE
-    override val name = ANGRY_TAG
+const val SET_MESSAGE_CONTENTS_ANGRY_CODE: Byte = 0x4C
+const val SET_MESSAGE_CONTENTS_ANGRY_TAG = "ANGRY"
+class SetMessageContentsAngryProcessor(targetEntry: StringTableEntry): SetMessageContentsProcessor(targetEntry) {
+    override val code = SET_MESSAGE_CONTENTS_ANGRY_CODE
+    override val name = SET_MESSAGE_CONTENTS_ANGRY_TAG
+    override val contentsSound = MessageContentsSetting.ANGRY
 }
 
-const val SAD_CODE: Byte = 0x4D
-const val SAD_TAG = "SAD"
-class SadProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = SAD_CODE
-    override val name = SAD_TAG
+const val SET_MESSAGE_CONTENTS_SAD_CODE: Byte = 0x4D
+const val SET_MESSAGE_CONTENTS_SAD_TAG = "SAD"
+class SetMessageContentsSadProcessor(targetEntry: StringTableEntry): SetMessageContentsProcessor(targetEntry) {
+    override val code = SET_MESSAGE_CONTENTS_SAD_CODE
+    override val name = SET_MESSAGE_CONTENTS_SAD_TAG
+    override val contentsSound = MessageContentsSetting.SAD
 }
 
-const val FUN_CODE: Byte = 0x4E
-const val FUN_TAG = "FUN"
-class FunProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = FUN_CODE
-    override val name = FUN_TAG
+const val SET_MESSAGE_CONTENTS_FUN_CODE: Byte = 0x4E
+const val SET_MESSAGE_CONTENTS_FUN_TAG = "FUN"
+class SetMessageContentsFunProcessor(targetEntry: StringTableEntry): SetMessageContentsProcessor(targetEntry) {
+    override val code = SET_MESSAGE_CONTENTS_FUN_CODE
+    override val name = SET_MESSAGE_CONTENTS_FUN_TAG
+    override val contentsSound = MessageContentsSetting.FUN
 }
 
-const val SLEEPY_CODE: Byte = 0x4F
-const val SLEEPY_TAG = "SLEEPY"
-class SleepyProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = SLEEPY_CODE
-    override val name = SLEEPY_TAG
+const val SET_MESSAGE_CONTENTS_SLEEPY_CODE: Byte = 0x4F
+const val SET_MESSAGE_CONTENTS_SLEEPY_TAG = "SLEEPY"
+class SetMessageContentsSleepyProcessor(targetEntry: StringTableEntry): SetMessageContentsProcessor(targetEntry) {
+    override val code = SET_MESSAGE_CONTENTS_SLEEPY_CODE
+    override val name = SET_MESSAGE_CONTENTS_SLEEPY_TAG
+    override val contentsSound = MessageContentsSetting.SLEEPY
 }
 
 const val SET_COLOR_CHAR_CODE: Byte = 0x50
@@ -804,9 +818,10 @@ class Give_CloseProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(t
 
 const val GLOOMY_CODE: Byte = 0x61
 const val GLOOMY_TAG = "GLOOMY"
-class GloomyProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class GloomyProcessor(targetEntry: StringTableEntry): SetMessageContentsProcessor(targetEntry) {
     override val code = GLOOMY_CODE
     override val name = GLOOMY_TAG
+    override val contentsSound = MessageContentsSetting.GLOOMY
 }
 
 const val SELECT_NO_B_CLOSE_CODE: Byte = 0x62
