@@ -105,13 +105,13 @@ val specialLatinChars = hashMapOf(
         0xA1.toByte() to '¬',
         0xA2.toByte() to 'Æ',
         0xA3.toByte() to 'æ',
-        0xA4.toByte() to '\u0324', // TODO combining diaeresis below (double dot)
+        0xA4.toByte() to "\u0000\u0324", // TODO fix diaeresis below (double dot)
         0xA5.toByte() to '»',
         0xA6.toByte() to '«',
         0xA7.toByte() to '☀',
         0xA8.toByte() to '☁',
         0xA9.toByte() to '☂',
-        // 0xAA.toByte() to '\u1F300', // TODO cyclone,
+        0xAA.toByte() to "\uD83C\uDF00", // cyclone
         0xAB.toByte() to '⛄',
         0xAC.toByte() to '⚞',
         0xAD.toByte() to '⚟',
@@ -127,7 +127,7 @@ val specialLatinChars = hashMapOf(
         0xB7.toByte() to '♁',
         0xB8.toByte() to '✿',
         0xB9.toByte() to '★',
-        0xBA.toByte() to "\uD83D\uDC80",
+        0xBA.toByte() to "\uD83D\uDC80", // star
         0xBF.toByte() to "\u263B" // skull
         // TODO the rest
 )
