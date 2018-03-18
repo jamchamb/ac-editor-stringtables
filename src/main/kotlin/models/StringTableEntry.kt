@@ -5,7 +5,7 @@ import tornadofx.getProperty
 import tornadofx.property
 import utils.processors.PROC_CODE
 import utils.processors.processors
-import utils.specialLatinChars
+import utils.specialCharacters
 import kotlin.reflect.full.primaryConstructor
 
 const val interpolatorLeft = "{{"
@@ -86,10 +86,10 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                 popPlainBytes(temporaryPlainBytes, resultBuilder)
                 println("special 0x80 0x${messageBytes[index+1].toString(16)}")
                 skipTo = index + 2
-            } else if (byte in specialLatinChars) {
+            } else if (byte in specialCharacters) {
                 // Check for relocated special Latin characters
                 popPlainBytes(temporaryPlainBytes, resultBuilder)
-                resultBuilder.append(specialLatinChars[byte])
+                resultBuilder.append(specialCharacters[byte])
             } else {
                 // Add plain text bytes to temporary buffer for Shift-JIS decoding
                 temporaryPlainBytes.add(byte)
