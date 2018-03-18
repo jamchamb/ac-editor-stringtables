@@ -742,7 +742,25 @@ class SetLineTypeProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
     }
 }
 
-/* TODO: Placeholder for 0x54: CharScaleProc */
+const val SET_CHAR_SCALE_CODE: Byte = 0x54
+const val SET_CHAR_SCALE_TAG = "SET_CHAR_SCALE"
+class SetCharScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    override val code = SET_CHAR_SCALE_CODE
+    override val name = SET_CHAR_SCALE_TAG
+    override val size = 3
+
+    private var scale: Byte = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        scale = bytes[2]
+        return byteList("$name:0x%02x".format(scale))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
 
 const val BUTTON2_CODE: Byte = 0x55
 const val BUTTON2_TAG = "BUTTON2"
@@ -753,65 +771,153 @@ class Button2Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targ
 
 const val BGM_MAKE_CODE: Byte = 0x56
 const val BGM_MAKE_TAG = "BGM_MAKE"
-class Bgm_MakeProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class BgmMakeProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = BGM_MAKE_CODE
     override val name = BGM_MAKE_TAG
+    override val size = 4
+
+    private var thing1: Byte = 0
+    private var thing2: Byte = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        thing1 = bytes[2]
+        thing2 = bytes[3]
+        return byteList("$name:0x%02x:0x%02x".format(thing1, thing2))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
 const val BGM_DELETE_CODE: Byte = 0x57
 const val BGM_DELETE_TAG = "BGM_DELETE"
-class Bgm_DeleteProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class BgmDeleteProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = BGM_DELETE_CODE
     override val name = BGM_DELETE_TAG
+    override val size = 4
+
+    private var thing1: Byte = 0
+    private var thing2: Byte = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        thing1 = bytes[2]
+        thing2 = bytes[3]
+        return byteList("$name:0x%02x:0x%02x".format(thing1, thing2))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
 const val MSG_TIME_END_CODE: Byte = 0x58
 const val MSG_TIME_END_TAG = "MSG_TIME_END"
-class Msg_Time_EndProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class MsgTimeEndProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = MSG_TIME_END_CODE
     override val name = MSG_TIME_END_TAG
+    override val size = 3
+
+    private var endTime: Byte = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        endTime = bytes[2]
+        return byteList("$name:0x%02x".format(endTime))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
-/* TODO: Placeholder for 0x59: SoundTrigProc */
+
+const val SOUND_TRG_SYS_CODE: Byte = 0x59
+const val SOUND_TRG_SYS_TAG = "SOUND_TRG_SYS"
+class SoundTrgSysProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    override val code = SOUND_TRG_SYS_CODE
+    override val name = SOUND_TRG_SYS_TAG
+    override val size = 3
+
+    private var value: Byte = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        value = bytes[2]
+        return byteList("$name:0x%02x".format(value))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
+
 /* TODO: Placeholder for 0x5a: LineScaleProc */
+const val SET_LINE_SCALE_CODE: Byte = 0x5A
+const val SET_LINE_SCALE_TAG = "SET_LINE_SCALE"
+class SetLineScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
+    override val code = SET_LINE_SCALE_CODE
+    override val name = SET_LINE_SCALE_TAG
+    override val size = 3
+
+    private var scale: Byte = 0
+
+    override fun decode(bytes: List<Byte>): List<Byte> {
+        super.decode(bytes)
+        scale = bytes[2]
+        return byteList("$name:0x%02x".format(scale))
+    }
+
+    override fun encode(bytes: List<Byte>): ByteArray {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
+
+// TODO The rest of these are placeholders that just have the size set
 
 const val SOUND_NO_PAGE_CODE: Byte = 0x5B
 const val SOUND_NO_PAGE_TAG = "SOUND_NO_PAGE"
-class Sound_No_PageProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class SoundNoPageProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SOUND_NO_PAGE_CODE
     override val name = SOUND_NO_PAGE_TAG
+
+    // TODO This sets something in the message window bit flags
 }
+
+
 
 const val VOICE_TRUE_CODE: Byte = 0x5C
 const val VOICE_TRUE_TAG = "VOICE_TRUE"
-class Voice_TrueProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class VoiceTrueProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = VOICE_TRUE_CODE
     override val name = VOICE_TRUE_TAG
 }
 
 const val VOICE_FALSE_CODE: Byte = 0x5D
 const val VOICE_FALSE_TAG = "VOICE_FALSE"
-class Voice_FalseProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class VoiceFalseProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = VOICE_FALSE_CODE
     override val name = VOICE_FALSE_TAG
 }
 
 const val SELECT_NO_B_CODE: Byte = 0x5E
 const val SELECT_NO_B_TAG = "SELECT_NO_B"
-class Select_No_BProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class SelectNoBProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SELECT_NO_B_CODE
     override val name = SELECT_NO_B_TAG
 }
 
 const val GIVE_OPEN_CODE: Byte = 0x5F
 const val GIVE_OPEN_TAG = "GIVE_OPEN"
-class Give_OpenProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class GiveOpenProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = GIVE_OPEN_CODE
     override val name = GIVE_OPEN_TAG
 }
 
 const val GIVE_CLOSE_CODE: Byte = 0x60
 const val GIVE_CLOSE_TAG = "GIVE_CLOSE"
-class Give_CloseProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class GiveCloseProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = GIVE_CLOSE_CODE
     override val name = GIVE_CLOSE_TAG
 }
@@ -826,37 +932,41 @@ class GloomyProcessor(targetEntry: StringTableEntry): SetMessageContentsProcesso
 
 const val SELECT_NO_B_CLOSE_CODE: Byte = 0x62
 const val SELECT_NO_B_CLOSE_TAG = "SELECT_NO_B_CLOSE"
-class Select_No_B_CloseProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class SelectNoBCloseProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SELECT_NO_B_CLOSE_CODE
     override val name = SELECT_NO_B_CLOSE_TAG
 }
 
 const val NEXT_MSG_RANDOM_SECTION_CODE: Byte = 0x63
 const val NEXT_MSG_RANDOM_SECTION_TAG = "NEXT_MSG_RANDOM_SECTION"
-class Next_Msg_Random_SectionProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class NextMsgRandomSectionProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = NEXT_MSG_RANDOM_SECTION_CODE
     override val name = NEXT_MSG_RANDOM_SECTION_TAG
+    override val size = 6
 }
 
 const val AGB_DUMMY1_CODE: Byte = 0x64
 const val AGB_DUMMY1_TAG = "AGB_DUMMY1"
-class Agb_Dummy1Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy1Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY1_CODE
     override val name = AGB_DUMMY1_TAG
+    override val size = 3
 }
 
 const val AGB_DUMMY2_CODE: Byte = 0x65
 const val AGB_DUMMY2_TAG = "AGB_DUMMY2"
-class Agb_Dummy2Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy2Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY2_CODE
     override val name = AGB_DUMMY2_TAG
+    override val size = 3
 }
 
 const val AGB_DUMMY3_CODE: Byte = 0x66
 const val AGB_DUMMY3_TAG = "AGB_DUMMY3"
-class Agb_Dummy3Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy3Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY3_CODE
     override val name = AGB_DUMMY3_TAG
+    override val size = 4
 }
 
 const val SPACE_CODE: Byte = 0x67
@@ -864,95 +974,101 @@ const val SPACE_TAG = "SPACE"
 class SpaceProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SPACE_CODE
     override val name = SPACE_TAG
+    override val size = 3
 }
 
 const val AGB_DUMMY4_CODE: Byte = 0x68
 const val AGB_DUMMY4_TAG = "AGB_DUMMY4"
-class Agb_Dummy4Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy4Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY4_CODE
     override val name = AGB_DUMMY4_TAG
 }
 
 const val AGB_DUMMY5_CODE: Byte = 0x69
 const val AGB_DUMMY5_TAG = "AGB_DUMMY5"
-class Agb_Dummy5Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy5Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY5_CODE
     override val name = AGB_DUMMY5_TAG
 }
 
 const val GENDER_CHECK_CODE: Byte = 0x6A
 const val GENDER_CHECK_TAG = "GENDER_CHECK"
-class Gender_CheckProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class GenderCheckProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = GENDER_CHECK_CODE
     override val name = GENDER_CHECK_TAG
+    override val size = 6
 }
 
 const val AGB_DUMMY6_CODE: Byte = 0x6B
 const val AGB_DUMMY6_TAG = "AGB_DUMMY6"
-class Agb_Dummy6Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy6Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY6_CODE
     override val name = AGB_DUMMY6_TAG
 }
 
 const val AGB_DUMMY7_CODE: Byte = 0x6C
 const val AGB_DUMMY7_TAG = "AGB_DUMMY7"
-class Agb_Dummy7Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy7Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY7_CODE
     override val name = AGB_DUMMY7_TAG
 }
 
 const val AGB_DUMMY8_CODE: Byte = 0x6D
 const val AGB_DUMMY8_TAG = "AGB_DUMMY8"
-class Agb_Dummy8Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy8Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY8_CODE
     override val name = AGB_DUMMY8_TAG
+    override val size = 3
 }
 
 const val AGB_DUMMY9_CODE: Byte = 0x6E
 const val AGB_DUMMY9_TAG = "AGB_DUMMY9"
-class Agb_Dummy9Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy9Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY9_CODE
     override val name = AGB_DUMMY9_TAG
+    override val size = 3
 }
 
 const val AGB_DUMMY10_CODE: Byte = 0x6F
 const val AGB_DUMMY10_TAG = "AGB_DUMMY10"
-class Agb_Dummy10Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy10Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY10_CODE
     override val name = AGB_DUMMY10_TAG
+    override val size = 3
 }
 
 const val AGB_DUMMY11_CODE: Byte = 0x70
 const val AGB_DUMMY11_TAG = "AGB_DUMMY11"
-class Agb_Dummy11Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy11Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AGB_DUMMY11_CODE
     override val name = AGB_DUMMY11_TAG
+    override val size = 3
 }
 
 const val ISLAND_NAME_CODE: Byte = 0x71
 const val ISLAND_NAME_TAG = "ISLAND_NAME"
-class Island_NameProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class IslandNameProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = ISLAND_NAME_CODE
     override val name = ISLAND_NAME_TAG
 }
 
 const val SET_CURSOL_JUST_CODE: Byte = 0x72
 const val SET_CURSOL_JUST_TAG = "SET_CURSOL_JUST"
-class Set_Cursol_JustProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class SetCursolJustProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SET_CURSOL_JUST_CODE
     override val name = SET_CURSOL_JUST_TAG
 }
 
-const val CLR_CUSROL_JUST_CODE: Byte = 0x73
-const val CLR_CUSROL_JUST_TAG = "CLR_CUSROL_JUST"
-class Clr_Cusrol_JustProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = CLR_CUSROL_JUST_CODE
-    override val name = CLR_CUSROL_JUST_TAG
+const val CLR_CURSOL_JUST_CODE: Byte = 0x73
+const val CLR_CURSOL_JUST_TAG = "CLR_CURSOL_JUST"
+class ClrCursolJustProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+    override val code = CLR_CURSOL_JUST_CODE
+    override val name = CLR_CURSOL_JUST_TAG
 }
 
 const val CUT_ARTICLE_CODE: Byte = 0x74
 const val CUT_ARTICLE_TAG = "CUT_ARTICLE"
-class Cut_ArticleProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class CutArticleProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = CUT_ARTICLE_CODE
     override val name = CUT_ARTICLE_TAG
 }
@@ -966,64 +1082,39 @@ class CapitalProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targ
 
 const val AMPM_CODE: Byte = 0x76
 const val AMPM_TAG = "AMPM"
-class AmpmProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AmPmProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = AMPM_CODE
     override val name = AMPM_TAG
 }
-/* TODO: Placeholder for 0x77: NextMsgProc */
-/* TODO: Placeholder for 0x78: NextMsgProc */
-/* TODO: Placeholder for 0x79: SelectStringProc */
-/* TODO: Placeholder for 0x7a: SelectStringProc */
 
+const val SET_NEXT_MESSAGE_4_CODE: Byte = 0x77
+const val SET_NEXT_MESSAGE_4_TAG = "SET_NEXT_MESSAGE_4"
+class SetNextMessage4Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE_4_CODE
+    override val name = SET_NEXT_MESSAGE_4_TAG
+    override val messageSlot = 4
+}
 
-/*
-# Set Message Contents <emotion> (0x4B - 0x4F)
-'\x4b': 'NORMAL',
-'\x4c': 'ANGRY',
-'\x4d': 'SAD',
-'\x4e': 'FUN',
-'\x4f': 'SLEEPY',
-'\x50': ColorCharProc(),  # 0x50 COLOR aka SetColorChar
-'\x51': 'SOUND',
-'\x52': 'LINE_OFFSET',
-'\x53': 'LINE_TYPE',
-'\x54': CharScaleProc(),
-'\x55': 'BUTTON2',
-'\x56': 'BGM_MAKE',
-'\x57': 'BGM_DELETE',
-'\x58': 'MSG_TIME_END',
-'\x59': SoundTrigProc(),
-'\x5a': LineScaleProc(),
-'\x5b': 'SOUND_NO_PAGE',
-'\x5c': 'VOICE_TRUE',
-'\x5d': 'VOICE_FALSE',
-'\x5e': 'SELECT_NO_B',
-'\x5f': 'GIVE_OPEN',
-'\x60': 'GIVE_CLOSE',
-'\x61': 'GLOOMY',  # SetMessageContentsGloomy
-'\x62': 'SELECT_NO_B_CLOSE',
-'\x63': 'NEXT_MSG_RANDOM_SECTION',
-'\x64': 'AGB_DUMMY1',
-'\x65': 'AGB_DUMMY2',
-'\x66': 'AGB_DUMMY3',
-'\x67': 'SPACE',
-'\x68': 'AGB_DUMMY4',
-'\x69': 'AGB_DUMMY5',
-'\x6a': 'GENDER_CHECK',
-'\x6b': 'AGB_DUMMY6',
-'\x6c': 'AGB_DUMMY7',
-'\x6d': 'AGB_DUMMY8',
-'\x6e': 'AGB_DUMMY9',
-'\x6f': 'AGB_DUMMY10',
-'\x70': 'AGB_DUMMY11',
-'\x71': 'ISLAND_NAME',
-'\x72': 'SET_CURSOL_JUST',
-'\x73': 'CLR_CUSROL_JUST',
-'\x74': 'CUT_ARTICLE',
-'\x75': 'CAPITAL',
-'\x76': 'AMPM',
-'\x77': NextMsgProc(4),
-'\x78': NextMsgProc(5),
-'\x79': SelectStringProc(5),
-'\x7a': SelectStringProc(6),
-*/
+const val SET_NEXT_MESSAGE_5_CODE: Byte = 0x78
+const val SET_NEXT_MESSAGE_5_TAG = "SET_NEXT_MESSAGE_5"
+class SetNextMessage5Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
+    override val code = SET_NEXT_MESSAGE_5_CODE
+    override val name = SET_NEXT_MESSAGE_5_TAG
+    override val messageSlot = 5
+}
+
+const val SET_SELECT_STRING5_CODE: Byte = 0x16
+const val SET_SELECT_STRING5_TAG = "SET_SELECT_STRING_5"
+class SetSelectString5Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
+    override val code = SET_SELECT_STRING5_CODE
+    override val name = SET_SELECT_STRING5_TAG
+    override val choices = 5
+}
+
+const val SET_SELECT_STRING6_CODE: Byte = 0x16
+const val SET_SELECT_STRING6_TAG = "SET_SELECT_STRING_6"
+class SetSelectString6Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
+    override val code = SET_SELECT_STRING6_CODE
+    override val name = SET_SELECT_STRING6_TAG
+    override val choices = 6
+}
