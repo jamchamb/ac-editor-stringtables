@@ -75,7 +75,7 @@ val specialLatinChars = hashMapOf(
         0x83.toByte() to 'î',
         0x84.toByte() to 'ï',
         0x85.toByte() to '·',
-        // 0x86: TODO what is this?
+        0x86.toByte() to 'ɚ', // TODO what is this actually?
         0x87.toByte() to 'ñ',
         0x88.toByte() to 'ò',
         0x89.toByte() to 'ó',
@@ -105,7 +105,7 @@ val specialLatinChars = hashMapOf(
         0xA1.toByte() to '¬',
         0xA2.toByte() to 'Æ',
         0xA3.toByte() to 'æ',
-        0xA4.toByte() to "\u0000\u0324", // TODO fix diaeresis below (double dot)
+        0xA4.toByte() to '¨', // TODO fix diaeresis below (double dot)
         0xA5.toByte() to '»',
         0xA6.toByte() to '«',
         0xA7.toByte() to '☀',
@@ -127,7 +127,12 @@ val specialLatinChars = hashMapOf(
         0xB7.toByte() to '♁',
         0xB8.toByte() to '✿',
         0xB9.toByte() to '★',
-        0xBA.toByte() to "\uD83D\uDC80", // star
-        0xBF.toByte() to "\u263B" // skull
-        // TODO the rest
+        0xBA.toByte() to "\uD83D\uDC80", // skull
+        0xBB.toByte() to "\uD83D\uDE2E", // :O
+        0xBC.toByte() to "\uD83D\uDE0A", // ^_^  smiling mouth and eyes
+        0xBD.toByte() to "\uD83D\uDE22", // sad :(
+        0xBE.toByte() to "\uD83D\uDE20", // angry >:(
+        0xBF.toByte() to "\uD83D\uDE03", // :D
+        0xC0.toByte() to '×',
+        0xC1.toByte() to '÷'
 )
