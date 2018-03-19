@@ -48,7 +48,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         }
     }
 
-    fun decodeMessage(messageBytes: ByteArray): String {
+    private fun decodeMessage(messageBytes: ByteArray): String {
         val resultBuilder = StringBuilder()
 
         val temporaryPlainBytes = ArrayList<Byte>()
@@ -77,6 +77,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                     resultBuilder.append(String(proc.decode(snippet).toByteArray()))
                     resultBuilder.append(interpolatorRight)
                 } else {
+                    println("Unknown code 0x%02x in message #%d".format(byte, this.id))
                     resultBuilder.append("${interpolatorLeft}UNKNOWN${interpolatorRight}")
                 }
             } else if (byte == 0xCD.toByte()) {
