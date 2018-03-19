@@ -1103,7 +1103,7 @@ class SetNextMessage5Processor(targetEntry: StringTableEntry): SetNextMessagePro
     override val messageSlot = 5
 }
 
-const val SET_SELECT_STRING5_CODE: Byte = 0x16
+const val SET_SELECT_STRING5_CODE: Byte = 0x79
 const val SET_SELECT_STRING5_TAG = "SET_SELECT_STRING_5"
 class SetSelectString5Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
     override val code = SET_SELECT_STRING5_CODE
@@ -1111,7 +1111,7 @@ class SetSelectString5Processor(targetEntry: StringTableEntry): SetSelectStringP
     override val choices = 5
 }
 
-const val SET_SELECT_STRING6_CODE: Byte = 0x16
+const val SET_SELECT_STRING6_CODE: Byte = 0x7A
 const val SET_SELECT_STRING6_TAG = "SET_SELECT_STRING_6"
 class SetSelectString6Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
     override val code = SET_SELECT_STRING6_CODE
