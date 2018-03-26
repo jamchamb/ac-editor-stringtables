@@ -1,16 +1,14 @@
 package controllers
 
 import javafx.collections.FXCollections
-import utils.loadTableFromFiles
 import models.StringTable
 import models.StringTableEntry
-import models.StringTableEntryModel
 import tornadofx.Controller
+import utils.loadTableFromFiles
 
 class StringTableController: Controller() {
     var stringTable = StringTable()
     val stringTableEntries = FXCollections.observableArrayList<StringTableEntry>()
-    val selectedStringTableEntry = StringTableEntryModel()
     var tableChanged = false
 
     fun loadTable (tablePath: String, dataPath: String) {

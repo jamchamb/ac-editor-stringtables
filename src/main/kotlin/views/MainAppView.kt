@@ -2,11 +2,18 @@ package views
 
 import controllers.StringTableController
 import javafx.scene.control.Label
+import javafx.scene.control.TabPane
+import models.StringTableEntry
+import models.StringTableEntryModel
 import tornadofx.*
 import kotlin.system.exitProcess
 
+class SelectedEntryEvent(val selection: StringTableEntry): FXEvent()
+class TableCloseEvent: FXEvent()
+
 class MainAppView: View() {
     val controller: StringTableController by inject()
+    var editorTabPane by singleAssign<TabPane>()
 
     override val root = borderpane {
         top(TopView::class)
@@ -18,7 +25,25 @@ class MainAppView: View() {
         }
 
         center = vbox {
-            add<EntryEditor>()
+            //add<EntryEditor>()
+            editorTabPane = tabpane {
+                // Open an editor tab for a selected string table entry
+                subscribe<SelectedEntryEvent> { event ->
+                    tab("Msg #${event.selection.id}") {
+                        val newScope = Scope()
+                        val model = StringTableEntryModel()
+                        model.item = event.selection
+                        setInScope(model, newScope)
+                        add(find(EntryEditor::class, newScope))
+                        select()
+                    }
+                }
+
+                // Close tabs when file is closed
+                subscribe<TableCloseEvent> {
+                    // TODO
+                }
+            }
         }
 
         bottom(BottomView::class)
@@ -44,6 +69,7 @@ class TopView: View() {
             item("Save", "Shortcut+S")
             item("Close") {
                 action {
+                    fire(TableCloseEvent())
                     controller.closeTable()
                 }
             }

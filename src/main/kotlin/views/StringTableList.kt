@@ -11,7 +11,11 @@ class StringTableList: View() {
         isEditable = false
         column("ID", StringTableEntry::idProperty)
         column("Content", StringTableEntry::contentProperty)
-        bindSelected(controller.selectedStringTableEntry)
+        onDoubleClick {
+            if (selectedItem != null) {
+                fire(SelectedEntryEvent(selectedItem!!))
+            }
+        }
         smartResize()
     }
 }
