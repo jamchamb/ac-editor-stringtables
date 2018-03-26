@@ -75,7 +75,7 @@ val specialCharacters: Map<Byte, String> = mapOf(
         0x83.toByte() to "î",
         0x84.toByte() to "ï",
         0x85.toByte() to "·",
-        0x86.toByte() to "ɚ", // TODO what is this actually?
+        0x86.toByte() to "ð",
         0x87.toByte() to "ñ",
         0x88.toByte() to "ò",
         0x89.toByte() to "ó",
