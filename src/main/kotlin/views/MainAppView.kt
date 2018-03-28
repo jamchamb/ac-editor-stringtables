@@ -25,6 +25,8 @@ class MainAppView: View() {
         }
 
         center = vbox {
+            minWidth = 700.0
+
             //add<EntryEditor>()
             editorTabPane = tabpane {
                 // Open an editor tab for a selected string table entry
@@ -51,6 +53,11 @@ class MainAppView: View() {
 
     init {
         title = "ACGC String Editor"
+
+        with (root) {
+            prefWidth = 900.0
+            prefHeight = 700.0
+        }
     }
 }
 
