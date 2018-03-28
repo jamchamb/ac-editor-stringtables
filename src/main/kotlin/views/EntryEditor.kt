@@ -21,15 +21,23 @@ class EntryEditor: View() {
         form {
             fieldset("String table entry") {
                 field("ID") {
-                    textfield().bind(model.item.idProperty())
+                    textfield().bind(model.id)
                 }
 
                 field("Text") {
-                    textarea(model.item.contentProperty())
+                    textarea(model.content)
                 }
+
                 button("Save") {
+                    enableWhen(model.dirty)
                     action {
                         model.commit()
+                    }
+                }
+                
+                button("Reset") {
+                    action {
+                        model.rollback()
                     }
                 }
             }
