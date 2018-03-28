@@ -38,12 +38,10 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
     val tableDataInputStream = DataInputStream(bufferedInputStream)
 
     val endingsTable = ArrayList<Int>()
-    var numTableEntries = 0
 
     // Read big endian ints from end position table
     while (tableDataInputStream.available() > 0) {
         endingsTable.add(tableDataInputStream.readInt())
-        numTableEntries++
     }
 
     inputStream.close()
@@ -52,17 +50,21 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
 
     // Set up a table object
     val result = StringTable()
-    result.tableFileSize = numTableEntries * 4
 
     // Read in the string data
     val dataInStream = File(dataPath).inputStream()
     val dataBufferedInStream = BufferedInputStream(dataInStream)
     val dataDataInputStream = DataInputStream(dataBufferedInStream)
 
+    // Get total size of data file. Warn the user if this is exceeded upon save.
+    result.dataFileSize = dataInStream.channel.size()
+
     var pos = 0
     for ((index, endingPos) in endingsTable.withIndex()) {
-        if (pos > 0 && endingPos == 0) break
-        else if (endingPos < pos) {
+        if (pos > 0 && endingPos == 0) {
+            // Zero values are used for empty entries at the end
+            break
+        } else if (endingPos < pos) {
             throw InvalidArgumentException(arrayOf("File string positions not in ascending order"))
         }
 
@@ -80,6 +82,10 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
     dataInStream.close()
     dataBufferedInStream.close()
     dataDataInputStream.close()
+
+    // Save total number of end position slots. Warn user if total number of slots or number of used slots increases.
+    result.endingsTableSlots = endingsTable.size
+    result.endingsEmptySlots = endingsTable.size - result.size
 
     return result
 }

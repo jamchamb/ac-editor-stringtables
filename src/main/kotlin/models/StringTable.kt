@@ -1,8 +1,7 @@
 package models
 
-import javafx.collections.ObservableList
-
-class StringTable(): ArrayList<StringTableEntry>() {
-    var tableFileSize = 0
-    var dataFileSize = 0
+class StringTable: ArrayList<StringTableEntry>() {
+    var endingsTableSlots: Int = 0
+    var endingsEmptySlots: Int = 0
+    var dataFileSize: Long = 0
 }

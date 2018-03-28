@@ -31,10 +31,11 @@ class EntryEditor: View() {
                 button("Save") {
                     enableWhen(model.dirty)
                     action {
+                        controller.tableChanged = true
                         model.commit()
                     }
                 }
-                
+
                 button("Reset") {
                     action {
                         model.rollback()

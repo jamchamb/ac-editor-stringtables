@@ -14,7 +14,7 @@ class StringTableController: Controller() {
     fun loadTable (tablePath: String, dataPath: String) {
         val result: StringTable = loadTableFromFiles(tablePath, dataPath)
         // TODO hacky
-        stringTable.tableFileSize = result.tableFileSize
+        stringTable.endingsTableSlots = result.endingsTableSlots
         stringTable.dataFileSize = result.dataFileSize
         stringTableEntries.clear()
         stringTableEntries.addAll(result)
