@@ -73,7 +73,11 @@ class TopView: View() {
                     }
                 }
             }
-            item("Save", "Shortcut+S")
+            item("Save", "Shortcut+S") {
+                action {
+                    controller.saveTable("", "")
+                }
+            }
             item("Close") {
                 action {
                     fire(TableCloseEvent())

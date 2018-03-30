@@ -1,7 +1,6 @@
 package utils.processors
 
 import models.StringTableEntry
-import utils.byteList
 import utils.bytesToInt
 
 abstract class SetNextMessageProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
@@ -11,14 +10,12 @@ abstract class SetNextMessageProcessor(targetEntry: StringTableEntry): MessagePr
 
     private var messageId: Int = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
-
+    override fun decodeImpl(bytes: List<Byte>): String {
         messageId = bytesToInt(bytes.slice(2..3))
-        return byteList("%s:%04x".format(name, messageId))
+        return "%04x".format(messageId)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

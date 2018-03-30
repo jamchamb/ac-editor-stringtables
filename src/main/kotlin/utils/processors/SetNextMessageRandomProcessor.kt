@@ -1,7 +1,6 @@
 package utils.processors
 
 import models.StringTableEntry
-import utils.byteList
 import utils.bytesToInt
 import java.util.*
 
@@ -12,15 +11,11 @@ abstract class SetNextMessageRandomProcessor(targetEntry: StringTableEntry): Mes
 
     private var messageIds = ArrayList<Int>()
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
-
+    override fun decodeImpl(bytes: List<Byte>): String {
         // DEBUG
         //println("random message at ${targetEntry.id}")
 
         val fmtStringBuilder = StringBuilder()
-        fmtStringBuilder.append("%s:")
-
         for (i in 0 until choices) {
             val shortOffset = 2 + (i * 2)
             val choiceId = bytesToInt(bytes.slice(shortOffset..shortOffset + 1))
@@ -28,11 +23,10 @@ abstract class SetNextMessageRandomProcessor(targetEntry: StringTableEntry): Mes
             fmtStringBuilder.append("0x%04x")
             if (i != choices - 1) fmtStringBuilder.append(",")
         }
-
-        return byteList(fmtStringBuilder.toString().format(name, *messageIds.toArray()))
+        return fmtStringBuilder.toString().format(*messageIds.toArray())
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -1,7 +1,6 @@
 package utils.processors
 
 import models.StringTableEntry
-import utils.byteList
 import utils.bytesToInt
 
 abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
@@ -14,14 +13,12 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
 
     private var animation: Int = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
-
+    override fun decodeImpl(bytes: List<Byte>): String {
         animation = bytesToInt(bytes.slice(2..4))
-        return byteList("%s:0x%02x".format(name, animation))
+        return "0x%02x".format(animation)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

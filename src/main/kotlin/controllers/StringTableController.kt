@@ -20,6 +20,13 @@ class StringTableController: Controller() {
         stringTableEntries.addAll(result)
     }
 
+    fun saveTable (tablePath: String, dataPath: String) {
+        // Testing encoders
+        for (entry in stringTableEntries) {
+            entry.encodeMessage()
+        }
+    }
+
     fun closeTable () {
         if (tableChanged) {
             println("WARNING: Table has unsaved changes!")

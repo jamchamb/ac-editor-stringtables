@@ -1,7 +1,6 @@
 package utils.processors
 
 import models.StringTableEntry
-import utils.byteList
 import utils.bytesToInt
 import java.util.*
 
@@ -12,12 +11,8 @@ abstract class SetSelectStringProcessor(targetEntry: StringTableEntry): MessageP
 
     private var choiceIds = ArrayList<Int>()
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
-
+    override fun decodeImpl(bytes: List<Byte>): String {
         val fmtStringBuilder = StringBuilder()
-        fmtStringBuilder.append("%s:")
-
         for (i in 0 until choices) {
             val shortOffset = 2 + (i * 2)
             val choiceId = bytesToInt(bytes.slice(shortOffset..shortOffset+1))
@@ -26,11 +21,10 @@ abstract class SetSelectStringProcessor(targetEntry: StringTableEntry): MessageP
             fmtStringBuilder.append("0x%04x")
             if (i != choices - 1) fmtStringBuilder.append(",")
         }
-
-        return byteList(fmtStringBuilder.toString().format(name, *choiceIds.toArray()))
+        return fmtStringBuilder.toString().format(*choiceIds.toArray())
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

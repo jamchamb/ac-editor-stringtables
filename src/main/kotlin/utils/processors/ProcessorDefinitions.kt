@@ -2,7 +2,6 @@ package utils.processors
 
 import models.StringTableEntry
 import utils.RGBColor
-import utils.byteList
 import utils.bytesToInt
 
 /*
@@ -10,10 +9,10 @@ import utils.bytesToInt
  */
 
 const val LAST_CODE: Byte = 0x00
-const val LAST_NAME = "LAST"
+const val LAST_TAG = "LAST"
 class LastProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = LAST_CODE
-    override val name = LAST_NAME
+    override val name = LAST_TAG
 }
 
 const val CONTINUE_CODE: Byte = 0x01
@@ -39,13 +38,12 @@ class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntr
 
     var pauseAmount: Int = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         pauseAmount = bytesToInt(listOf(bytes[2]))
-        return byteList("%s:0x%02x".format(name, pauseAmount))
+        return "0x%02x".format(pauseAmount)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented")
     }
 }
@@ -66,13 +64,12 @@ class ColorLineProcessor(targetEntry: StringTableEntry): MessageProcessor(target
 
     var color = RGBColor(0,0,0)
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         color = RGBColor(bytes[2], bytes[3], bytes[4])
-        return byteList("%s:%02x%02x%02x".format(this.name, color.red, color.green, color.blue))
+        return "%s:%02x%02x%02x".format(this.name, color.red, color.green, color.blue)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -662,9 +659,7 @@ class SetColorCharProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
     var color = RGBColor(0, 0, 0)
     var amount = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
-
+    override fun decodeImpl(bytes: List<Byte>): String {
         color.red = bytes[2]
         color.green = bytes[3]
         color.blue = bytes[4]
@@ -672,10 +667,10 @@ class SetColorCharProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
 
         //println("color char in message ${targetEntry.id}")
 
-        return byteList("$name:%02x%02x%02x:0x%02x".format(color.red, color.green, color.blue, amount))
+        return "%02x%02x%02x:0x%02x".format(color.red, color.green, color.blue, amount)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -690,14 +685,13 @@ class SoundCutProcessor(targetEntry: StringTableEntry): MessageProcessor(targetE
     // Always 0 or 1
     var soundCut = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         soundCut = bytesToInt(listOf(bytes[2]))
 
-        return byteList("$name:$soundCut")
+        return "$soundCut"
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -711,13 +705,12 @@ class SetLineOffsetProcessor(targetEntry: StringTableEntry): MessageProcessor(ta
 
     private var lineOffset = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         lineOffset = bytesToInt(listOf(bytes[2]))
-        return byteList("$name:0x%02x".format(lineOffset))
+        return "0x%02x".format(lineOffset)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -731,13 +724,12 @@ class SetLineTypeProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
 
     private var type: Byte = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         type = bytes[2]
-        return byteList("$name:0x%02x".format(type))
+        return "0x%02x".format(type)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -751,13 +743,12 @@ class SetCharScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
 
     private var scale: Byte = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         scale = bytes[2]
-        return byteList("$name:0x%02x".format(scale))
+        return "0x%02x".format(scale)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -779,14 +770,13 @@ class BgmMakeProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEn
     private var thing1: Byte = 0
     private var thing2: Byte = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         thing1 = bytes[2]
         thing2 = bytes[3]
-        return byteList("$name:0x%02x:0x%02x".format(thing1, thing2))
+        return "0x%02x:0x%02x".format(thing1, thing2)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -801,14 +791,13 @@ class BgmDeleteProcessor(targetEntry: StringTableEntry): MessageProcessor(target
     private var thing1: Byte = 0
     private var thing2: Byte = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         thing1 = bytes[2]
         thing2 = bytes[3]
-        return byteList("$name:0x%02x:0x%02x".format(thing1, thing2))
+        return "0x%02x:0x%02x".format(thing1, thing2)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -822,13 +811,12 @@ class MsgTimeEndProcessor(targetEntry: StringTableEntry): MessageProcessor(targe
 
     private var endTime: Byte = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         endTime = bytes[2]
-        return byteList("$name:0x%02x".format(endTime))
+        return "0x%02x".format(endTime)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -842,13 +830,12 @@ class SoundTrgSysProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
 
     private var value: Byte = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         value = bytes[2]
-        return byteList("$name:0x%02x".format(value))
+        return "0x%02x".format(value)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -863,13 +850,12 @@ class SetLineScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
 
     private var scale: Byte = 0
 
-    override fun decode(bytes: List<Byte>): List<Byte> {
-        super.decode(bytes)
+    override fun decodeImpl(bytes: List<Byte>): String {
         scale = bytes[2]
-        return byteList("$name:0x%02x".format(scale))
+        return "0x%02x".format(scale)
     }
 
-    override fun encode(bytes: List<Byte>): ByteArray {
+    override fun encode(text: String): ByteArray {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

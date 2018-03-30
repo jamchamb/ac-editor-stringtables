@@ -32,6 +32,10 @@ fun bytesToInt(bytes: List<Byte>): Int {
     return byteBuffer.int
 }
 
+fun shiftJisDecode(bytes: List<Byte>): String {
+    return String(bytes.toByteArray(), charset("Shift-JIS"))
+}
+
 fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
     val inputStream = File(tablePath).inputStream()
     val bufferedInputStream = BufferedInputStream(inputStream)
@@ -41,7 +45,12 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
 
     // Read big endian ints from end position table
     while (tableDataInputStream.available() > 0) {
-        endingsTable.add(tableDataInputStream.readInt())
+        val endingPos = tableDataInputStream.readInt()
+        // TODO Make sure these read as unsigned 32 bit ints
+        if (endingPos < 0) {
+            error("Negative ending position: $endingPos")
+        }
+        endingsTable.add(endingPos)
     }
 
     inputStream.close()
@@ -65,7 +74,7 @@ fun loadTableFromFiles (tablePath: String, dataPath: String): StringTable {
             // Zero values are used for empty entries at the end
             break
         } else if (endingPos < pos) {
-            throw InvalidArgumentException(arrayOf("File string positions not in ascending order"))
+            throw InvalidArgumentException(arrayOf("File string positions not in ascending order ($endingPos < $pos)"))
         }
 
         // Get the string bytes
