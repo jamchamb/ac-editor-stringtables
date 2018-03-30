@@ -37,6 +37,7 @@ class EntryEditor: View() {
                 }
 
                 button("Reset") {
+                    enableWhen(model.dirty)
                     action {
                         model.rollback()
                     }
