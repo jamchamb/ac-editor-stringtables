@@ -26,7 +26,7 @@ abstract class SetNextMessageRandomProcessor(targetEntry: StringTableEntry): Mes
         return fmtStringBuilder.toString().format(*messageIds.toArray())
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

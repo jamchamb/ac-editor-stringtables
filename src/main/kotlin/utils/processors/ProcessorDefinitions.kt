@@ -43,7 +43,7 @@ class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntr
         return "0x%02x".format(pauseAmount)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented")
     }
 }
@@ -69,7 +69,7 @@ class ColorLineProcessor(targetEntry: StringTableEntry): MessageProcessor(target
         return "%s:%02x%02x%02x".format(this.name, color.red, color.green, color.blue)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -670,7 +670,7 @@ class SetColorCharProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
         return "%02x%02x%02x:0x%02x".format(color.red, color.green, color.blue, amount)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -691,7 +691,7 @@ class SoundCutProcessor(targetEntry: StringTableEntry): MessageProcessor(targetE
         return "$soundCut"
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -710,7 +710,7 @@ class SetLineOffsetProcessor(targetEntry: StringTableEntry): MessageProcessor(ta
         return "0x%02x".format(lineOffset)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -729,7 +729,7 @@ class SetLineTypeProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
         return "0x%02x".format(type)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -748,7 +748,7 @@ class SetCharScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
         return "0x%02x".format(scale)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -776,7 +776,7 @@ class BgmMakeProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEn
         return "0x%02x:0x%02x".format(thing1, thing2)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -797,7 +797,7 @@ class BgmDeleteProcessor(targetEntry: StringTableEntry): MessageProcessor(target
         return "0x%02x:0x%02x".format(thing1, thing2)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -816,7 +816,7 @@ class MsgTimeEndProcessor(targetEntry: StringTableEntry): MessageProcessor(targe
         return "0x%02x".format(endTime)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -835,7 +835,7 @@ class SoundTrgSysProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
         return "0x%02x".format(value)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
@@ -855,7 +855,7 @@ class SetLineScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
         return "0x%02x".format(scale)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

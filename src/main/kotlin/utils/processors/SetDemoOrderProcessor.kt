@@ -15,10 +15,10 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
 
     override fun decodeImpl(bytes: List<Byte>): String {
         animation = bytesToInt(bytes.slice(2..4))
-        return "0x%02x".format(animation)
+        return "0x%06x".format(animation)
     }
 
-    override fun encode(text: String): ByteArray {
+    override fun encodeImpl(text: String): ByteArray? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

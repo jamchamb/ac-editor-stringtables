@@ -16,7 +16,7 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
     abstract val size: Int
     abstract val name: String
 
-    /** Decode text */
+    /** Decode text from raw byte format */
     open fun decode(bytes: List<Byte>): String {
         if (bytes.size != this.size) {
             throw IllegalArgumentException("Invalid input length: got ${bytes.size} instead of ${this.size}")
@@ -35,6 +35,18 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
         return resultBuilder.toString()
     }
 
+    /** Encode text to raw byte format */
+    open fun encode(text: String): ByteArray {
+        val header = listOf(PROC_CODE, code)
+        val body = encodeImpl(text)
+
+        if (body != null) {
+            return (header + body.toList()).toByteArray()
+        } else {
+            return header.toByteArray()
+        }
+    }
+
     abstract fun decodeImpl(bytes: List<Byte>): String
-    abstract fun encode(text: String): ByteArray
+    abstract fun encodeImpl(text: String): ByteArray?
 }

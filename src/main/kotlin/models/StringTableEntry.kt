@@ -133,7 +133,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
             if (processorsByTag.containsKey(tag)) {
                 val processorClass = processorsByTag[tag]!!
                 val proc = processorClass.primaryConstructor!!.call(this)
-                val rawBytes = proc.encode(content)
+                val rawBytes = proc.encodeImpl(content)
             } else {
                 error("Processor $tag not found!")
             }
