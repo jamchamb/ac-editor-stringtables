@@ -9,7 +9,7 @@ abstract class PlaceholderProcessor(targetEntry: StringTableEntry): MessageProce
         return ""
     }
 
-    override fun encodeImpl(text: String): ByteArray? {
+    override fun encodeImpl(textParts: List<String>): List<Byte>? {
         return null
     }
 }

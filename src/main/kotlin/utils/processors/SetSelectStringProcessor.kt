@@ -24,7 +24,7 @@ abstract class SetSelectStringProcessor(targetEntry: StringTableEntry): MessageP
         return fmtStringBuilder.toString().format(*choiceIds.toArray())
     }
 
-    override fun encodeImpl(text: String): ByteArray? {
+    override fun encodeImpl(textParts: List<String>): List<Byte>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

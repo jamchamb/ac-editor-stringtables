@@ -15,7 +15,7 @@ abstract class SetNextMessageProcessor(targetEntry: StringTableEntry): MessagePr
         return "%04x".format(messageId)
     }
 
-    override fun encodeImpl(text: String): ByteArray? {
+    override fun encodeImpl(textParts: List<String>): List<Byte>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

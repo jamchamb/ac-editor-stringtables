@@ -1,6 +1,7 @@
 package utils.processors
 
 import models.StringTableEntry
+import org.apache.commons.codec.binary.Hex
 import utils.bytesToInt
 
 abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
@@ -18,7 +19,15 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
         return "0x%06x".format(animation)
     }
 
-    override fun encodeImpl(text: String): ByteArray? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun encodeImpl(textParts: List<String>): List<Byte>? {
+        val animHex = textParts[0]
+
+        if (!animHex.startsWith("0x")) error("Hex string missing 0x")
+        var animBytes = Hex.decodeHex(animHex.substring(2)).toList()
+        if (animBytes.size < 3) TODO("Not enough bytes; left pad this")
+
+        println("animBytes: $animBytes")
+
+        return animBytes.toList()
     }
 }

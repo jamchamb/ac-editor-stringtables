@@ -3,15 +3,10 @@ package models
 import tornadofx.ItemViewModel
 import tornadofx.getProperty
 import tornadofx.property
-import utils.processors.PROC_CODE
-import utils.processors.processors
-import utils.processors.processorsByTag
+import utils.processors.*
 import utils.shiftJisDecode
 import utils.specialCharacters
 import kotlin.reflect.full.primaryConstructor
-
-const val interpolatorLeft = "{{"
-const val interpolatorRight = "}}"
 
 class StringTableEntry (id: Int, rawBytes: ByteArray) {
     var id by property(id)
@@ -76,12 +71,10 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                     // Advance position to end of this processed piece
                     skipTo = index + proc.size
 
-                    resultBuilder.append(interpolatorLeft)
-                    resultBuilder.append(String(proc.decode(snippet).toByteArray()))
-                    resultBuilder.append(interpolatorRight)
+                    resultBuilder.append(proc.decode(snippet))
                 } else {
                     println("Unknown code 0x%02x in message #%d".format(byte, this.id))
-                    resultBuilder.append("${interpolatorLeft}UNKNOWN${interpolatorRight}")
+                    resultBuilder.append("${INTERP_L}UNKNOWN${INTERP_R}")
                 }
             } else if (byte == 0xCD.toByte()) {
                 // TODO Handle other relocated characters
@@ -112,34 +105,38 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
         println("Searching for interpolated statements")
 
-        var interpolatorStart = content.indexOf(interpolatorLeft, 0, false)
+        var interpolatorStart = content.indexOf(INTERP_L, 0, false)
         while (interpolatorStart != -1) {
             println("Interpolator start at $interpolatorStart")
 
-            val interpolatorEnd = content.indexOf(interpolatorRight, interpolatorStart + interpolatorLeft.length, false)
+            val interpolatorEnd = content.indexOf(INTERP_R, interpolatorStart + INTERP_L.length, false)
             if (interpolatorEnd == -1) {
                 println("Interpolator start with no end! Bailing out.")
                 // No more valid interpolators possible.
                 break
             }
 
-            val statement = content.slice(interpolatorStart + interpolatorLeft.length until interpolatorEnd)
+            val statement = content.slice(interpolatorStart + INTERP_L.length until interpolatorEnd)
             println("Statement: $statement")
 
-            val parts = statement.split(":")
-            val tag = parts[0]
+            // Get name of the processor
+            val firstDelimPos = statement.indexOf(P_DELIM)
+            val tag = when (firstDelimPos) {
+                -1 -> statement
+                else -> statement.slice(0 until firstDelimPos)
+            }
 
             // Get processor for this tag
             if (processorsByTag.containsKey(tag)) {
                 val processorClass = processorsByTag[tag]!!
                 val proc = processorClass.primaryConstructor!!.call(this)
-                val rawBytes = proc.encodeImpl(content)
+                val rawBytes = proc.encode(statement)
             } else {
                 error("Processor $tag not found!")
             }
 
             // Get next interpolator position
-            interpolatorStart = content.indexOf(interpolatorLeft, interpolatorEnd + interpolatorRight.length, false)
+            interpolatorStart = content.indexOf(INTERP_L, interpolatorEnd + INTERP_R.length, false)
         }
 
         println("Finished processing interpolated statements")
@@ -162,12 +159,12 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                     // Advance position to end of this processed piece
                     skipTo = index + proc.size
 
-                    resultBuilder.append(interpolatorLeft)
+                    resultBuilder.append(INTERP_L)
                     resultBuilder.append(String(proc.decode(snippet).toByteArray()))
-                    resultBuilder.append(interpolatorRight)
+                    resultBuilder.append(INTERP_R)
                 } else {
                     println("Unknown code 0x%02x in message #%d".format(byte, this.id))
-                    resultBuilder.append("${interpolatorLeft}UNKNOWN${interpolatorRight}")
+                    resultBuilder.append("${INTERP_L}UNKNOWN${INTERP_R}")
                 }
             } else if (byte == 0xCD.toByte()) {
                 // TODO Handle other relocated characters

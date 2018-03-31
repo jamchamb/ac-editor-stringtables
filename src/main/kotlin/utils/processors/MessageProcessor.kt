@@ -4,7 +4,9 @@ import models.StringTableEntry
 import kotlin.reflect.KClass
 
 const val PROC_CODE: Byte = 0x7F
-const val procSep = ':'
+const val INTERP_L = "{{"
+const val INTERP_R = "}}"
+const val P_DELIM = ':'
 
 fun procCodeName(procClass: KClass<out MessageProcessor>): String {
     return procClass::simpleName.get()!!.removeSuffix("Processor").toUpperCase() + "_CODE"
@@ -24,13 +26,16 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
             throw IllegalArgumentException("Invalid bytes: given code 0x%02x does not match 0x%02x".format(bytes[1], this.code))
         }
 
-        val resultBuilder = StringBuilder(name)
-        val data = decodeImpl(bytes)
+        val resultBuilder = StringBuilder(INTERP_L)
+        resultBuilder.append(name)
 
+        val data = decodeImpl(bytes)
         if (data.isNotEmpty()) {
-            resultBuilder.append(procSep)
+            resultBuilder.append(P_DELIM)
             resultBuilder.append(data)
         }
+
+        resultBuilder.append(INTERP_R)
 
         return resultBuilder.toString()
     }
@@ -38,15 +43,18 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
     /** Encode text to raw byte format */
     open fun encode(text: String): ByteArray {
         val header = listOf(PROC_CODE, code)
-        val body = encodeImpl(text)
 
-        if (body != null) {
-            return (header + body.toList()).toByteArray()
-        } else {
-            return header.toByteArray()
-        }
+        val textParts = text.split(P_DELIM)
+        val body = encodeImpl(textParts.subList(1, textParts.size))
+
+        var result = header
+        if (body != null) result += body
+
+        println("Encoded result: $result")
+
+        return result.toByteArray()
     }
 
     abstract fun decodeImpl(bytes: List<Byte>): String
-    abstract fun encodeImpl(text: String): ByteArray?
+    abstract fun encodeImpl(textParts: List<String>): List<Byte>?
 }
