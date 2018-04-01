@@ -4,6 +4,7 @@ import tornadofx.ItemViewModel
 import tornadofx.getProperty
 import tornadofx.property
 import utils.processors.*
+import utils.reverseSpecialCharacters
 import utils.shiftJisDecode
 import utils.specialCharacters
 import kotlin.reflect.full.primaryConstructor
@@ -48,6 +49,30 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
     }
 
+    /** Encode plain text string with game's custom charset */
+    private fun encodeSpecialChars (text: String): List<Byte> {
+        val result = ArrayList<Byte>()
+
+        var position = 0
+        while (position < text.length) {
+            val codepointSize = Character.charCount(text.codePointAt(position))
+
+            if (position + codepointSize <= text.length) {
+                val charS: String = text.substring(position until position + codepointSize)
+                if (charS in reverseSpecialCharacters) {
+                    val specialByte = reverseSpecialCharacters[charS]!!
+                    result.add(specialByte)
+                    position += codepointSize
+                    continue
+                }
+            }
+
+            result.add(text[position++].toByte())
+        }
+
+        return result
+    }
+
     private fun decodeMessage(messageBytes: ByteArray): String {
         val resultBuilder = StringBuilder()
         val temporaryPlainBytes = ArrayList<Byte>()
@@ -76,12 +101,10 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                     println("Unknown code 0x%02x in message #%d".format(byte, this.id))
                     resultBuilder.append("${INTERP_L}UNKNOWN${INTERP_R}")
                 }
-            } else if (byte == 0xCD.toByte()) {
-                // TODO Handle other relocated characters
-                temporaryPlainBytes.add('\n'.toByte())
             } else if (byte == 0x80.toByte()) {
                 popPlainBytes(temporaryPlainBytes, resultBuilder)
                 println("special 0x80 0x${messageBytes[index+1].toString(16)}")
+                TODO("0x80 encountered")
                 skipTo = index + 2
             } else if (byte in specialCharacters) {
                 // Check for relocated special Latin characters
@@ -101,7 +124,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
     fun encodeMessage(): ByteArray {
         val result = ArrayList<Byte>()
-        var skipTo = 0
+        var lastPlaintextBegin = 0
 
         println("Searching for interpolated statements")
 
@@ -115,6 +138,14 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                 // No more valid interpolators possible.
                 break
             }
+
+            // Dump out any in-between plaintext
+            if (lastPlaintextBegin < interpolatorStart) {
+                val plainText = content.slice(lastPlaintextBegin until interpolatorStart)
+                result.addAll(encodeSpecialChars(plainText))
+            }
+            // Update next possible plain text position
+            lastPlaintextBegin = interpolatorEnd + INTERP_R.length
 
             val statement = content.slice(interpolatorStart + INTERP_L.length until interpolatorEnd)
             println("Statement: $statement")
@@ -130,7 +161,8 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
             if (processorsByTag.containsKey(tag)) {
                 val processorClass = processorsByTag[tag]!!
                 val proc = processorClass.primaryConstructor!!.call(this)
-                val rawBytes = proc.encode(statement)
+                val reencodedRawBytes = proc.encode(statement)
+                result.addAll(reencodedRawBytes.toList())
             } else {
                 error("Processor $tag not found!")
             }
@@ -139,50 +171,32 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
             interpolatorStart = content.indexOf(INTERP_L, interpolatorEnd + INTERP_R.length, false)
         }
 
+        // Dump remaining plain text
+        val plainText = content.slice(lastPlaintextBegin .. content.lastIndex)
+        result.addAll(encodeSpecialChars(plainText))
+
         println("Finished processing interpolated statements")
 
         /*
-        for ((index, char: Char) in content.withIndex()) {
-            if (skipTo > index) continue
-
-            val charByte = char.toByte()
-
-            // Check for processor directive before last position
-            if (index < (content.length - 1) && c) {
-                // Get the message processor ID
-                val code = messageBytes[index+1]
-
-                if (processors.containsKey(code)) {
-                    val proc = processors[code]!!.primaryConstructor!!.call(this)
-                    val snippet = messageBytes.slice(index until index + proc.size)
-
-                    // Advance position to end of this processed piece
-                    skipTo = index + proc.size
-
-                    resultBuilder.append(INTERP_L)
-                    resultBuilder.append(String(proc.decode(snippet).toByteArray()))
-                    resultBuilder.append(INTERP_R)
-                } else {
-                    println("Unknown code 0x%02x in message #%d".format(byte, this.id))
-                    resultBuilder.append("${INTERP_L}UNKNOWN${INTERP_R}")
-                }
-            } else if (byte == 0xCD.toByte()) {
-                // TODO Handle other relocated characters
-                temporaryPlainBytes.add('\n'.toByte())
             } else if (byte == 0x80.toByte()) {
                 popPlainBytes(temporaryPlainBytes, resultBuilder)
                 println("special 0x80 0x${messageBytes[index+1].toString(16)}")
                 skipTo = index + 2
-            } else if (byte in specialCharacters) {
-                // Check for relocated special Latin characters
-                popPlainBytes(temporaryPlainBytes, resultBuilder)
-                resultBuilder.append(specialCharacters[byte])
-            } else {
-                // Add plain text bytes to temporary buffer for Shift-JIS decoding
-                temporaryPlainBytes.add(byte)
+        */
+
+        println("Resulting buffer: ${String(result.toByteArray())}")
+
+        if (rawBytes.toList() == result) {
+            println("RESULT BUFFER MATCHES ORIGINAL!")
+        } else {
+            for ((index, byte) in rawBytes.withIndex()) {
+                if (result[index] != byte) {
+                    println("mismatch at $index: 0x%02x vs 0x%02x".format(byte, result[index]))
+                    error("Resulting buffer did not match original")
+                }
             }
         }
-        */
+
         return result.toByteArray()
     }
 }
