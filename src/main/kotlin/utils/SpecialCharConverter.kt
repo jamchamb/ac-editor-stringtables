@@ -136,8 +136,9 @@ val specialCharacters: Map<Byte, String> = mapOf(
         0xC0.toByte() to "×",
         0xC1.toByte() to "÷",
 
-        // 0xCD: newline
-        0xCD.toByte() to "\n"
+        0xCD.toByte() to "\n",
+
+        0xD0.toByte() to ";"
 )
 
 val reverseSpecialCharacters: Map<String, Byte> = specialCharacters.entries.associateBy({ it.value }) { it.key }
