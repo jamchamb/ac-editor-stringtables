@@ -2,6 +2,7 @@ package utils.processors
 
 import models.StringTableEntry
 import utils.bytesToInt
+import utils.decodeHexASCII
 import java.util.*
 
 abstract class SetSelectStringProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
@@ -19,12 +20,19 @@ abstract class SetSelectStringProcessor(targetEntry: StringTableEntry): MessageP
             choiceIds.add(choiceId)
             // println("Choice %d = 0x%04x".format(i, choiceId))
             fmtStringBuilder.append("0x%04x")
-            if (i != choices - 1) fmtStringBuilder.append(",")
+            if (i != choices - 1) fmtStringBuilder.append(P_DELIM)
         }
         return fmtStringBuilder.toString().format(*choiceIds.toArray())
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = ArrayList<Byte>()
+
+        for (textPart in textParts) {
+            val choiceIdBytes = decodeHexASCII(textPart, 2)
+            result.addAll(choiceIdBytes)
+        }
+
+        return result
     }
 }

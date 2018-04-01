@@ -18,6 +18,10 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
     abstract val size: Int
     abstract val name: String
 
+    open fun makeHeader(): List<Byte> {
+        return listOf(PROC_CODE, code)
+    }
+
     /** Decode text from raw byte format */
     open fun decode(bytes: List<Byte>): String {
         if (bytes.size != this.size) {
@@ -42,7 +46,7 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
 
     /** Encode text to raw byte format */
     open fun encode(text: String): ByteArray {
-        val header = listOf(PROC_CODE, code)
+        val header = makeHeader()
 
         val textParts = text.split(P_DELIM)
         val body = encodeImpl(textParts.subList(1, textParts.size))
@@ -51,6 +55,10 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
         if (body != null) result += body
 
         println("Encoded result: $result")
+
+        if (result.size != size) {
+            error("Re-encoded string has invalid length")
+        }
 
         return result.toByteArray()
     }

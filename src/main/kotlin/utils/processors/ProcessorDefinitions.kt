@@ -3,6 +3,7 @@ package utils.processors
 import models.StringTableEntry
 import utils.RGBColor
 import utils.bytesToInt
+import utils.decodeHexASCII
 
 /*
  * Message processors
@@ -44,7 +45,7 @@ class PauseProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntr
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented")
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 
@@ -66,11 +67,11 @@ class ColorLineProcessor(targetEntry: StringTableEntry): MessageProcessor(target
 
     override fun decodeImpl(bytes: List<Byte>): String {
         color = RGBColor(bytes[2], bytes[3], bytes[4])
-        return "%s:%02x%02x%02x".format(this.name, color.red, color.green, color.blue)
+        return "%02x%02x%02x".format(color.red, color.green, color.blue)
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 3, false)
     }
 }
 
@@ -667,11 +668,11 @@ class SetColorCharProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
 
         //println("color char in message ${targetEntry.id}")
 
-        return "%02x%02x%02x:0x%02x".format(color.red, color.green, color.blue, amount)
+        return "%02x%02x%02x${P_DELIM}0x%02x".format(color.red, color.green, color.blue, amount)
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 3, false) + decodeHexASCII(textParts[1], 1)
     }
 }
 
@@ -688,11 +689,11 @@ class SoundCutProcessor(targetEntry: StringTableEntry): MessageProcessor(targetE
     override fun decodeImpl(bytes: List<Byte>): String {
         soundCut = bytesToInt(listOf(bytes[2]))
 
-        return "$soundCut"
+        return "0x%02x".format(soundCut)
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 
@@ -711,7 +712,7 @@ class SetLineOffsetProcessor(targetEntry: StringTableEntry): MessageProcessor(ta
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 
@@ -730,7 +731,7 @@ class SetLineTypeProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 
@@ -749,7 +750,7 @@ class SetCharScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 
@@ -773,11 +774,15 @@ class BgmMakeProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEn
     override fun decodeImpl(bytes: List<Byte>): String {
         thing1 = bytes[2]
         thing2 = bytes[3]
-        return "0x%02x:0x%02x".format(thing1, thing2)
+        return "0x%02x${P_DELIM}0x%02x".format(thing1, thing2)
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = ArrayList<Byte>(2)
+        for (textPart in textParts) {
+            result.addAll(decodeHexASCII(textPart, 1))
+        }
+        return result
     }
 }
 
@@ -794,11 +799,15 @@ class BgmDeleteProcessor(targetEntry: StringTableEntry): MessageProcessor(target
     override fun decodeImpl(bytes: List<Byte>): String {
         thing1 = bytes[2]
         thing2 = bytes[3]
-        return "0x%02x:0x%02x".format(thing1, thing2)
+        return "0x%02x${P_DELIM}0x%02x".format(thing1, thing2)
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = ArrayList<Byte>(2)
+        for (textPart in textParts) {
+            result.addAll(decodeHexASCII(textPart, 1))
+        }
+        return result
     }
 }
 
@@ -817,7 +826,7 @@ class MsgTimeEndProcessor(targetEntry: StringTableEntry): MessageProcessor(targe
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 
@@ -836,7 +845,7 @@ class SoundTrgSysProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 
@@ -856,7 +865,7 @@ class SetLineScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 1)
     }
 }
 

@@ -1,8 +1,8 @@
 package utils.processors
 
 import models.StringTableEntry
-import org.apache.commons.codec.binary.Hex
 import utils.bytesToInt
+import utils.decodeHexASCII
 
 abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     enum class DemoOrderTarget {
@@ -20,14 +20,8 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        val animHex = textParts[0]
-
-        if (!animHex.startsWith("0x")) error("Hex string missing 0x")
-        var animBytes = Hex.decodeHex(animHex.substring(2)).toList()
-        if (animBytes.size < 3) TODO("Not enough bytes; left pad this")
-
+        val animBytes = decodeHexASCII(textParts[0], 3)
         println("animBytes: $animBytes")
-
-        return animBytes.toList()
+        return animBytes
     }
 }

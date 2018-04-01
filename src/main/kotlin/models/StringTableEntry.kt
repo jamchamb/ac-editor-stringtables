@@ -82,30 +82,34 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
             if (skipTo > index) continue
 
             // Check for processor directive before last position
-            if (index < (messageBytes.size - 1) && byte == PROC_CODE) {
-                // Shift-JIS decode any plain text, add it, and clear the temporary buffer
+            if (index < (messageBytes.size - 1) && (byte == PROC_CODE || byte == 0x80.toByte())) {
+                // Decode any plain text, add it, and clear the temporary buffer
                 popPlainBytes(temporaryPlainBytes, resultBuilder)
 
-                // Get the message processor ID
-                val code = messageBytes[index+1]
+                var proc: MessageProcessor
 
-                if (processors.containsKey(code)) {
-                    val proc = processors[code]!!.primaryConstructor!!.call(this)
-                    val snippet = messageBytes.slice(index until index + proc.size)
+                if (byte == PROC_CODE) {
+                    // Get the message processor ID
+                    val code = messageBytes[index + 1]
 
-                    // Advance position to end of this processed piece
-                    skipTo = index + proc.size
+                    if (!processors.containsKey(code)) {
+                        println("Unknown code 0x%02x in message #%d".format(byte, this.id))
+                        resultBuilder.append("${INTERP_L}UNKNOWN${INTERP_R}")
+                        continue
+                    }
 
-                    resultBuilder.append(proc.decode(snippet))
+                    proc = processors[code]!!.primaryConstructor!!.call(this)
                 } else {
-                    println("Unknown code 0x%02x in message #%d".format(byte, this.id))
-                    resultBuilder.append("${INTERP_L}UNKNOWN${INTERP_R}")
+                    println("!!! special 0x80 0x${messageBytes[index+1].toString(16)}")
+                    proc = EightyProcessor(this)
                 }
-            } else if (byte == 0x80.toByte()) {
-                popPlainBytes(temporaryPlainBytes, resultBuilder)
-                println("special 0x80 0x${messageBytes[index+1].toString(16)}")
-                TODO("0x80 encountered")
-                skipTo = index + 2
+
+                val snippet = messageBytes.slice(index until index + proc.size)
+
+                // Advance position to end of this processed piece
+                skipTo = index + proc.size
+
+                resultBuilder.append(proc.decode(snippet))
             } else if (byte in specialCharacters) {
                 // Check for relocated special Latin characters
                 popPlainBytes(temporaryPlainBytes, resultBuilder)
@@ -177,13 +181,6 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
         println("Finished processing interpolated statements")
 
-        /*
-            } else if (byte == 0x80.toByte()) {
-                popPlainBytes(temporaryPlainBytes, resultBuilder)
-                println("special 0x80 0x${messageBytes[index+1].toString(16)}")
-                skipTo = index + 2
-        */
-
         println("Resulting buffer: ${String(result.toByteArray())}")
 
         if (rawBytes.toList() == result) {
@@ -191,7 +188,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         } else {
             for ((index, byte) in rawBytes.withIndex()) {
                 if (result[index] != byte) {
-                    println("mismatch at $index: 0x%02x vs 0x%02x".format(byte, result[index]))
+                    println("Msg #$id: mismatch at $index: 0x%02x vs 0x%02x".format(byte, result[index]))
                     error("Resulting buffer did not match original")
                 }
             }

@@ -2,6 +2,7 @@ package utils.processors
 
 import models.StringTableEntry
 import utils.bytesToInt
+import utils.decodeHexASCII
 
 abstract class SetNextMessageProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
 
@@ -12,10 +13,10 @@ abstract class SetNextMessageProcessor(targetEntry: StringTableEntry): MessagePr
 
     override fun decodeImpl(bytes: List<Byte>): String {
         messageId = bytesToInt(bytes.slice(2..3))
-        return "%04x".format(messageId)
+        return "0x%04x".format(messageId)
     }
 
     override fun encodeImpl(textParts: List<String>): List<Byte>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return decodeHexASCII(textParts[0], 2)
     }
 }

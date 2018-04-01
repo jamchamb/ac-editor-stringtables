@@ -3,6 +3,7 @@ package utils
 import com.sun.javaws.exceptions.InvalidArgumentException
 import models.StringTable
 import models.StringTableEntry
+import org.apache.commons.codec.binary.Hex
 import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.File
@@ -30,6 +31,22 @@ fun bytesToInt(bytes: List<Byte>): Int {
 
     val byteBuffer = ByteBuffer.wrap(allBytes.toByteArray())
     return byteBuffer.int
+}
+
+fun decodeHexASCII (text: String, numBytes: Int, requirePrefix: Boolean = true): List<Byte> {
+    val startIndex = when (requirePrefix) {
+        true -> 2
+        false -> 0
+    }
+
+    if (requirePrefix) {
+        if (!text.startsWith("0x", true)) error("Hex string missing 0x")
+    }
+
+    var result = Hex.decodeHex(text.substring(startIndex)).toList()
+    if (result.size < numBytes) TODO("Not enough bytes; left pad this")
+
+    return result
 }
 
 fun shiftJisDecode(bytes: List<Byte>): String {
