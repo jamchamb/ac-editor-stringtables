@@ -135,10 +135,32 @@ val specialCharacters: Map<Byte, String> = mapOf(
         0xBF.toByte() to "\uD83D\uDE03", // :D
         0xC0.toByte() to "×",
         0xC1.toByte() to "÷",
-
-        0xCD.toByte() to "\n",
-
-        0xD0.toByte() to ";"
+        0xC2.toByte() to "\uD83D\uDD28", // mallet/hammer 🔨
+        0xC3.toByte() to "\uD83C\uDF80", // ribbon 🎀
+        0xC4.toByte() to "✉",
+        0xC5.toByte() to "\uD83D\uDCB0", // bells bag 💰
+        0xC6.toByte() to "\uD83D\uDC3E", // paw print 🐾
+        0xC7.toByte() to "\uD83D\uDC36", // dog face 🐶
+        0xC8.toByte() to "\uD83D\uDC31", // cat face 🐱
+        0xC9.toByte() to "\uD83D\uDC30", // rabbit face 🐰
+        0xCA.toByte() to "\uD83D\uDC14", // chicken face 🐔
+        0xCB.toByte() to "\uD83D\uDC2E", // cow face 🐮
+        0xCC.toByte() to "\uD83D\uDC37", // pig face 🐷
+        0xCD.toByte() to "\n", // newline/carriage return; return symbol ⏎ in text
+        0xCE.toByte() to "\uD83D\uDC1F", // fish 🐟
+        0xCF.toByte() to "\uD83D\uDC1E", // bug/beetle 🐞
+        0xD0.toByte() to ";",
+        0xD1.toByte() to "#",
+        // unknown whitespace D2 and D3
+        0xD4.toByte() to "\uD83D\uDD11", // key 🔑
+        0xD5.toByte() to "“", // left double quote
+        0xD6.toByte() to "”", // right double quote
+        0xD7.toByte() to "‘", // left single quote
+        0xD8.toByte() to "’", // right single quote
+        0xD9.toByte() to "Œ",
+        0xDA.toByte() to "œ",
+        // TODO 0xDB - 0xDD French ordinals e, re, er
+        0xDE.toByte() to "\\"
 )
 
 val reverseSpecialCharacters: Map<String, Byte> = specialCharacters.entries.associateBy({ it.value }) { it.key }
