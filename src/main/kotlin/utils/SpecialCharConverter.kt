@@ -151,7 +151,9 @@ val specialCharacters: Map<Byte, String> = mapOf(
         0xCF.toByte() to "\uD83D\uDC1E", // bug/beetle 🐞
         0xD0.toByte() to ";",
         0xD1.toByte() to "#",
-        // unknown whitespace D2 and D3
+        // TODO These are placeholders for unknown blank spaces 0xD2 and 0xD3
+        0xD2.toByte() to "░",
+        0xD3.toByte() to "▓",
         0xD4.toByte() to "\uD83D\uDD11", // key 🔑
         0xD5.toByte() to "“", // left double quote
         0xD6.toByte() to "”", // right double quote
@@ -159,7 +161,10 @@ val specialCharacters: Map<Byte, String> = mapOf(
         0xD8.toByte() to "’", // right single quote
         0xD9.toByte() to "Œ",
         0xDA.toByte() to "œ",
-        // TODO 0xDB - 0xDD French ordinals e, re, er
+        // TODO These are placeholders for 0xDB - 0xDD French superscript ordinals e, re, er
+        0xDB.toByte() to "☱",
+        0xDC.toByte() to "☲",
+        0xDD.toByte() to "☴",
         0xDE.toByte() to "\\"
 )
 
