@@ -57,7 +57,7 @@ abstract class MessageProcessor(val targetEntry: StringTableEntry) {
         println("Encoded result: $result")
 
         if (result.size != size) {
-            error("Re-encoded string has invalid length")
+            error("Re-encoded string has invalid length (${this.javaClass.name})")
         }
 
         return result.toByteArray()

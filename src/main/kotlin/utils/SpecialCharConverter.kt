@@ -166,6 +166,7 @@ val specialCharacters: Map<Byte, String> = mapOf(
         0xDC.toByte() to "☲",
         0xDD.toByte() to "☴",
         0xDE.toByte() to "\\"
+        // TODO Handle 0xDF and above just in case (with hex codes?)
 )
 
 val reverseSpecialCharacters: Map<String, Byte> = specialCharacters.entries.associateBy({ it.value }) { it.key }

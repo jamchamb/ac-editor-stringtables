@@ -934,11 +934,6 @@ class SelectNoBCloseProcessor(targetEntry: StringTableEntry): PlaceholderProcess
 
 const val NEXT_MSG_RANDOM_SECTION_CODE: Byte = 0x63
 const val NEXT_MSG_RANDOM_SECTION_TAG = "NEXT_MSG_RANDOM_SECTION"
-class NextMsgRandomSectionProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
-    override val code = NEXT_MSG_RANDOM_SECTION_CODE
-    override val name = NEXT_MSG_RANDOM_SECTION_TAG
-    override val size = 6
-}
 
 const val AGB_DUMMY1_CODE: Byte = 0x64
 const val AGB_DUMMY1_TAG = "AGB_DUMMY1"
