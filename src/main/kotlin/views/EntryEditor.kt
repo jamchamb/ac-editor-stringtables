@@ -25,7 +25,11 @@ class EntryEditor: View() {
                 }
 
                 field("Text") {
-                    textarea(model.content)
+                    textarea(model.content) {
+                        style {
+                            fontSize = 20.px
+                        }
+                    }
                 }
 
                 button("Save") {
