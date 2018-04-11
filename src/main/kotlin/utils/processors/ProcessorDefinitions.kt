@@ -961,10 +961,22 @@ class AgbDummy3Processor(targetEntry: StringTableEntry): PlaceholderProcessor(ta
 
 const val SPACE_CODE: Byte = 0x67
 const val SPACE_TAG = "SPACE"
-class SpaceProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class SpaceProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = SPACE_CODE
     override val name = SPACE_TAG
     override val size = 3
+
+    // Doesn't appear to be used for anything
+    var space: Byte = 0
+
+    override fun decodeImpl(bytes: List<Byte>): String {
+        space = bytes[2]
+        return "0x%02x".format(space)
+    }
+
+    override fun encodeImpl(textParts: List<String>): List<Byte>? {
+        return decodeHexASCII(textParts[0], 1)
+    }
 }
 
 const val AGB_DUMMY4_CODE: Byte = 0x68
