@@ -5,7 +5,6 @@ import tornadofx.getProperty
 import tornadofx.property
 import utils.processors.*
 import utils.reverseSpecialCharacters
-import utils.shiftJisDecode
 import utils.specialCharacters
 import kotlin.reflect.full.primaryConstructor
 
@@ -19,13 +18,14 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
     var rawBytes: ByteArray by property(rawBytes)
     fun rawBytesProperty() = getProperty(StringTableEntry::rawBytes)
 
+    /* Properties set by message decoder */
+
     var cancellable by property<Boolean>()
     fun cancellableProperty() = getProperty(StringTableEntry::cancellable)
 
     init {
-        // TODO: Process custom AC encodings before Shift-JIS
         val decodedBytes = decodeMessage(rawBytes)
-        //contentProperty().set(String(decodedBytes, charset("Shift-JIS")))
+
         this.id = id
         this.content = decodedBytes
         this.rawBytes = rawBytes
@@ -36,17 +36,21 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
     }
 
     /**
-     * Shift-JIS decode any plain text, add it, and clear the temporary buffer
+     * Decode plain text string with game's custom character set
      */
-    private fun popPlainBytes(temporaryPlainBytes: ArrayList<Byte>, resultBuilder: StringBuilder) {
-        if (temporaryPlainBytes.size > 0) {
-            resultBuilder.append(shiftJisDecode(temporaryPlainBytes))
-            temporaryPlainBytes.clear()
+    private fun decodeSpecialChars (bytes: List<Byte>): String {
+        val resultBuilder = StringBuilder()
+
+        for (curByte in bytes) {
+            if (curByte in specialCharacters) {
+                resultBuilder.append(specialCharacters[curByte])
+            } else {
+                // (curByte.toInt() and 0xff).toChar()
+                resultBuilder.append(curByte.toChar())
+            }
         }
-    }
 
-    private fun popPlainBytes(temporaryPlainBytes: ArrayList<Byte>, resultBuilder: ArrayList<Byte>) {
-
+        return resultBuilder.toString()
     }
 
     /** Encode plain text string with game's custom charset */
@@ -74,6 +78,14 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
     }
 
     private fun decodeMessage(messageBytes: ByteArray): String {
+
+        fun popPlainBytes(temporaryPlainBytes: ArrayList<Byte>, resultBuilder: StringBuilder) {
+            if (temporaryPlainBytes.size > 0) {
+                resultBuilder.append(decodeSpecialChars(temporaryPlainBytes))
+                temporaryPlainBytes.clear()
+            }
+        }
+
         val resultBuilder = StringBuilder()
         val temporaryPlainBytes = ArrayList<Byte>()
         var skipTo = 0
@@ -110,12 +122,8 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                 skipTo = index + proc.size
 
                 resultBuilder.append(proc.decode(snippet))
-            } else if (byte in specialCharacters) {
-                // Check for relocated special Latin characters
-                popPlainBytes(temporaryPlainBytes, resultBuilder)
-                resultBuilder.append(specialCharacters[byte])
             } else {
-                // Add plain text bytes to temporary buffer for Shift-JIS decoding
+                // Add plain text bytes to temporary buffer for special charset translation
                 temporaryPlainBytes.add(byte)
             }
         }
