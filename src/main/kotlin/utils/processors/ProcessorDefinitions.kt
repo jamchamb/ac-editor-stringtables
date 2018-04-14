@@ -934,7 +934,7 @@ const val NEXT_MSG_RANDOM_SECTION_TAG = "NEXT_MSG_RANDOM_SECTION"
 
 const val AGB_DUMMY1_CODE: Byte = 0x64
 const val AGB_DUMMY1_TAG = "AGB_DUMMY1"
-class AgbDummy1Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy1Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY1_CODE
     override val name = AGB_DUMMY1_TAG
     override val size = 3
@@ -942,7 +942,7 @@ class AgbDummy1Processor(targetEntry: StringTableEntry): PlaceholderProcessor(ta
 
 const val AGB_DUMMY2_CODE: Byte = 0x65
 const val AGB_DUMMY2_TAG = "AGB_DUMMY2"
-class AgbDummy2Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy2Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY2_CODE
     override val name = AGB_DUMMY2_TAG
     override val size = 3
@@ -950,7 +950,7 @@ class AgbDummy2Processor(targetEntry: StringTableEntry): PlaceholderProcessor(ta
 
 const val AGB_DUMMY3_CODE: Byte = 0x66
 const val AGB_DUMMY3_TAG = "AGB_DUMMY3"
-class AgbDummy3Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy3Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY3_CODE
     override val name = AGB_DUMMY3_TAG
     override val size = 4
@@ -978,16 +978,18 @@ class SpaceProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntr
 
 const val AGB_DUMMY4_CODE: Byte = 0x68
 const val AGB_DUMMY4_TAG = "AGB_DUMMY4"
-class AgbDummy4Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy4Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY4_CODE
     override val name = AGB_DUMMY4_TAG
+    override val size = 2
 }
 
 const val AGB_DUMMY5_CODE: Byte = 0x69
 const val AGB_DUMMY5_TAG = "AGB_DUMMY5"
-class AgbDummy5Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy5Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY5_CODE
     override val name = AGB_DUMMY5_TAG
+    override val size = 2
 }
 
 const val GENDER_CHECK_CODE: Byte = 0x6A
@@ -1016,21 +1018,23 @@ class GenderCheckProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
 
 const val AGB_DUMMY6_CODE: Byte = 0x6B
 const val AGB_DUMMY6_TAG = "AGB_DUMMY6"
-class AgbDummy6Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy6Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY6_CODE
     override val name = AGB_DUMMY6_TAG
+    override val size = 2
 }
 
 const val AGB_DUMMY7_CODE: Byte = 0x6C
 const val AGB_DUMMY7_TAG = "AGB_DUMMY7"
-class AgbDummy7Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy7Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY7_CODE
     override val name = AGB_DUMMY7_TAG
+    override val size = 2
 }
 
 const val AGB_DUMMY8_CODE: Byte = 0x6D
 const val AGB_DUMMY8_TAG = "AGB_DUMMY8"
-class AgbDummy8Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy8Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY8_CODE
     override val name = AGB_DUMMY8_TAG
     override val size = 3
@@ -1038,7 +1042,7 @@ class AgbDummy8Processor(targetEntry: StringTableEntry): PlaceholderProcessor(ta
 
 const val AGB_DUMMY9_CODE: Byte = 0x6E
 const val AGB_DUMMY9_TAG = "AGB_DUMMY9"
-class AgbDummy9Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy9Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY9_CODE
     override val name = AGB_DUMMY9_TAG
     override val size = 3
@@ -1046,7 +1050,7 @@ class AgbDummy9Processor(targetEntry: StringTableEntry): PlaceholderProcessor(ta
 
 const val AGB_DUMMY10_CODE: Byte = 0x6F
 const val AGB_DUMMY10_TAG = "AGB_DUMMY10"
-class AgbDummy10Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy10Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY10_CODE
     override val name = AGB_DUMMY10_TAG
     override val size = 3
@@ -1054,7 +1058,7 @@ class AgbDummy10Processor(targetEntry: StringTableEntry): PlaceholderProcessor(t
 
 const val AGB_DUMMY11_CODE: Byte = 0x70
 const val AGB_DUMMY11_TAG = "AGB_DUMMY11"
-class AgbDummy11Processor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class AgbDummy11Processor(targetEntry: StringTableEntry): DummyProcessor(targetEntry) {
     override val code = AGB_DUMMY11_CODE
     override val name = AGB_DUMMY11_TAG
     override val size = 3
