@@ -849,7 +849,6 @@ class SoundTrgSysProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
     }
 }
 
-/* TODO: Placeholder for 0x5a: LineScaleProc */
 const val SET_LINE_SCALE_CODE: Byte = 0x5A
 const val SET_LINE_SCALE_TAG = "SET_LINE_SCALE"
 class SetLineScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
@@ -879,8 +878,6 @@ class SoundNoPageProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(
 
     // TODO This sets something in the message window bit flags
 }
-
-
 
 const val VOICE_TRUE_CODE: Byte = 0x5C
 const val VOICE_TRUE_TAG = "VOICE_TRUE"
@@ -995,10 +992,26 @@ class AgbDummy5Processor(targetEntry: StringTableEntry): PlaceholderProcessor(ta
 
 const val GENDER_CHECK_CODE: Byte = 0x6A
 const val GENDER_CHECK_TAG = "GENDER_CHECK"
-class GenderCheckProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
+class GenderCheckProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = GENDER_CHECK_CODE
     override val name = GENDER_CHECK_TAG
     override val size = 6
+
+    var maleMsgId = 0
+    var femaleMsgId = 0
+
+    override fun decodeImpl(bytes: List<Byte>): String {
+        maleMsgId = bytesToInt(bytes.slice(2..3))
+        femaleMsgId = bytesToInt(bytes.slice(4..5))
+        return "0x%04x${P_DELIM}0x%04x".format(maleMsgId, femaleMsgId)
+    }
+
+    override fun encodeImpl(textParts: List<String>): List<Byte>? {
+        val result = ArrayList<Byte>()
+        result.addAll(decodeHexASCII(textParts[0], 2))
+        result.addAll(decodeHexASCII(textParts[1],2))
+        return result
+    }
 }
 
 const val AGB_DUMMY6_CODE: Byte = 0x6B
