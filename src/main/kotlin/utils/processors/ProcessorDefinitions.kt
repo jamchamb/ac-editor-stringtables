@@ -868,7 +868,7 @@ class SetLineScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(tar
     }
 }
 
-// TODO The rest of these are placeholders that just have the size set
+// TODO Review the rest of these for processor side effects in game
 
 const val SOUND_NO_PAGE_CODE: Byte = 0x5B
 const val SOUND_NO_PAGE_TAG = "SOUND_NO_PAGE"

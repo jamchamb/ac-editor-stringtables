@@ -59,6 +59,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
         var position = 0
         while (position < text.length) {
+            // There's a possibility that not having a special mapping for every byte 0x00-0xFF could cause issues here
             val codepointSize = Character.charCount(text.codePointAt(position))
 
             if (position + codepointSize <= text.length) {
@@ -191,6 +192,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
         println("Resulting buffer: ${String(result.toByteArray())}")
 
+        /*
         if (rawBytes.toList() == result) {
             println("RESULT BUFFER MATCHES ORIGINAL!")
         } else {
@@ -201,6 +203,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
                 }
             }
         }
+        */
 
         return result.toByteArray()
     }

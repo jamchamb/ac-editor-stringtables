@@ -12,8 +12,8 @@ class SelectedEntryEvent(val selection: StringTableEntry): FXEvent()
 class TableCloseEvent: FXEvent()
 
 class MainAppView: View() {
-    val controller: StringTableController by inject()
-    var editorTabPane by singleAssign<TabPane>()
+    private val controller: StringTableController by inject()
+    private var editorTabPane by singleAssign<TabPane>()
 
     override val root = borderpane {
         top(TopView::class)
@@ -62,20 +62,22 @@ class MainAppView: View() {
 }
 
 class TopView: View() {
-    val controller: StringTableController by inject()
+    private val controller: StringTableController by inject()
 
     override val root = menubar {
         menu ("File") {
             item("Open", "Shortcut+O") {
                 action {
-                    find<StringTableChooser> {
+                    find<StringTableOpenChooser> {
                         openModal()
                     }
                 }
             }
             item("Save", "Shortcut+S") {
                 action {
-                    controller.saveTable("", "")
+                    find<StringTableSaveChooser> {
+                        openModal()
+                    }
                 }
             }
             item("Close") {

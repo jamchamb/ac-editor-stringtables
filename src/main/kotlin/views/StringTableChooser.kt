@@ -26,15 +26,23 @@ fun getPairFilename(file: File): String {
     return "${file.parentFile.canonicalPath}${File.separator}$pairName"
 }
 
-class StringTableChooser: View("Open String Table") {
+abstract class StringTableChooser: View() {
 
-    private val controller: StringTableController by inject()
+    protected val controller: StringTableController by inject()
 
     var chosenTableFile = ""
     var chosenDataFile = ""
 
     var tableFileField: TextField by singleAssign()
     var dataFileField: TextField by singleAssign()
+
+    abstract val action: String
+    abstract fun performAction()
+    abstract val fileChooserMode: FileChooserMode
+
+    init {
+        title = "$action String Table"
+    }
 
     override val root = form {
         vbox {
@@ -49,7 +57,7 @@ class StringTableChooser: View("Open String Table") {
                 button("Select file") {
                     action {
                         val filters = arrayOf(FileChooser.ExtensionFilter("String table file", "*.bin"))
-                        val files = chooseFile("Select string table file", filters, FileChooserMode.Single)
+                        val files = chooseFile("Select string table file", filters, fileChooserMode)
                         if (files.size > 0) {
                             println("Selected table file $files[0]")
                             chosenTableFile = files[0].canonicalPath
@@ -78,7 +86,7 @@ class StringTableChooser: View("Open String Table") {
                 button("Select file") {
                     action {
                         val filters = arrayOf(FileChooser.ExtensionFilter("String data file", "*.bin"))
-                        val files = chooseFile("Select string data file", filters, FileChooserMode.Single)
+                        val files = chooseFile("Select string data file", filters, fileChooserMode)
                         if (files.size > 0) {
                             println("Selected string data file $files[0]")
                             chosenDataFile = files[0].canonicalPath
@@ -88,24 +96,24 @@ class StringTableChooser: View("Open String Table") {
                 }
             }
 
-            button("Load string table") {
+
+            button("$action string table") {
                 action {
-                    println("Load string table...")
+                    println("$action string table...")
 
                     if (chosenTableFile.isBlank() or chosenDataFile.isBlank()) {
-                        alert(Alert.AlertType.ERROR, "Error loading table", "Both file paths must be set", ButtonType.OK)
+                        alert(Alert.AlertType.ERROR, "Error in choosing table", "Both file paths must be set", ButtonType.OK)
                         return@action
                     }
 
-                    // Load up the files woohoo
+                    // Perform the action
                     runAsync {
-                        controller.loadTable(chosenTableFile, chosenDataFile)
+                        performAction()
                     } ui {
                         close()
                     }
                 }
             }
-
         }
     }
 
