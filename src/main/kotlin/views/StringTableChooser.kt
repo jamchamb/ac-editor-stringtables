@@ -8,25 +8,26 @@ import javafx.stage.FileChooser
 import tornadofx.*
 import java.io.File
 
-/** Get the filename of the complementary string table file.
- * For the table file (*_data_table.bin), return the data filename (*_data.bin)
- */
-fun getPairFilename(file: File): String {
-    val filename = file.canonicalPath.substringAfterLast(File.separatorChar)
-    var pairName: String
+const val TABLE_END = "_data_table.bin"
+const val DATA_END = "_data.bin"
 
-    if (filename.endsWith("_data_table.bin")) {
-        pairName = filename.replace("_data_table.bin", "_data.bin")
-    } else if (filename.endsWith("_data.bin")) {
-        pairName = filename.replace("_data.bin", "_data_table.bin")
-    } else {
-        throw IllegalArgumentException("Filename must end with '_table.bin' or '.bin'")
+abstract class StringTableChooser (private val action: String): View() {
+
+    /** Get the filename of the complementary string table file.
+     * For the table file (*_data_table.bin), return the data filename (*_data.bin)
+     */
+    private fun getPairFilename(file: File): String {
+        val filename = file.canonicalPath.substringAfterLast(File.separatorChar)
+        val pairName: String
+
+        pairName = when {
+            filename.endsWith(TABLE_END) -> filename.replace(TABLE_END, DATA_END)
+            filename.endsWith(DATA_END) -> filename.replace(DATA_END, TABLE_END)
+            else -> throw IllegalArgumentException("Filename must end with '$TABLE_END' or '$DATA_END'")
+        }
+
+        return "${file.parentFile.canonicalPath}${File.separator}$pairName"
     }
-
-    return "${file.parentFile.canonicalPath}${File.separator}$pairName"
-}
-
-abstract class StringTableChooser: View() {
 
     protected val controller: StringTableController by inject()
 
@@ -36,10 +37,9 @@ abstract class StringTableChooser: View() {
     var tableFileField: TextField by singleAssign()
     var dataFileField: TextField by singleAssign()
 
-    abstract val action: String
     abstract fun performAction()
     abstract val fileChooserMode: FileChooserMode
-
+    
     init {
         title = "$action String Table"
     }

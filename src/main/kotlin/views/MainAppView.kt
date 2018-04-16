@@ -55,7 +55,7 @@ class MainAppView: View() {
         title = "ACGC String Editor"
 
         with (root) {
-            prefWidth = 900.0
+            prefWidth = 1300.0
             prefHeight = 700.0
         }
     }
