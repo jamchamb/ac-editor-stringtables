@@ -39,7 +39,7 @@ abstract class StringTableChooser (private val action: String): View() {
 
     abstract fun performAction()
     abstract val fileChooserMode: FileChooserMode
-    
+
     init {
         title = "$action String Table"
     }

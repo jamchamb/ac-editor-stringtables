@@ -43,7 +43,7 @@ class MainAppView: View() {
 
                 // Close tabs when file is closed
                 subscribe<TableCloseEvent> {
-                    // TODO
+                    tabs.clear()
                 }
             }
         }
