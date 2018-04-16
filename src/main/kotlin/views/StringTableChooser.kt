@@ -46,14 +46,14 @@ abstract class StringTableChooser (private val action: String): View() {
 
     override val root = form {
         vbox {
-
             // Pick string table file
             hbox {
                 textfield() {
                     tableFileField = this
-                    title = "String table file"
+                    promptText = "String table file"
                     isEditable = false
                 }
+
                 button("Select file") {
                     action {
                         val filters = arrayOf(FileChooser.ExtensionFilter("String table file", "*.bin"))
@@ -80,9 +80,10 @@ abstract class StringTableChooser (private val action: String): View() {
             hbox {
                 textfield {
                     dataFileField = this
-                    title = "String data file"
+                    promptText = "String data file"
                     isEditable = false
                 }
+
                 button("Select file") {
                     action {
                         val filters = arrayOf(FileChooser.ExtensionFilter("String data file", "*.bin"))
