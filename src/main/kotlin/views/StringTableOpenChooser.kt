@@ -1,10 +1,11 @@
 package views
 
+import tornadofx.FXTask
 import tornadofx.FileChooserMode
 
 class StringTableOpenChooser: StringTableChooser("Open") {
     override val fileChooserMode = FileChooserMode.Single
-    override fun performAction() {
-        controller.loadTable(chosenTableFile, chosenDataFile)
+    override fun performAction(task: FXTask<*>) {
+        controller.loadTable(chosenTableFile, chosenDataFile, task)
     }
 }

@@ -31,23 +31,24 @@ abstract class StringTableChooser (private val action: String): View() {
 
     protected val controller: StringTableController by inject()
 
-    var chosenTableFile = ""
-    var chosenDataFile = ""
+    protected var chosenTableFile = ""
+    protected var chosenDataFile = ""
 
-    var tableFileField: TextField by singleAssign()
-    var dataFileField: TextField by singleAssign()
+    private var tableFileField: TextField by singleAssign()
+    private var dataFileField: TextField by singleAssign()
+    private val status: TaskStatus by inject()
 
-    abstract fun performAction()
-    abstract val fileChooserMode: FileChooserMode
+    protected abstract fun performAction(task: FXTask<*>)
+    protected abstract val fileChooserMode: FileChooserMode
 
     init {
         title = "$action String Table"
     }
 
     override val root = form {
-        vbox {
+        vbox(4.0) {
             // Pick string table file
-            hbox {
+            hbox(4.0) {
                 textfield() {
                     tableFileField = this
                     promptText = "String table file"
@@ -77,7 +78,7 @@ abstract class StringTableChooser (private val action: String): View() {
             }
 
             // Pick string data file
-            hbox {
+            hbox(4.0) {
                 textfield {
                     dataFileField = this
                     promptText = "String data file"
@@ -109,11 +110,17 @@ abstract class StringTableChooser (private val action: String): View() {
 
                     // Perform the action
                     runAsync {
-                        performAction()
+                        performAction(this)
                     } ui {
                         close()
                     }
                 }
+            }
+
+            hbox(4.0) {
+                progressbar(status.progress)
+                label(status.message)
+                visibleWhen(status.running)
             }
         }
     }

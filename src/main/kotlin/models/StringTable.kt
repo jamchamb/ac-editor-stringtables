@@ -1,6 +1,7 @@
 package models
 
 import com.sun.javaws.exceptions.InvalidArgumentException
+import tornadofx.FXTask
 import java.io.*
 
 class StringTable {
@@ -10,13 +11,23 @@ class StringTable {
     var entries = ArrayList<StringTableEntry>()
 
     fun loadTableFromFiles (tablePath: String, dataPath: String) {
+        loadTableFromFiles(tablePath, dataPath, null)
+    }
+
+    fun loadTableFromFiles (tablePath: String, dataPath: String, task: FXTask<*>?) {
         entries.clear()
+
+        // If running in a task, update the progress
+        task?.updateTitle("Loading String Table")
 
         val tableInputStream = File(tablePath).inputStream()
         val tableBufferedInputStream = BufferedInputStream(tableInputStream)
         val tableDataInputStream = DataInputStream(tableBufferedInputStream)
 
         val endingsTable = ArrayList<Int>()
+
+        val tableDataSize = tableInputStream.channel.size() / 4
+        var workDone = 0
 
         // Read big endian ints from end position table
         while (tableDataInputStream.available() > 0) {
@@ -26,6 +37,11 @@ class StringTable {
                 error("Negative ending position: $endingPos")
             }
             endingsTable.add(endingPos)
+
+            // Update task progress
+            workDone += 1
+            task?.updateProgress(workDone.toLong(), tableDataSize)
+            task?.updateMessage("table: %.2f%%".format((workDone.toDouble() / tableDataSize) * 100))
         }
 
         tableInputStream.close()
@@ -39,6 +55,9 @@ class StringTable {
 
         // Get total size of data file. Warn the user if this is exceeded upon save.
         dataFileSize = dataInStream.channel.size()
+
+        // New task progress
+        workDone = 0
 
         var pos = 0
         for ((index, endingPos) in endingsTable.withIndex()) {
@@ -58,7 +77,15 @@ class StringTable {
             entries.add(StringTableEntry(index, byteArray))
 
             pos = endingPos
+
+            // Update task progress
+            workDone += 1
+            task?.updateProgress(workDone.toLong(), endingsTable.size.toLong())
+            task?.updateMessage("messages: %.2f%%".format((workDone.toDouble() / endingsTable.size) * 100))
         }
+
+        task?.updateProgress(1.0, 1.0)
+        task?.updateMessage("complete")
 
         dataInStream.close()
         dataBufferedInStream.close()
@@ -70,18 +97,28 @@ class StringTable {
     }
 
     fun saveTableToFiles(tablePath: String, dataPath: String) {
+        saveTableToFiles(tablePath, dataPath, null)
+    }
+
+    fun saveTableToFiles(tablePath: String, dataPath: String, task: FXTask<*>?) {
+        task?.updateTitle("Saving String Table")
+
         // Collect data to write to files
         var endPosition = 0
 
         val endingsTable = ArrayList<Int>(endingsTableSlots)
         val dataTable = ArrayList<Byte>(entries.size)
 
-        // Testing encoders
-        for (entry in entries) {
+        // Encode and add string entries
+        for ((index, entry) in entries.withIndex()) {
             val entryBytes = entry.encodeMessage()
             endPosition += entryBytes.size
             endingsTable.add(endPosition)
             dataTable.addAll(entryBytes.toList())
+
+            // Update progress bar
+            task?.updateProgress(index.toLong(), entries.size.toLong() + endingsEmptySlots)
+            task?.updateMessage("encoding message $index/${entries.size + endingsEmptySlots}")
         }
 
         // Add filler data
@@ -94,6 +131,10 @@ class StringTable {
         while (dataTable.size < dataFileSize) {
             dataTable.add(0x00.toByte())
         }
+
+        // Encoding progress complete
+        task?.updateProgress(1.0, 1.0)
+        task?.updateMessage("writing files")
 
         // Table output stream
         val tableOutputStream = File(tablePath).outputStream()
