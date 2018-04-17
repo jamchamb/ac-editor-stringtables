@@ -92,6 +92,16 @@ class TopView: View() {
                 }
             }
         }
+
+        menu ("Edit") {
+            item ("Go To Entry", "Shortcut+G") {
+                action {
+                    find<GoToEntryDialogue> {
+                        openModal()
+                    }
+                }
+            }
+        }
     }
 }
 
