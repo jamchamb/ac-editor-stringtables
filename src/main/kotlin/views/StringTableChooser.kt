@@ -39,6 +39,7 @@ abstract class StringTableChooser (private val action: String): View() {
     private val status: TaskStatus by inject()
 
     protected abstract fun performAction(task: FXTask<*>)
+    protected abstract fun postAction()
     protected abstract val fileChooserMode: FileChooserMode
 
     init {
@@ -112,6 +113,7 @@ abstract class StringTableChooser (private val action: String): View() {
                     runAsync {
                         performAction(this)
                     } ui {
+                        postAction()
                         close()
                     }
                 }

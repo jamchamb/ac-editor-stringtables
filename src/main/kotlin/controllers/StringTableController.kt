@@ -14,6 +14,9 @@ class StringTableController: Controller() {
     fun loadTable (tablePath: String, dataPath: String, fxTask: FXTask<*>) {
         // TODO Hacky
         stringTable.loadTableFromFiles(tablePath, dataPath, fxTask)
+    }
+
+    fun updateObservableEntries () {
         stringTableEntries.clear()
         stringTableEntries.addAll(stringTable.entries)
     }
