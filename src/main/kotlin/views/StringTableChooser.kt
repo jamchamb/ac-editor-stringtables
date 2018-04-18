@@ -11,7 +11,7 @@ import java.io.File
 const val TABLE_END = "_data_table.bin"
 const val DATA_END = "_data.bin"
 
-abstract class StringTableChooser (private val action: String): View() {
+abstract class StringTableChooser (private val action: String): Fragment() {
 
     /** Get the filename of the complementary string table file.
      * For the table file (*_data_table.bin), return the data filename (*_data.bin)
