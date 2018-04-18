@@ -100,7 +100,7 @@ class UnableCancelProcessor(targetEntry: StringTableEntry): PlaceholderProcessor
 /* Set demo order classes */
 
 const val SET_DEMO_ORDER_PLAYER_CODE: Byte = 0x08
-const val SET_DEMO_ORDER_PLAYER_TAG = "SET_DEMO_ORDER_PLAYER"
+const val SET_DEMO_ORDER_PLAYER_TAG = "DEMO_PLAYER"
 class SetDemoOrderPlayerProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_PLAYER_CODE
     override val name = SET_DEMO_ORDER_PLAYER_TAG
@@ -108,7 +108,7 @@ class SetDemoOrderPlayerProcessor(targetEntry: StringTableEntry): SetDemoOrderPr
 }
 
 const val SET_DEMO_ORDER_NPC0_CODE: Byte = 0x09
-const val SET_DEMO_ORDER_NPC0_TAG = "SET_DEMO_ORDER_NPC0"
+const val SET_DEMO_ORDER_NPC0_TAG = "DEMO_NPC0"
 class SetDemoOrderNPC0Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC0_CODE
     override val name = SET_DEMO_ORDER_NPC0_TAG
@@ -116,7 +116,7 @@ class SetDemoOrderNPC0Processor(targetEntry: StringTableEntry): SetDemoOrderProc
 }
 
 const val SET_DEMO_ORDER_NPC1_CODE: Byte = 0x0A
-const val SET_DEMO_ORDER_NPC1_TAG = "SET_DEMO_ORDER_NPC1"
+const val SET_DEMO_ORDER_NPC1_TAG = "DEMO_NPC1"
 class SetDemoOrderNPC1Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC1_CODE
     override val name = SET_DEMO_ORDER_NPC1_TAG
@@ -124,7 +124,7 @@ class SetDemoOrderNPC1Processor(targetEntry: StringTableEntry): SetDemoOrderProc
 }
 
 const val SET_DEMO_ORDER_NPC2_CODE: Byte = 0x0B
-const val SET_DEMO_ORDER_NPC2_TAG = "SET_DEMO_ORDER_NPC2"
+const val SET_DEMO_ORDER_NPC2_TAG = "DEMO_NPC2"
 class SetDemoOrderNPC2Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC2_CODE
     override val name = SET_DEMO_ORDER_NPC2_TAG
@@ -132,7 +132,7 @@ class SetDemoOrderNPC2Processor(targetEntry: StringTableEntry): SetDemoOrderProc
 }
 
 const val SET_DEMO_ORDER_QUEST_CODE: Byte = 0x0C
-const val SET_DEMO_ORDER_QUEST_TAG = "SET_DEMO_ORDER_QUEST"
+const val SET_DEMO_ORDER_QUEST_TAG = "DEMO_QUEST"
 class SetDemoOrderQuestProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_QUEST_CODE
     override val name = SET_DEMO_ORDER_QUEST_TAG
@@ -140,7 +140,7 @@ class SetDemoOrderQuestProcessor(targetEntry: StringTableEntry): SetDemoOrderPro
 }
 
 const val SET_SELECT_WINDOW_CODE: Byte = 0x0D
-const val SET_SELECT_WINDOW_TAG = "SET_SELECT_WINDOW"
+const val SET_SELECT_WINDOW_TAG = "SELECT_WINDOW"
 class SetSelectWindowProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SET_SELECT_WINDOW_CODE
     override val name = SET_SELECT_WINDOW_TAG
@@ -149,7 +149,7 @@ class SetSelectWindowProcessor(targetEntry: StringTableEntry): PlaceholderProces
 /* Set next message option strings */
 
 const val SET_NEXT_MESSAGEF_CODE: Byte = 0x0E
-const val SET_NEXT_MESSAGEF_TAG = "SET_NEXT_MESSAGE_F"
+const val SET_NEXT_MESSAGEF_TAG = "NEXT_MESSAGE_F"
 class SetNextMessageFProcessor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGEF_CODE
     override val name = SET_NEXT_MESSAGEF_TAG
@@ -159,7 +159,7 @@ class SetNextMessageFProcessor(targetEntry: StringTableEntry): SetNextMessagePro
 }
 
 const val SET_NEXT_MESSAGE0_CODE: Byte = 0x0F
-const val SET_NEXT_MESSAGE0_TAG = "SET_NEXT_MESSAGE_0"
+const val SET_NEXT_MESSAGE0_TAG = "NEXT_MESSAGE_0"
 class SetNextMessage0Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE0_CODE
     override val name = SET_NEXT_MESSAGE0_TAG
@@ -168,7 +168,7 @@ class SetNextMessage0Processor(targetEntry: StringTableEntry): SetNextMessagePro
 
 
 const val SET_NEXT_MESSAGE1_CODE: Byte = 0x10
-const val SET_NEXT_MESSAGE1_TAG = "SET_NEXT_MESSAGE_1"
+const val SET_NEXT_MESSAGE1_TAG = "NEXT_MESSAGE_1"
 class SetNextMessage1Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE1_CODE
     override val name = SET_NEXT_MESSAGE1_TAG
@@ -176,7 +176,7 @@ class SetNextMessage1Processor(targetEntry: StringTableEntry): SetNextMessagePro
 }
 
 const val SET_NEXT_MESSAGE2_CODE: Byte = 0x11
-const val SET_NEXT_MESSAGE2_TAG = "SET_NEXT_MESSAGE_2"
+const val SET_NEXT_MESSAGE2_TAG = "NEXT_MESSAGE_2"
 class SetNextMessage2Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE2_CODE
     override val name = SET_NEXT_MESSAGE2_TAG
@@ -184,7 +184,7 @@ class SetNextMessage2Processor(targetEntry: StringTableEntry): SetNextMessagePro
 }
 
 const val SET_NEXT_MESSAGE3_CODE: Byte = 0x12
-const val SET_NEXT_MESSAGE3_TAG = "SET_NEXT_MESSAGE_3"
+const val SET_NEXT_MESSAGE3_TAG = "NEXT_MESSAGE_3"
 class SetNextMessage3Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE3_CODE
     override val name = SET_NEXT_MESSAGE3_TAG
@@ -196,7 +196,7 @@ class SetNextMessage3Processor(targetEntry: StringTableEntry): SetNextMessagePro
  */
 
 const val SET_NEXT_MESSAGE_RANDOM2_CODE: Byte = 0x13
-const val SET_NEXT_MESSAGE_RANDOM2_TAG = "SET_NEXT_MESSAGE_RANDOM_2"
+const val SET_NEXT_MESSAGE_RANDOM2_TAG = "NEXT_MESSAGE_RANDOM_2"
 class SetNextMessageRandom2Processor(targetEntry: StringTableEntry): SetNextMessageRandomProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE_RANDOM2_CODE
     override val name = SET_NEXT_MESSAGE_RANDOM2_TAG
@@ -204,7 +204,7 @@ class SetNextMessageRandom2Processor(targetEntry: StringTableEntry): SetNextMess
 }
 
 const val SET_NEXT_MESSAGE_RANDOM3_CODE: Byte = 0x14
-const val SET_NEXT_MESSAGE_RANDOM3_TAG = "SET_NEXT_MESSAGE_RANDOM_3"
+const val SET_NEXT_MESSAGE_RANDOM3_TAG = "NEXT_MESSAGE_RANDOM_3"
 class SetNextMessageRandom3Processor(targetEntry: StringTableEntry): SetNextMessageRandomProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE_RANDOM3_CODE
     override val name = SET_NEXT_MESSAGE_RANDOM3_TAG
@@ -212,7 +212,7 @@ class SetNextMessageRandom3Processor(targetEntry: StringTableEntry): SetNextMess
 }
 
 const val SET_NEXT_MESSAGE_RANDOM4_CODE: Byte = 0x15
-const val SET_NEXT_MESSAGE_RANDOM4_TAG = "SET_NEXT_MESSAGE_RANDOM_4"
+const val SET_NEXT_MESSAGE_RANDOM4_TAG = "NEXT_MESSAGE_RANDOM_4"
 class SetNextMessageRandom4Processor(targetEntry: StringTableEntry): SetNextMessageRandomProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE_RANDOM4_CODE
     override val name = SET_NEXT_MESSAGE_RANDOM4_TAG
@@ -223,7 +223,7 @@ class SetNextMessageRandom4Processor(targetEntry: StringTableEntry): SetNextMess
  * to the number of choices.
  */
 const val SET_SELECT_STRING2_CODE: Byte = 0x16
-const val SET_SELECT_STRING2_TAG = "SET_SELECT_STRING_2"
+const val SET_SELECT_STRING2_TAG = "SELECT_STRING_2"
 class SetSelectString2Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
     override val code = SET_SELECT_STRING2_CODE
     override val name = SET_SELECT_STRING2_TAG
@@ -231,7 +231,7 @@ class SetSelectString2Processor(targetEntry: StringTableEntry): SetSelectStringP
 }
 
 const val SET_SELECT_STRING3_CODE: Byte = 0x17
-const val SET_SELECT_STRING3_TAG = "SET_SELECT_STRING_3"
+const val SET_SELECT_STRING3_TAG = "SELECT_STRING_3"
 class SetSelectString3Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
     override val code = SET_SELECT_STRING3_CODE
     override val name = SET_SELECT_STRING3_TAG
@@ -239,7 +239,7 @@ class SetSelectString3Processor(targetEntry: StringTableEntry): SetSelectStringP
 }
 
 const val SET_SELECT_STRING4_CODE: Byte = 0x18
-const val SET_SELECT_STRING4_TAG = "SET_SELECT_STRING_4"
+const val SET_SELECT_STRING4_TAG = "SELECT_STRING_4"
 class SetSelectString4Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
     override val code = SET_SELECT_STRING4_CODE
     override val name = SET_SELECT_STRING4_TAG
@@ -247,7 +247,7 @@ class SetSelectString4Processor(targetEntry: StringTableEntry): SetSelectStringP
 }
 
 const val SET_FORCE_NEXT_CODE: Byte = 0x19
-const val SET_FORCE_NEXT_TAG = "SET_FORCE_NEXT"
+const val SET_FORCE_NEXT_TAG = "FORCE_NEXT"
 class SetForceNextProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SET_FORCE_NEXT_CODE
     override val name = SET_FORCE_NEXT_TAG
@@ -651,7 +651,7 @@ class SetMessageContentsSleepyProcessor(targetEntry: StringTableEntry): SetMessa
 }
 
 const val SET_COLOR_CHAR_CODE: Byte = 0x50
-const val SET_COLOR_CHAR_TAG = "SET_COLOR_CHAR"
+const val SET_COLOR_CHAR_TAG = "COLOR_CHAR"
 class SetColorCharProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = SET_COLOR_CHAR_CODE
     override val name = SET_COLOR_CHAR_TAG
@@ -698,7 +698,7 @@ class SoundCutProcessor(targetEntry: StringTableEntry): MessageProcessor(targetE
 }
 
 const val SET_LINE_OFFSET_CODE: Byte = 0x52
-const val SET_LINE_OFFSET_TAG = "SET_LINE_OFFSET"
+const val SET_LINE_OFFSET_TAG = "LINE_OFFSET"
 class SetLineOffsetProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = SET_LINE_OFFSET_CODE
     override val name = SET_LINE_OFFSET_TAG
@@ -717,7 +717,7 @@ class SetLineOffsetProcessor(targetEntry: StringTableEntry): MessageProcessor(ta
 }
 
 const val SET_LINE_TYPE_CODE: Byte = 0x53
-const val SET_LINE_TYPE_TAG = "SET_LINE_TYPE"
+const val SET_LINE_TYPE_TAG = "LINE_TYPE"
 class SetLineTypeProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = SET_LINE_TYPE_CODE
     override val name = SET_LINE_TYPE_TAG
@@ -736,7 +736,7 @@ class SetLineTypeProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
 }
 
 const val SET_CHAR_SCALE_CODE: Byte = 0x54
-const val SET_CHAR_SCALE_TAG = "SET_CHAR_SCALE"
+const val SET_CHAR_SCALE_TAG = "CHAR_SCALE"
 class SetCharScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = SET_CHAR_SCALE_CODE
     override val name = SET_CHAR_SCALE_TAG
@@ -850,7 +850,7 @@ class SoundTrgSysProcessor(targetEntry: StringTableEntry): MessageProcessor(targ
 }
 
 const val SET_LINE_SCALE_CODE: Byte = 0x5A
-const val SET_LINE_SCALE_TAG = "SET_LINE_SCALE"
+const val SET_LINE_SCALE_TAG = "LINE_SCALE"
 class SetLineScaleProcessor(targetEntry: StringTableEntry): MessageProcessor(targetEntry) {
     override val code = SET_LINE_SCALE_CODE
     override val name = SET_LINE_SCALE_TAG
@@ -1072,7 +1072,7 @@ class IslandNameProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(t
 }
 
 const val SET_CURSOL_JUST_CODE: Byte = 0x72
-const val SET_CURSOL_JUST_TAG = "SET_CURSOL_JUST"
+const val SET_CURSOL_JUST_TAG = "CURSOL_JUST"
 class SetCursolJustProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetEntry) {
     override val code = SET_CURSOL_JUST_CODE
     override val name = SET_CURSOL_JUST_TAG
@@ -1107,7 +1107,7 @@ class AmPmProcessor(targetEntry: StringTableEntry): PlaceholderProcessor(targetE
 }
 
 const val SET_NEXT_MESSAGE_4_CODE: Byte = 0x77
-const val SET_NEXT_MESSAGE_4_TAG = "SET_NEXT_MESSAGE_4"
+const val SET_NEXT_MESSAGE_4_TAG = "NEXT_MESSAGE_4"
 class SetNextMessage4Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE_4_CODE
     override val name = SET_NEXT_MESSAGE_4_TAG
@@ -1115,7 +1115,7 @@ class SetNextMessage4Processor(targetEntry: StringTableEntry): SetNextMessagePro
 }
 
 const val SET_NEXT_MESSAGE_5_CODE: Byte = 0x78
-const val SET_NEXT_MESSAGE_5_TAG = "SET_NEXT_MESSAGE_5"
+const val SET_NEXT_MESSAGE_5_TAG = "NEXT_MESSAGE_5"
 class SetNextMessage5Processor(targetEntry: StringTableEntry): SetNextMessageProcessor(targetEntry) {
     override val code = SET_NEXT_MESSAGE_5_CODE
     override val name = SET_NEXT_MESSAGE_5_TAG
@@ -1123,7 +1123,7 @@ class SetNextMessage5Processor(targetEntry: StringTableEntry): SetNextMessagePro
 }
 
 const val SET_SELECT_STRING5_CODE: Byte = 0x79
-const val SET_SELECT_STRING5_TAG = "SET_SELECT_STRING_5"
+const val SET_SELECT_STRING5_TAG = "SELECT_STRING_5"
 class SetSelectString5Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
     override val code = SET_SELECT_STRING5_CODE
     override val name = SET_SELECT_STRING5_TAG
@@ -1131,7 +1131,7 @@ class SetSelectString5Processor(targetEntry: StringTableEntry): SetSelectStringP
 }
 
 const val SET_SELECT_STRING6_CODE: Byte = 0x7A
-const val SET_SELECT_STRING6_TAG = "SET_SELECT_STRING_6"
+const val SET_SELECT_STRING6_TAG = "SELECT_STRING_6"
 class SetSelectString6Processor(targetEntry: StringTableEntry): SetSelectStringProcessor(targetEntry) {
     override val code = SET_SELECT_STRING6_CODE
     override val name = SET_SELECT_STRING6_TAG
