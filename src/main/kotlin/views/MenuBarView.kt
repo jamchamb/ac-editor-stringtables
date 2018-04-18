@@ -44,6 +44,14 @@ class MenuBarView: View() {
                     }
                 }
             }
+
+            item ("Search", "Shortcut+R") {
+                action {
+                    find<EntrySearchDialog> {
+                        openModal()
+                    }
+                }
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ import controllers.StringTableController
 import models.StringTableEntry
 import tornadofx.*
 
-class StringTableList: View() {
+class StringTableList: Fragment() {
     private val controller: StringTableController by inject()
 
     override val root = tableview(controller.stringTableEntries) {

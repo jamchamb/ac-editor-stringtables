@@ -1,6 +1,5 @@
 package models
 
-import tornadofx.ItemViewModel
 import tornadofx.getProperty
 import tornadofx.property
 import utils.processors.*
@@ -207,11 +206,4 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
 
         return result.toByteArray()
     }
-}
-
-class StringTableEntryModel : ItemViewModel<StringTableEntry>() {
-    val id = bind { item?.idProperty() }
-    val content = bind { item?.contentProperty() }
-    val rawBytes = bind { item?.rawBytesProperty() }
-    val cancellable = bind { item?.cancellableProperty() }
 }
