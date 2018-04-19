@@ -11,24 +11,23 @@ import java.io.File
 const val TABLE_END = "_data_table.bin"
 const val DATA_END = "_data.bin"
 
-abstract class StringTableChooser (private val action: String): Fragment() {
+/** Get the filename of the complementary string table file.
+ * For the table file (*_data_table.bin), return the data filename (*_data.bin)
+ */
+fun getPairFilename(file: File): String {
+    val filename = file.canonicalPath.substringAfterLast(File.separatorChar)
+    val pairName: String
 
-    /** Get the filename of the complementary string table file.
-     * For the table file (*_data_table.bin), return the data filename (*_data.bin)
-     */
-    private fun getPairFilename(file: File): String {
-        val filename = file.canonicalPath.substringAfterLast(File.separatorChar)
-        val pairName: String
-
-        pairName = when {
-            filename.endsWith(TABLE_END) -> filename.replace(TABLE_END, DATA_END)
-            filename.endsWith(DATA_END) -> filename.replace(DATA_END, TABLE_END)
-            else -> throw IllegalArgumentException("Filename must end with '$TABLE_END' or '$DATA_END'")
-        }
-
-        return "${file.parentFile.canonicalPath}${File.separator}$pairName"
+    pairName = when {
+        filename.endsWith(TABLE_END) -> filename.replace(TABLE_END, DATA_END)
+        filename.endsWith(DATA_END) -> filename.replace(DATA_END, TABLE_END)
+        else -> throw IllegalArgumentException("Filename must end with '$TABLE_END' or '$DATA_END'")
     }
 
+    return "${file.parentFile.canonicalPath}${File.separator}$pairName"
+}
+
+abstract class StringTableChooser (private val action: String): Fragment() {
     protected val controller: StringTableController by inject()
 
     protected var chosenTableFile = ""
@@ -102,8 +101,6 @@ abstract class StringTableChooser (private val action: String): Fragment() {
 
             button("$action string table") {
                 action {
-                    println("$action string table...")
-
                     if (chosenTableFile.isBlank() or chosenDataFile.isBlank()) {
                         alert(Alert.AlertType.ERROR, "Error in choosing table", "Both file paths must be set", ButtonType.OK)
                         return@action

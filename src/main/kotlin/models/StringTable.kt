@@ -128,8 +128,12 @@ class StringTable {
             i++
         }
 
-        while (dataTable.size < dataFileSize) {
-            dataTable.add(0x00.toByte())
+        if (dataTable.size > dataFileSize) {
+            println("WARNING: New data file size (${dataTable.size}) exceeds original ($dataFileSize)")
+        } else {
+            while (dataTable.size < dataFileSize) {
+                dataTable.add(0x00.toByte())
+            }
         }
 
         // Encoding progress complete

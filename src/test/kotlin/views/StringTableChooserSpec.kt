@@ -8,7 +8,7 @@ import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-object StringTableChooser: Spek({
+object StringTableChooserSpec: Spek({
     given("a string table file") {
         on("getting a table filename") {
             val tableFile = File("D:\\ACHax\\forest_1st.d\\data\\message_data_table.bin")
