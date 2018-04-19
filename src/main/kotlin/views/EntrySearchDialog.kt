@@ -2,22 +2,30 @@ package views
 
 import controllers.StringTableController
 import javafx.collections.FXCollections
+import javafx.scene.control.CheckBox
 import javafx.scene.control.TextField
 import javafx.scene.layout.BorderPane
 import models.StringTableEntry
 import tornadofx.*
 
-class EntrySearchDialog: Fragment() {
+class EntrySearchDialog: View() {
     private val controller: StringTableController by inject()
 
     private val searchResults = FXCollections.observableArrayList<StringTableEntry>()
     private var searchField: TextField by singleAssign()
+    private var regexCheckbox: CheckBox by singleAssign()
 
-    private fun doSearch(query: String) {
+    private fun doSearch() {
+        val query = searchField.text
+        val asRegex = regexCheckbox.isSelected
+        val regex = Regex(query)
+
         searchResults.clear()
 
+        if (query.isEmpty()) return
+
         for (entry in controller.stringTableEntries) {
-            if (entry.content.contains(query, true)) {
+            if ((asRegex && entry.content.contains(regex)) || (entry.content.contains(query, true))) {
                 searchResults.add(entry)
             }
         }
@@ -36,13 +44,15 @@ class EntrySearchDialog: Fragment() {
                 form {
                     searchField = textfield {
                         action {
-                            doSearch(text)
+                            doSearch()
                         }
                     }
 
+                    regexCheckbox = checkbox ("Regex")
+
                     button("Search") {
                         action {
-                            doSearch(searchField.text)
+                            doSearch()
                         }
                     }
                 }
