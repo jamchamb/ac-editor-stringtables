@@ -104,7 +104,7 @@ const val SET_DEMO_ORDER_PLAYER_TAG = "DEMO_PLAYER"
 class SetDemoOrderPlayerProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_PLAYER_CODE
     override val name = SET_DEMO_ORDER_PLAYER_TAG
-    override val orderTarget = DemoOrderTarget.PLAYER
+    override val orderActor = DemoOrderActor.PLAYER
 }
 
 const val SET_DEMO_ORDER_NPC0_CODE: Byte = 0x09
@@ -112,7 +112,7 @@ const val SET_DEMO_ORDER_NPC0_TAG = "DEMO_NPC0"
 class SetDemoOrderNPC0Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC0_CODE
     override val name = SET_DEMO_ORDER_NPC0_TAG
-    override val orderTarget = DemoOrderTarget.NPC0
+    override val orderActor = DemoOrderActor.NPC0
 }
 
 const val SET_DEMO_ORDER_NPC1_CODE: Byte = 0x0A
@@ -120,7 +120,7 @@ const val SET_DEMO_ORDER_NPC1_TAG = "DEMO_NPC1"
 class SetDemoOrderNPC1Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC1_CODE
     override val name = SET_DEMO_ORDER_NPC1_TAG
-    override val orderTarget = DemoOrderTarget.NPC1
+    override val orderActor = DemoOrderActor.NPC1
 }
 
 const val SET_DEMO_ORDER_NPC2_CODE: Byte = 0x0B
@@ -128,7 +128,7 @@ const val SET_DEMO_ORDER_NPC2_TAG = "DEMO_NPC2"
 class SetDemoOrderNPC2Processor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_NPC2_CODE
     override val name = SET_DEMO_ORDER_NPC2_TAG
-    override val orderTarget = DemoOrderTarget.NPC2
+    override val orderActor = DemoOrderActor.NPC2
 }
 
 const val SET_DEMO_ORDER_QUEST_CODE: Byte = 0x0C
@@ -136,7 +136,7 @@ const val SET_DEMO_ORDER_QUEST_TAG = "DEMO_QUEST"
 class SetDemoOrderQuestProcessor(targetEntry: StringTableEntry): SetDemoOrderProcessor(targetEntry) {
     override val code = SET_DEMO_ORDER_QUEST_CODE
     override val name = SET_DEMO_ORDER_QUEST_TAG
-    override val orderTarget = DemoOrderTarget.QUEST
+    override val orderActor = DemoOrderActor.QUEST
 }
 
 const val SET_SELECT_WINDOW_CODE: Byte = 0x0D
