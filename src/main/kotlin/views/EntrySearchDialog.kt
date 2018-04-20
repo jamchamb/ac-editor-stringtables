@@ -18,14 +18,14 @@ class EntrySearchDialog: View() {
     private fun doSearch() {
         val query = searchField.text
         val asRegex = regexCheckbox.isSelected
-        val regex = Regex(query)
+        var regex: Regex? = if (asRegex) Regex(query) else null
 
         searchResults.clear()
 
         if (query.isEmpty()) return
 
         for (entry in controller.stringTableEntries) {
-            if ((asRegex && entry.content.contains(regex)) || (entry.content.contains(query, true))) {
+            if ((asRegex && entry.content.contains(regex!!)) || (entry.content.contains(query, true))) {
                 searchResults.add(entry)
             }
         }
