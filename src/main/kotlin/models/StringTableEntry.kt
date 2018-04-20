@@ -188,21 +188,7 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         result.addAll(encodeSpecialChars(plainText))
 
         println("Finished processing interpolated statements")
-
         println("Resulting buffer: ${String(result.toByteArray())}")
-
-        /*
-        if (rawBytes.toList() == result) {
-            println("RESULT BUFFER MATCHES ORIGINAL!")
-        } else {
-            for ((index, byte) in rawBytes.withIndex()) {
-                if (result[index] != byte) {
-                    println("Msg #$id: mismatch at $index: 0x%02x vs 0x%02x".format(byte, result[index]))
-                    error("Resulting buffer did not match original")
-                }
-            }
-        }
-        */
 
         return result.toByteArray()
     }

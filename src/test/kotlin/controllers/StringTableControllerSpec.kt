@@ -5,7 +5,8 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import kotlin.test.assertNotNull
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 
 object StringTableControllerSpec: Spek({
     given("a string table") {
@@ -17,11 +18,21 @@ object StringTableControllerSpec: Spek({
                     "$forest2ndDir\\message_data.bin")
 
             it("should load the table") {
-                for (entry in stringTable.entries) {
-                    println("${entry.id}: ${entry.content}")
-                }
+                assertNotEquals(0, stringTable.entries.size)
+            }
+        }
 
-                assertNotNull(stringTable)
+        on("encoding a table without modifications") {
+            it("should re-encode to the same raw bytes") {
+                var failed = false
+                for (entry in stringTable.entries) {
+                    val encoded = entry.encodeMessage()
+                    if(!encoded.contentEquals(entry.rawBytes)) {
+                        failed = true
+                        break
+                    }
+                }
+                assertFalse(failed)
             }
         }
     }
