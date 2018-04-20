@@ -138,12 +138,8 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         val result = ArrayList<Byte>()
         var lastPlaintextBegin = 0
 
-        println("Searching for interpolated statements")
-
         var interpolatorStart = content.indexOf(INTERP_L, 0, false)
         while (interpolatorStart != -1) {
-            println("Interpolator start at $interpolatorStart")
-
             val interpolatorEnd = content.indexOf(INTERP_R, interpolatorStart + INTERP_L.length, false)
             if (interpolatorEnd == -1) {
                 println("Interpolator start with no end! Bailing out.")
@@ -160,7 +156,6 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
             lastPlaintextBegin = interpolatorEnd + INTERP_R.length
 
             val statement = content.slice(interpolatorStart + INTERP_L.length until interpolatorEnd)
-            println("Statement: $statement")
 
             // Get name of the processor
             val firstDelimPos = statement.indexOf(P_DELIM)
@@ -186,9 +181,6 @@ class StringTableEntry (id: Int, rawBytes: ByteArray) {
         // Dump remaining plain text
         val plainText = content.slice(lastPlaintextBegin .. content.lastIndex)
         result.addAll(encodeSpecialChars(plainText))
-
-        println("Finished processing interpolated statements")
-        println("Resulting buffer: ${String(result.toByteArray())}")
 
         return result.toByteArray()
     }
