@@ -46,6 +46,15 @@ abstract class SetDemoOrderProcessor(targetEntry: StringTableEntry): MessageProc
             Pair(0x15, "HAPPY"),
             Pair(0x16, "ANGRY"),
             Pair(0x17, "WORRY"),
+            Pair(0x18, "TRAIN_LAUGH"),
+            Pair(0x19, "TRAIN_SURPRISED"),
+            // TODO: More train sitting animations
+            Pair(0x20, "SALUTE"),
+            // TODO: Resetti animations
+            Pair(0x28, "GUITAR"),
+            Pair(0x29, "FORTUNE"),
+            Pair(0x2A, "SIT"),
+            Pair(0x2B, "RUN"),
             Pair(0xFF, "DEFAULT")
     )
     private val reverseAnimationMap: Map<String, Int> = animationMap.entries.associateBy({ it.value }) { it.key }
