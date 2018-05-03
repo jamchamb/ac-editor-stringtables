@@ -21,7 +21,7 @@ class EntryEditor: View() {
         form {
             fieldset("String table entry") {
                 field("ID") {
-                    textfield().bind(model.id)
+                    label().bind(model.id)
                 }
 
                 field("Text") {
