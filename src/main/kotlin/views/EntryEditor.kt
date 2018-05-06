@@ -32,18 +32,20 @@ class EntryEditor: View() {
                     }
                 }
 
-                button("Save") {
-                    enableWhen(model.dirty)
-                    action {
-                        controller.tableChanged = true
-                        model.commit()
+                hbox(4.0) {
+                    button("Save") {
+                        enableWhen(model.dirty)
+                        action {
+                            controller.tableChanged = true
+                            model.commit()
+                        }
                     }
-                }
 
-                button("Reset") {
-                    enableWhen(model.dirty)
-                    action {
-                        model.rollback()
+                    button("Reset") {
+                        enableWhen(model.dirty)
+                        action {
+                            model.rollback()
+                        }
                     }
                 }
             }
