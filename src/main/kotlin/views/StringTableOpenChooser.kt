@@ -12,5 +12,7 @@ class StringTableOpenChooser: StringTableChooser("Open") {
 
     override fun postAction() {
         controller.updateObservableEntries()
+        controller.tableFilePath = chosenTableFile
+        controller.dataFilePath = chosenDataFile
     }
 }
