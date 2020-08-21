@@ -1,6 +1,5 @@
 package models
 
-import com.sun.javaws.exceptions.InvalidArgumentException
 import tornadofx.FXTask
 import java.io.*
 
@@ -65,7 +64,7 @@ class StringTable {
                 // Zero values are used for empty entries at the end
                 break
             } else if (endingPos < pos) {
-                throw InvalidArgumentException(arrayOf("File string positions not in ascending order ($endingPos < $pos)"))
+                throw IllegalArgumentException("File string positions not in ascending order ($endingPos < $pos)")
             }
 
             // Get the string bytes
